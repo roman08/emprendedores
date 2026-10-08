@@ -1,5 +1,21 @@
 import { describe, expect, it } from 'vitest';
-import { ldJson, safeMapsUrl } from './format';
+import { ldJson, safeMapsUrl, thumbUrl } from './format';
+
+describe('thumbUrl', () => {
+  const base = 'https://x.supabase.co/storage/v1/object/public/listing-images/uid/lid/abc-123.webp';
+  it('apunta a la miniatura junto a la foto', () => {
+    expect(thumbUrl(base)).toBe(base.replace('.webp', '.t.webp'));
+    expect(thumbUrl(`${base}?v=2`)).toBe(base.replace('.webp', '.t.webp') + '?v=2');
+  });
+  it('no toca una miniatura, otros buckets ni valores vacíos', () => {
+    const t = base.replace('.webp', '.t.webp');
+    expect(thumbUrl(t)).toBe(t);
+    const logo = 'https://x.supabase.co/storage/v1/object/public/business-media/uid/logo/a.webp';
+    expect(thumbUrl(logo)).toBe(logo);
+    expect(thumbUrl(null)).toBe('');
+    expect(thumbUrl(undefined)).toBe('');
+  });
+});
 
 describe('ldJson', () => {
   it('no deja pasar "<" ni ">" (no se puede cerrar el script)', () => {

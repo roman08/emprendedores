@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { supabase } from '../lib/supabase';
 import { openStatus, parseHours } from '../lib/hours';
-import { initials, safeHttpUrl } from '../lib/format';
+import { initials, safeHttpUrl, thumbUrl } from '../lib/format';
 import VerifiedBadge from './VerifiedBadge';
 
 interface Cat { id: number; name: string }
@@ -198,7 +198,7 @@ function ResultCard({ b }: { b: Business }) {
     <li className="card flex flex-col gap-3 p-4">
       <div className="flex items-start gap-3">
         {img ? (
-          <img src={img} alt="" loading="lazy" className="h-14 w-14 shrink-0 rounded-xl border border-line object-cover" />
+          <img src={thumbUrl(img)} data-full={img} alt="" loading="lazy" className="h-14 w-14 shrink-0 rounded-xl border border-line object-cover" />
         ) : (
           <span aria-hidden="true" className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-brand-50 text-lg font-bold text-brand-700">{initials(b.name)}</span>
         )}

@@ -51,6 +51,16 @@ export function safeHttpUrl(u: string | null | undefined): string | null {
   return /^[a-z][a-z0-9+.-]*:/i.test(s) ? null : `https://${s}`;
 }
 
+/**
+ * URL de la miniatura (~480 px, ~20 KB) de una foto de publicación. Las miniaturas se guardan junto a la foto con el
+ * sufijo ".t.webp" (ver uploadImage). Fotos que no sean de listing-images o ya sean miniaturas se devuelven igual.
+ * Las tarjetas usan la miniatura y caen a la foto completa si no existe (data-full + authUi).
+ */
+export function thumbUrl(url: string | null | undefined): string {
+  if (!url || !url.includes('/listing-images/') || /\.t\.webp(\?.*)?$/.test(url)) return url ?? '';
+  return url.replace(/\.webp(\?.*)?$/, '.t.webp$1');
+}
+
 export function initials(name: string): string {
   return name.split(/\s+/).slice(0, 2).map((w) => w[0]?.toUpperCase() ?? '').join('');
 }

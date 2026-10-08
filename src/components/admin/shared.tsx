@@ -173,7 +173,11 @@ export async function listingImagePaths(listingIds: string[], ownerId?: string |
   if (!listingIds.length) return [];
   const { data, error } = await supabase.from('listing_images').select('url').in('listing_id', listingIds);
   if (error) throw error;
-  return (data ?? []).map((r) => storagePath('listing-images', r.url, ownerId)).filter((p): p is string => !!p);
+  // Cada foto trae su miniatura (.t.webp); removePaths ignora las que no existan
+  return (data ?? [])
+    .map((r) => storagePath('listing-images', r.url, ownerId))
+    .filter((p): p is string => !!p)
+    .flatMap((p) => [p, p.replace(/\.webp$/, '.t.webp')]);
 }
 
 export function formatBytes(n: number) {

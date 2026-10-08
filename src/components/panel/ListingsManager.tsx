@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState, type SyntheticEvent } from 'react';
 import { supabase } from '../../lib/supabase';
-import { formatPrice } from '../../lib/format';
+import { formatPrice, thumbUrl } from '../../lib/format';
 import { BRAND } from '../../lib/brand';
 import { uploadImage, removeImage } from '../../lib/upload';
 import ShareMenu from './SocialShare';
 
-const MAX_IMAGES = 5;
+// Límites de la primera versión; deben coincidir con la migración 0016 (la base es la que los impone)
+const MAX_IMAGES = 4;
+const MAX_LISTINGS = 12;
 type Img = { id: string; url: string; position: number };
 // Foto en edición: guardada (id + position en BD) o pendiente de subir (file + preview local)
 type Photo = {
@@ -59,14 +61,23 @@ export default function ListingsManager({ userId, businessId, categories }: {
     load();
   }
 
+  const atLimit = items.length >= MAX_LISTINGS;
   const badge: Record<string, string> = { published: 'bg-brand-50 text-brand-700', draft: 'bg-amber-50 text-amber-700', paused: 'bg-surface text-muted' };
   const label: Record<string, string> = { published: 'Publicado', draft: 'Borrador', paused: 'Pausado' };
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-bold">Mis productos y servicios</h2>
-        <button className="btn btn-primary" onClick={() => { setNotice(null); setEditing('new'); }}>+ Nueva publicación</button>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h2 className="text-lg font-bold">Mis productos y servicios</h2>
+          {!loading && (
+            <p className={`text-sm ${atLimit ? 'font-medium text-amber-700' : 'text-muted'}`}>
+              {items.length} de {MAX_LISTINGS} publicaciones{atLimit ? ': llegaste al máximo. Elimina alguna para crear otra.' : ''}
+            </p>
+          )}
+        </div>
+        <button className="btn btn-primary" disabled={atLimit} title={atLimit ? `Máximo ${MAX_LISTINGS} publicaciones` : undefined}
+          onClick={() => { setNotice(null); setEditing('new'); }}>+ Nueva publicación</button>
       </div>
       {notice && (
         <div role="status" className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-lg bg-brand-50 px-4 py-3 text-sm text-brand-700">
@@ -85,7 +96,7 @@ export default function ListingsManager({ userId, businessId, categories }: {
             const img = [...l.listing_images].sort((a: Img, b: Img) => a.position - b.position)[0]?.url;
             return (
               <li key={l.id} className="card flex flex-wrap items-center gap-3 p-3 sm:flex-nowrap sm:gap-4">
-                <div className="h-16 w-20 shrink-0 overflow-hidden rounded-xl bg-surface">{img && <img src={img} alt="" className={`h-full w-full object-cover ${l.availability === 'sold_out' ? 'opacity-50 grayscale' : ''}`} />}</div>
+                <div className="h-16 w-20 shrink-0 overflow-hidden rounded-xl bg-surface">{img && <img src={thumbUrl(img)} data-full={img} alt="" className={`h-full w-full object-cover ${l.availability === 'sold_out' ? 'opacity-50 grayscale' : ''}`} />}</div>
                 <div className="min-w-0 flex-1">
                   <p className="line-clamp-2 font-semibold sm:truncate">{l.title}</p>
                   <p className="text-sm text-muted">{formatPrice(l.price)} · <span className={`rounded-full px-2 py-0.5 text-xs ${badge[l.status]}`}>{label[l.status]}</span>

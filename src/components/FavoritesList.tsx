@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { formatPrice, initials } from '../lib/format';
+import { formatPrice, initials, thumbUrl } from '../lib/format';
 import { getFavorites, isFavorite, onChange, parseSharedIds, removeMany, toggle, type FavKind } from '../lib/favorites';
 import { copyText } from './ShareButtons';
 
@@ -44,7 +44,7 @@ function ListingItem({ l, ...heart }: { l: Listing; on: boolean; shared: boolean
     <li className="group relative">
       <a href={`/p/${l.slug}`} className="card block h-full overflow-hidden transition group-hover:shadow-md">
         <div className="relative aspect-[4/3] overflow-hidden bg-surface">
-          {img && <img src={img} alt={l.title} loading="lazy" className={`h-full w-full object-cover ${soldOut ? 'opacity-50 grayscale' : ''}`} />}
+          {img && <img src={thumbUrl(img)} data-full={img} alt={l.title} loading="lazy" className={`h-full w-full object-cover ${soldOut ? 'opacity-50 grayscale' : ''}`} />}
           {soldOut && <span className="absolute left-2 top-2 rounded-full bg-gray-900/80 px-2.5 py-1 text-xs font-semibold text-white">Agotado</span>}
           {l.availability === 'on_demand' && <span className="absolute left-2 top-2 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800">Sobre pedido</span>}
         </div>

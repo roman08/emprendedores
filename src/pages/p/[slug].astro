@@ -8,7 +8,7 @@ import FavoriteButton from '../../components/FavoriteButton';
 import ListingCard from '../../components/ListingCard.astro';
 import { BRAND } from '../../lib/brand';
 import { supabase } from '../../lib/supabase';
-import { formatPrice, mapsLink, initials, ldJson } from '../../lib/format';
+import { formatPrice, mapsLink, initials, ldJson, thumbUrl } from '../../lib/format';
 import HoursList from '../../components/HoursList.astro';
 import ClosedDialog from '../../components/ClosedDialog.astro';
 import VerifiedBadge from '../../components/VerifiedBadge.astro';
@@ -90,7 +90,7 @@ const sellerLd = {
           <div class="mt-3 flex gap-2 overflow-x-auto">
             {images.map((i: any) => (
               <button type="button" data-thumb={i.url} class="h-20 w-24 shrink-0 overflow-hidden rounded-xl border border-line">
-                <img src={i.url} alt="" class="h-full w-full object-cover" loading="lazy" />
+                <img src={thumbUrl(i.url)} data-full={i.url} alt="" class="h-full w-full object-cover" loading="lazy" />
               </button>
             ))}
           </div>
