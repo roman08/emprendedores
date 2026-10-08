@@ -3,15 +3,24 @@
 // Si cambias `name` o `themeColor`, regenera iconos e imagen OG: node scripts/make-icons.mjs && node scripts/make-og.mjs
 // (los scripts leen los textos desde este archivo). Los colores del sitio viven en src/styles/global.css (--color-brand-*).
 
-// Dominio público: PUBLIC_SITE_URL o SITE_URL; si faltan queda vacío y se usa el origen de la petición.
-const envSite = (
-  (typeof process !== 'undefined' ? process.env?.PUBLIC_SITE_URL || process.env?.SITE_URL : '') ||
-  (import.meta.env as Record<string, string | undefined>).PUBLIC_SITE_URL ||
-  (import.meta.env as Record<string, string | undefined>).SITE_URL ||
-  ''
-)
-  .trim()
-  .replace(/\/$/, '');
+// Dominio público: PUBLIC_SITE_URL o SITE_URL (o la URL que Netlify define sola); si faltan o no son válidas queda
+// vacío y se usa el origen de la petición. Acepta valores sin "https://" o con "/" final.
+function normalizeSite(raw: string | undefined): string {
+  let v = (raw ?? '').trim().replace(/^["']+|["']+$/g, '').trim();
+  if (!v) return '';
+  if (!/^https?:\/\//i.test(v)) v = `https://${v}`;
+  try {
+    return new URL(v).origin;
+  } catch {
+    return '';
+  }
+}
+const envSite =
+  normalizeSite(
+    (typeof process !== 'undefined' ? process.env?.PUBLIC_SITE_URL || process.env?.SITE_URL : '') ||
+      (import.meta.env as Record<string, string | undefined>).PUBLIC_SITE_URL ||
+      (import.meta.env as Record<string, string | undefined>).SITE_URL,
+  ) || normalizeSite(typeof process !== 'undefined' ? process.env?.URL : '');
 
 export const BRAND = {
   /** Nombre de la marca. */

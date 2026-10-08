@@ -4,9 +4,22 @@ import netlify from '@astrojs/netlify';
 import tailwindcss from '@tailwindcss/vite';
 import { loadEnv } from 'vite';
 
-// SITE_URL (p. ej. https://tudominio.com) fija el dominio real para sitemap, canonicals y og:image; sin ella no se define
+// SITE_URL (p. ej. https://tudominio.com) fija el dominio real para sitemap, canonicals y og:image.
+// Tolera valores sin "https://", con espacios, comillas o ruta final; si no se puede interpretar como URL, se ignora
+// (un valor inválido hacía fallar todo el build con "Invalid URL"). Netlify define además URL con la dirección del sitio.
+function normalizeSite(raw) {
+  let v = (raw || '').trim().replace(/^["']+|["']+$/g, '').trim();
+  if (!v) return undefined;
+  if (!/^https?:\/\//i.test(v)) v = `https://${v}`;
+  try {
+    return new URL(v).origin;
+  } catch {
+    console.warn(`[config] Se ignora SITE_URL inválida: "${raw}". Debe verse así: https://tudominio.com`);
+    return undefined;
+  }
+}
 const env = loadEnv(process.env.NODE_ENV ?? 'production', process.cwd(), '');
-const site = (process.env.SITE_URL || env.SITE_URL || '').trim().replace(/\/$/, '') || undefined;
+const site = normalizeSite(process.env.SITE_URL || env.SITE_URL) ?? normalizeSite(process.env.URL);
 
 export default defineConfig({
   site,
