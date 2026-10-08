@@ -35,9 +35,9 @@ export const BRAND = {
   /** Razón social o nombre completo de la persona responsable del sitio. */
   legalName: '',
   /** Correo para dudas, derechos ARCO y reportes. */
-  contactEmail: '',
+  contactEmail: 'roman.madrigal.dev@gmail.com',
   /** Domicilio de la persona responsable (el aviso de privacidad lo exige en México). */
-  address: '',
+  address: 'Cunduacán, Tabasco, México',
   jurisdiction: 'Tabasco, México',
   /** Fecha de la última actualización de los textos legales. Actualízala al cambiarlos. */
   updatedAt: '8 de octubre de 2026',

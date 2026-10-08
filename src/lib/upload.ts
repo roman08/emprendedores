@@ -4,8 +4,9 @@ import { supabase } from './supabase';
 /** Comprime a WebP (máx. ~0.8 MB / 1600 px) y sube al bucket. Devuelve la URL pública. */
 export async function uploadImage(bucket: 'listing-images' | 'business-media', userId: string, file: File, folder = '') {
   const small = await imageCompression(file, {
-    maxSizeMB: 0.8,
-    maxWidthOrHeight: 1600,
+    // 1200 px de lado largo basta para la ficha (se muestra a ~800 px) y pesa ~40 % menos que 1600 px
+    maxSizeMB: 0.5,
+    maxWidthOrHeight: 1200,
     useWebWorker: true,
     fileType: 'image/webp',
   });

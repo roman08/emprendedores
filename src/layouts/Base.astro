@@ -6,10 +6,11 @@ import CookieConsent from '../components/CookieConsent.astro';
 import PwaInstall from '../components/PwaInstall.astro';
 import { BRAND, pageTitle } from '../lib/brand';
 
-interface Props { title?: string; description?: string; image?: string; noindex?: boolean; bare?: boolean }
-const { title, description = BRAND.description, image, noindex = false, bare = false } = Astro.props;
+// canonicalPath: ruta (con su ?pagina=N si aplica) para páginas cuya URL canónica no es solo el pathname
+interface Props { title?: string; description?: string; image?: string; noindex?: boolean; bare?: boolean; canonicalPath?: string }
+const { title, description = BRAND.description, image, noindex = false, bare = false, canonicalPath } = Astro.props;
 const fullTitle = pageTitle(title);
-const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
 const ogDefault = new URL('/og-default.png',Astro.site ?? Astro.url.origin).href;
 ---
 <!doctype html>

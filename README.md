@@ -12,7 +12,7 @@ Portal gratuito donde emprendedores publican productos y servicios; los clientes
 
 ## Migraciones (ejecutar en este orden)
 
-Todas están en `supabase/migrations`. Son idempotentes salvo `0001`, que solo se ejecuta una vez en una base vacía. En una base nueva ejecuta todas, de la `0001` a la `0014`, una por una y en ese orden. En la base actual ya están `0001`-`0009` y `0012`; **`0010` no se pudo verificar con la clave pública: trátala como pendiente y ejecútala ya** (es idempotente). Faltan `0011` (correcciones de QA), `0013` y `0014`.
+Todas están en `supabase/migrations`. Son idempotentes salvo `0001`, que solo se ejecuta una vez en una base vacía. En una base nueva ejecuta todas, de la `0001` a la `0014`, una por una y en ese orden. Según la persona dueña del proyecto, en la base de producción ya se ejecutaron `0001` a `0015` (la `0010` no se puede verificar con la clave pública; ante la duda, vuelve a ejecutarla: es idempotente). Las migraciones nuevas van con el siguiente número (`0016`...).
 
 | # | Archivo | Qué hace |
 |---|---------|----------|
