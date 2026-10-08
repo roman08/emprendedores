@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import ListingCard from '../components/ListingCard.astro';
 import AdSlot from '../components/AdSlot.astro';
+import GrowingBanner from '../components/GrowingBanner.astro';
 import { supabase } from '../lib/supabase';
 
 const sp = Astro.url.searchParams;
@@ -224,6 +225,8 @@ function pageUrl(p: number) {
         </div>
       </>
     )}
+
+    {count < 8 && <GrowingBanner />}
 
     {totalPages > 1 && (
       <nav class="mt-8 flex items-center justify-center gap-3" aria-label="Paginación">

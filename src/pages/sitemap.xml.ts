@@ -58,9 +58,11 @@ export const GET: APIRoute = async ({ site, url }) => {
     { path: '/' },
     { path: '/explorar' },
     { path: '/como-funciona' },
+    { path: '/guia' },
     { path: '/cerca' },
+    { path: '/contacto' },
     ...locationPaths.map((path) => ({ path })),
-    ...(categories ?? []).map((c) => ({ path: `/explorar?categoria=${c.slug}` })),
+    // /explorar?categoria=... no va aquí: su canonical es /explorar (las categorías por municipio ya están en locationPaths)
     ...businesses.map((b) => ({ path: `/n/${b.slug}`, lastmod: b.updated_at })),
     ...listings.map((l) => ({ path: `/p/${l.slug}`, lastmod: l.updated_at })),
   ].slice(0, MAX_URLS);

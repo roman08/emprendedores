@@ -139,13 +139,21 @@ export function useConfirm() {
 
 type Bucket = 'listing-images' | 'business-media';
 
-/** Extrae la ruta de objeto de una URL pública de Storage; null si no es de ese bucket. */
-export function storagePath(bucket: Bucket, url: string | null | undefined) {
+/**
+ * Extrae la ruta de objeto de una URL pública de Storage; null si no es de ese bucket.
+ * Con ownerId solo devuelve rutas dentro de la carpeta de ese dueño: las URLs de logo/banner/fotos las escribe el dueño
+ * y podrían apuntar a archivos de otra persona; el admin (que puede borrar cualquier objeto) no debe borrarlos.
+ */
+export function storagePath(bucket: Bucket, url: string | null | undefined, ownerId?: string | null) {
   if (!url) return null;
   const marker = `/${bucket}/`;
   const i = url.indexOf(marker);
   if (i === -1) return null;
-  try { return decodeURIComponent(url.slice(i + marker.length).split('?')[0]); } catch { return null; }
+  try {
+    const path = decodeURIComponent(url.slice(i + marker.length).split('?')[0]);
+    if (ownerId !== undefined && (!ownerId || path.split('/')[0] !== ownerId || path.includes('..'))) return null;
+    return path;
+  } catch { return null; }
 }
 
 /** Borra rutas de un bucket en lotes. Devuelve cuántos objetos se eliminaron (los ya inexistentes no cuentan ni fallan). */
@@ -161,11 +169,11 @@ export async function removePaths(bucket: Bucket, paths: string[]) {
 }
 
 /** Imágenes de publicaciones (por ids) -> rutas del bucket listing-images. */
-export async function listingImagePaths(listingIds: string[]) {
+export async function listingImagePaths(listingIds: string[], ownerId?: string | null) {
   if (!listingIds.length) return [];
   const { data, error } = await supabase.from('listing_images').select('url').in('listing_id', listingIds);
   if (error) throw error;
-  return (data ?? []).map((r) => storagePath('listing-images', r.url)).filter((p): p is string => !!p);
+  return (data ?? []).map((r) => storagePath('listing-images', r.url, ownerId)).filter((p): p is string => !!p);
 }
 
 export function formatBytes(n: number) {

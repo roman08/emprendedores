@@ -16,7 +16,7 @@ export default function ListingsTab() {
   const term = likeTerm(useDebounced(q));
   const { items, setItems, total, page, setPage, loading, reload } = usePaged<any>(async (from, to) => {
     let query = supabase.from('listings')
-      .select('id,slug,title,price,status,featured_until,created_at,businesses(name,slug)', { count: 'exact' });
+      .select('id,slug,title,price,status,featured_until,created_at,businesses(name,slug,owner_id)', { count: 'exact' });
     if (status !== 'all') query = query.eq('status', status);
     if (term) {
       // Coincide por título o por nombre del negocio (se resuelven primero los ids de negocios)
@@ -45,7 +45,7 @@ export default function ListingsTab() {
     setBusy(l.id);
     try {
       // Reúne las rutas de las fotos antes de que el borrado en cascada elimine las filas
-      const paths = await listingImagePaths([l.id]);
+      const paths = await listingImagePaths([l.id], l.businesses?.owner_id ?? null);
       // Pausar primero para que el guard de "última foto" no bloquee el borrado en cascada
       if (l.status === 'published') {
         const { error } = await supabase.from('listings').update({ status: 'paused' }).eq('id', l.id);

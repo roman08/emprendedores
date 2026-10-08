@@ -1,6 +1,6 @@
-import { useState, type SyntheticEvent } from 'react';
+import { useId, useState, type SyntheticEvent } from 'react';
 import { supabase } from '../../lib/supabase';
-import { normalizeWhatsapp } from '../../lib/format';
+import { normalizeWhatsapp, safeMapsUrl } from '../../lib/format';
 import { uploadImage } from '../../lib/upload';
 import LocationPicker from './LocationPicker';
 import HoursEditor from './HoursEditor';
@@ -13,7 +13,24 @@ interface Props {
   onSaved: (b: any) => void;
 }
 
+/** Selector de archivo con aspecto de botón y texto en español (el <input type=file> nativo depende del idioma del navegador). */
+function FilePick({ id, label, file, onPick }: { id: string; label: string; file: File | null; onPick: (f: File | null) => void }) {
+  return (
+    <div>
+      <label htmlFor={id} className="label">{label}</label>
+      <div className="flex flex-wrap items-center gap-3">
+        <label className="btn btn-ghost cursor-pointer focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-brand-600">
+          Elegir imagen
+          <input id={id} type="file" accept="image/*" className="sr-only" onChange={(e) => onPick(e.target.files?.[0] ?? null)} />
+        </label>
+        <span className="min-w-0 truncate text-sm text-muted">{file ? file.name : 'Ninguna imagen elegida'}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function BusinessForm({ userId, business, municipalities, onSaved }: Props) {
+  const uid = useId();
   const [f, setF] = useState({
     name: business?.name ?? '',
     description: business?.description ?? '',
@@ -47,6 +64,9 @@ export default function BusinessForm({ userId, business, municipalities, onSaved
     if (hours) {
       const bad = DAYS.find((d) => validateDay(hours[d.key]));
       if (bad) return setError(`Revisa el horario del ${bad.label.toLowerCase()}: ${validateDay(hours[bad.key])}`);
+    }
+    if (f.has_physical_store && f.google_maps_url.trim() && !safeMapsUrl(f.google_maps_url.trim())) {
+      return setError('El enlace de mapa debe ser de Google Maps (maps.app.goo.gl, google.com/maps), OpenStreetMap o Waze.');
     }
     setBusy(true);
     try {
@@ -87,17 +107,17 @@ export default function BusinessForm({ userId, business, municipalities, onSaved
     <form onSubmit={submit} className="space-y-6">
       <section className="card space-y-4 p-6">
         <h2 className="text-lg font-bold">Datos del negocio</h2>
-        <div><label className="label">Nombre del negocio *</label>
-          <input className="input" required value={f.name} onChange={(e) => set('name', e.target.value)} /></div>
-        <div><label className="label">Descripción</label>
-          <textarea className="input min-h-28" value={f.description} onChange={(e) => set('description', e.target.value)}
+        <div><label htmlFor={`${uid}-name`} className="label">Nombre del negocio *</label>
+          <input id={`${uid}-name`} className="input" required maxLength={100} value={f.name} onChange={(e) => set('name', e.target.value)} /></div>
+        <div><label htmlFor={`${uid}-desc`} className="label">Descripción</label>
+          <textarea id={`${uid}-desc`} maxLength={2000} className="input min-h-28" value={f.description} onChange={(e) => set('description', e.target.value)}
             placeholder="¿Qué ofreces? ¿Qué te hace diferente?" /></div>
         <div className="grid gap-4 sm:grid-cols-2">
-          <div><label className="label">WhatsApp (10 dígitos) *</label>
+          <div><label htmlFor={`${uid}-wa`} className="label">WhatsApp (10 dígitos) *</label>
             <div className="flex"><span className="grid place-items-center rounded-l-xl border border-r-0 border-line bg-surface px-3 text-sm text-muted">+52</span>
-              <input className="input !rounded-l-none" required inputMode="numeric" value={f.whatsapp} onChange={(e) => set('whatsapp', e.target.value)} placeholder="9141234567" /></div></div>
-          <div><label className="label">Municipio *</label>
-            <select className="input" value={f.municipality_id ?? ''} onChange={(e) => set('municipality_id', e.target.value)}>
+              <input id={`${uid}-wa`} className="input !rounded-l-none" required inputMode="numeric" value={f.whatsapp} onChange={(e) => set('whatsapp', e.target.value)} placeholder="9141234567" /></div></div>
+          <div><label htmlFor={`${uid}-mun`} className="label">Municipio *</label>
+            <select id={`${uid}-mun`} className="input" value={f.municipality_id ?? ''} onChange={(e) => set('municipality_id', e.target.value)}>
               {municipalities.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
             </select></div>
         </div>
@@ -107,11 +127,9 @@ export default function BusinessForm({ userId, business, municipalities, onSaved
         <div><h2 className="text-lg font-bold">Imagen de marca <span className="text-sm font-normal text-muted">(opcional)</span></h2>
           <p className="text-sm text-muted">Si no tienes logo o banner, mostraremos uno con tus iniciales.</p></div>
         <div className="grid gap-4 sm:grid-cols-2">
-          <div><label className="label">Logo</label>
-            <input type="file" accept="image/*" onChange={(e) => setLogo(e.target.files?.[0] ?? null)} className="text-sm" />
+          <div><FilePick id={`${uid}-logo`} label="Logo" file={logo} onPick={setLogo} />
             {business?.logo_url && !logo && <img src={business.logo_url} alt="" className="mt-2 h-16 w-16 rounded-xl object-cover" />}</div>
-          <div><label className="label">Banner</label>
-            <input type="file" accept="image/*" onChange={(e) => setBanner(e.target.files?.[0] ?? null)} className="text-sm" />
+          <div><FilePick id={`${uid}-banner`} label="Banner" file={banner} onPick={setBanner} />
             {business?.banner_url && !banner && <img src={business.banner_url} alt="" className="mt-2 h-16 w-full rounded-xl object-cover" />}</div>
         </div>
       </section>
@@ -127,8 +145,8 @@ export default function BusinessForm({ userId, business, municipalities, onSaved
           <>
             <LocationPicker lat={f.lat} lng={f.lng} address={f.address_text} center={center}
               onChange={(v) => setF((p) => ({ ...p, lat: v.lat, lng: v.lng }))} onAddress={(v) => set('address_text', v)} />
-            <div><label className="label">Enlace de Google Maps <span className="font-normal text-muted">(opcional)</span></label>
-              <input className="input" type="url" value={f.google_maps_url} onChange={(e) => set('google_maps_url', e.target.value)} placeholder="https://maps.app.goo.gl/…" /></div>
+            <div><label htmlFor={`${uid}-maps`} className="label">Enlace de Google Maps <span className="font-normal text-muted">(opcional)</span></label>
+              <input id={`${uid}-maps`} className="input" type="url" maxLength={500} value={f.google_maps_url} onChange={(e) => set('google_maps_url', e.target.value)} placeholder="https://maps.app.goo.gl/…" /></div>
           </>
         )}
       </section>
@@ -141,9 +159,9 @@ export default function BusinessForm({ userId, business, municipalities, onSaved
       <section className="card space-y-4 p-6">
         <h2 className="text-lg font-bold">Redes<span className="text-sm font-normal text-muted">(opcional)</span></h2>
         <div className="grid gap-4 sm:grid-cols-3">
-          <div><label className="label">Instagram</label><input className="input" value={f.instagram} onChange={(e) => set('instagram', e.target.value)} placeholder="@minegocio" /></div>
-          <div><label className="label">Facebook</label><input className="input" type="url" value={f.facebook} onChange={(e) => set('facebook', e.target.value)} /></div>
-          <div><label className="label">Sitio web</label><input className="input" type="url" value={f.website} onChange={(e) => set('website', e.target.value)} /></div>
+          <div><label htmlFor={`${uid}-ig`} className="label">Instagram</label><input id={`${uid}-ig`} maxLength={100} className="input" value={f.instagram} onChange={(e) => set('instagram', e.target.value)} placeholder="@minegocio" /></div>
+          <div><label htmlFor={`${uid}-fb`} className="label">Facebook</label><input id={`${uid}-fb`} maxLength={300} className="input" type="url" value={f.facebook} onChange={(e) => set('facebook', e.target.value)} /></div>
+          <div><label htmlFor={`${uid}-web`} className="label">Sitio web</label><input id={`${uid}-web`} maxLength={300} className="input" type="url" value={f.website} onChange={(e) => set('website', e.target.value)} /></div>
         </div>
       </section>
 

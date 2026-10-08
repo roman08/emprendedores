@@ -1,0 +1,40 @@
+---
+// Registro del service worker + opciones para instalar la app:
+//  - [data-install]: botones (pie de página, página /instalar) que se muestran solo cuando se puede instalar.
+//  - #install-banner: aviso discreto a partir de la 2.ª visita (se puede descartar 14 días).
+//  - #ios-install-dialog: instrucciones para iPhone/iPad (Safari no ofrece botón de instalar).
+import { BRAND } from '../lib/brand';
+---
+<aside id="install-banner" hidden role="region" aria-label="Instalar la app"
+  class="fixed inset-x-3 bottom-3 z-40 mx-auto max-w-md rounded-2xl border border-line bg-white p-4 shadow-xl sm:left-auto sm:right-4">
+  <div class="flex items-start gap-3">
+    <img src="/icon-192.png" alt="" width="44" height="44" class="h-11 w-11 shrink-0 rounded-xl" />
+    <div class="min-w-0 flex-1">
+      <p class="font-semibold">Instala {BRAND.name}</p>
+      <p class="mt-0.5 text-sm text-muted">Ábrela como una app desde tu pantalla de inicio, más rápido y sin escribir la dirección.</p>
+      <div class="mt-3 flex gap-2">
+        <button type="button" data-install class="btn btn-primary !py-2">Instalar</button>
+        <button type="button" id="install-dismiss" class="btn btn-ghost !py-2">Ahora no</button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<dialog id="ios-install-dialog" aria-labelledby="ios-install-title"
+  class="m-auto w-[min(92vw,26rem)] rounded-2xl border border-line bg-white p-0 shadow-xl backdrop:bg-black/40">
+  <div class="p-6">
+    <h2 id="ios-install-title" class="text-lg font-bold">Instalar en tu iPhone o iPad</h2>
+    <ol class="mt-4 list-decimal space-y-3 pl-5 text-sm">
+      <li>Abre esta página en <strong>Safari</strong>.</li>
+      <li>Toca el botón <strong>Compartir</strong> (el cuadro con una flecha hacia arriba).</li>
+      <li>Baja y elige <strong>Agregar a inicio</strong>.</li>
+      <li>Toca <strong>Agregar</strong>. ¡Listo! La app aparecerá en tu pantalla de inicio.</li>
+    </ol>
+    <button type="button" id="ios-install-close" class="btn btn-primary mt-6 w-full">Entendido</button>
+  </div>
+</dialog>
+
+<script>
+  import { initPwa } from '../lib/pwa';
+  initPwa();
+</script>

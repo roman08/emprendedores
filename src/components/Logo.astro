@@ -1,0 +1,17 @@
+---
+// Logo: isotipo (pin de ubicación: el negocio de la esquina, cerca de ti) + nombre de la marca.
+// Mismo dibujo que public/favicon.svg; si lo cambias, cámbialo también ahí y en scripts/make-icons.mjs.
+import { BRAND } from '../lib/brand';
+
+// compactOnMobile: en pantallas angostas (<520px) muestra solo el isotipo (el nombre sigue disponible para lectores de pantalla)
+interface Props { size?: number; withText?: boolean; class?: string; compactOnMobile?: boolean }
+const { size = 32, withText = true, class: className = '', compactOnMobile = false } = Astro.props;
+---
+<span class:list={['inline-flex items-center gap-2 font-extrabold tracking-tight', className]}>
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none" role={withText ? undefined : 'img'} aria-hidden={withText ? 'true' : undefined} aria-label={withText ? undefined : BRAND.name} focusable="false">
+    <rect x="1" y="1" width="30" height="30" rx="8" class="fill-brand-600" />
+    <path d="M16 5.5c-4.7 0-8 3.4-8 7.6 0 5.2 8 13.4 8 13.4s8-8.2 8-13.4c0-4.2-3.3-7.6-8-7.6z" fill="#fff" />
+    <circle cx="16" cy="13" r="3.4" class="fill-brand-600" />
+  </svg>
+  {withText && <span class:list={['text-brand-900', size < 28 ? 'text-base' : 'text-lg', compactOnMobile && 'sr-only min-[520px]:not-sr-only']}>{BRAND.name}</span>}
+</span>

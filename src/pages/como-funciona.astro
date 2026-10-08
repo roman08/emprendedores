@@ -1,11 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
+import { BRAND } from '../lib/brand';
 
 const clientes = [
-  { q: '¿Tiene costo usar Emprendedores?', a: 'No. Buscar, ver publicaciones y contactar a los negocios es totalmente gratis.' },
+  { q: `¿Tiene costo usar ${BRAND.name}?`, a: 'No. Buscar, ver publicaciones y contactar a los negocios es totalmente gratis.' },
   { q: '¿Cómo compro algo?', a: 'En cada publicación pulsa "Contactar por WhatsApp". Hablas directo con el negocio y acuerdan precio, entrega y forma de pago. Aquí no hay ventas ni pagos en línea.' },
   { q: '¿Qué significa la insignia de verificado?', a: 'Indica que revisamos la información básica del negocio. Ayuda, pero no sustituye tu propio cuidado al comprar.' },
   { q: '¿Cómo compro con seguridad?', a: 'Pide fotos o videos reales del producto, evita adelantos grandes con desconocidos, prefiere entregar y pagar en un lugar público o con un método que te dé comprobante, y desconfía de precios demasiado bajos o de quien te presiona.' },
+  { q: '¿Cómo funcionan las reseñas?', a: 'Cualquier persona con cuenta puede dejar una reseña por negocio: de 1 a 5 estrellas y un comentario opcional de hasta 600 caracteres. Puedes editarla o borrarla cuando quieras. El dueño no puede reseñar su propio negocio, pero puede responder una vez a cada reseña. Para evitar spam hay un máximo de 10 reseñas por día y las cuentas nuevas deben esperar unos minutos. Mostramos solo tu nombre y la inicial de tu apellido. Si una reseña es ofensiva, falsa o publica datos personales, repórtala: el equipo puede ocultarla o eliminarla.' },
   { q: '¿Cómo reporto una publicación o un negocio?', a: 'Si algo parece falso, engañoso o prohibido, repórtalo con la opción de reporte de la publicación o escríbenos. Revisamos los casos y retiramos el contenido que incumpla los términos.' },
 ];
 
@@ -26,7 +28,7 @@ const sections = [
 <Base title="Cómo funciona" description="Preguntas frecuentes para clientes y emprendedores: es gratis, el contacto es por WhatsApp y así publicas tu negocio.">
   <div class="mx-auto max-w-3xl px-4 py-12">
     <h1 class="text-3xl font-extrabold">Cómo funciona</h1>
-    <p class="mt-3 text-muted">Emprendedores es un directorio gratuito de negocios locales. Tú encuentras, escribes por WhatsApp y acuerdas directo con el negocio.</p>
+    <p class="mt-3 text-muted">{BRAND.name} es un directorio gratuito de negocios locales. Tú encuentras, escribes por WhatsApp y acuerdas directo con el negocio.</p>
 
     {sections.map((s) => (
       <section class="mt-10">
@@ -45,6 +47,8 @@ const sections = [
       </section>
     ))}
 
+    <p class="mt-8 text-sm">¿Eres emprendedor? Lee la <a href="/guia" class="font-semibold text-brand-700 underline">guía rápida paso a paso</a>.</p>
+
     <section class="my-12 card flex flex-col items-start gap-4 bg-brand-900 p-8 text-white sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h2 class="text-xl font-bold">¿Listo para empezar?</h2>
@@ -52,7 +56,7 @@ const sections = [
       </div>
       <div class="flex gap-2">
         <a href="/explorar" class="btn bg-white text-brand-900 hover:bg-brand-50">Explorar</a>
-        <a data-cta href="/registro" class="btn btn-outline !border-white !text-white">Publicar mi negocio</a>
+        <a data-cta href="/registro" class="btn btn-outline !border-white !bg-transparent !text-white hover:!bg-white hover:!text-brand-900">Publicar mi negocio</a>
       </div>
     </section>
   </div>

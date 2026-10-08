@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { geocode } from '../../lib/geocode';
 
@@ -13,6 +13,7 @@ interface Props {
 
 /** Dirección -> pin en el mapa (geocodificación OSM). El pin se puede arrastrar o fijar con un clic. */
 export default function LocationPicker({ lat, lng, address, center, onChange, onAddress }: Props) {
+  const addrId = useId();
   const ref = useRef<HTMLDivElement>(null);
   const mapRef = useRef<import('leaflet').Map | undefined>(undefined);
   const markerRef = useRef<import('leaflet').Marker | undefined>(undefined);
@@ -89,9 +90,9 @@ export default function LocationPicker({ lat, lng, address, center, onChange, on
   return (
     <div className="space-y-3">
       <div>
-        <label className="label">Dirección del local</label>
+        <label htmlFor={addrId} className="label">Dirección del local</label>
         <div className="flex gap-2">
-          <input className="input" value={address} onChange={(e) => onAddress(e.target.value)}
+          <input id={addrId} maxLength={300} className="input" value={address} onChange={(e) => onAddress(e.target.value)}
             placeholder="Calle, número, colonia, Cunduacán, Tabasco"
             onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); search(); } }} />
           <button type="button" className="btn btn-ghost shrink-0" onClick={search} disabled={busy}>{busy ? 'Buscando…' : 'Ubicar'}</button>

@@ -1,16 +1,95 @@
 ---
 import Base from '../layouts/Base.astro';
+import { BRAND } from '../lib/brand';
+
+const responsable = BRAND.legalName || `el titular del sitio ${BRAND.name}`;
+const medio = BRAND.contactEmail
+  ? `por correo electrónico a ${BRAND.contactEmail} o mediante el formulario de la página de contacto`
+  : 'mediante el formulario de la página de contacto';
+const domicilio = BRAND.address
+  ? `Su domicilio para oír y recibir notificaciones es ${BRAND.address}.`
+  : 'Para cualquier notificación o trámite relacionado con tus datos puedes usar el formulario de la página de contacto.';
 ---
-<Base title="Aviso de privacidad">
-  <article class="mx-auto max-w-3xl space-y-4 px-4 py-12">
+<Base title="Aviso de privacidad" description={`Aviso de privacidad de ${BRAND.name}: qué datos personales recabamos, para qué los usamos y cómo ejercer tus derechos ARCO.`}>
+  <article class="mx-auto max-w-3xl space-y-4 px-4 py-12 leading-relaxed">
     <h1 class="text-3xl font-extrabold">Aviso de privacidad</h1>
-    <p class="text-muted">Borrador: reemplazar por el aviso de privacidad definitivo antes del lanzamiento.</p>
-    <p>Los datos de contacto que un negocio publica (nombre, WhatsApp, dirección) son visibles públicamente. Medimos visitas y clics de contacto de forma agregada para mostrar estadísticas al negocio.</p>
-    <h2 class="pt-4 text-xl font-bold">Cookies y servicios de terceros</h2>
+    <p class="text-muted">Este aviso explica, en lenguaje sencillo, cómo tratamos tus datos personales en {BRAND.name}, de acuerdo con la legislación mexicana en materia de protección de datos personales en posesión de particulares.</p>
+
+    <h2 class="pt-4 text-xl font-bold">1. Quién es el responsable</h2>
+    <p>El responsable del tratamiento de tus datos personales es <strong>{responsable}</strong>, titular del sitio {BRAND.name}{BRAND.domain && <> ({BRAND.domain})</>}. {domicilio}</p>
+    <p>Puedes comunicarte con nosotros {medio}.</p>
+
+    <h2 class="pt-4 text-xl font-bold">2. Qué datos personales recabamos</h2>
+    <ul class="list-disc space-y-1 pl-6 text-muted">
+      <li><strong class="text-ink">Datos de tu cuenta:</strong> nombre y correo electrónico. Si ingresas con Google, recibimos de Google tu nombre y correo. La contraseña se guarda cifrada; nosotros no podemos verla.</li>
+      <li><strong class="text-ink">Datos de tu negocio:</strong> nombre del negocio, municipio, número de WhatsApp, dirección (si decides publicarla), horarios, descripción, fotos y datos de las publicaciones que subas. Esta información es <strong class="text-ink">pública</strong> en el sitio, salvo que se indique otra cosa; el número de WhatsApp se usa para que los clientes te contacten.</li>
+      <li><strong class="text-ink">Datos de uso:</strong> visitas a publicaciones y clics en el botón de WhatsApp, registrados de forma agregada para mostrar estadísticas al negocio, sin crear perfiles individuales de los visitantes.</li>
+      <li><strong class="text-ink">Ubicación aproximada (opcional):</strong> solo si tú la autorizas en tu navegador para ordenar resultados por cercanía. Se redondea a unos 100 metros.</li>
+      <li><strong class="text-ink">Reseñas (opcional):</strong> la calificación y el comentario que publiques sobre un negocio. Son <strong class="text-ink">públicas</strong> y se muestran con tu primer nombre y la inicial de tu apellido; nunca mostramos tu correo.</li>
+      <li><strong class="text-ink">Mensajes de contacto:</strong> nombre, correo y el contenido del mensaje que nos envíes desde la página de contacto.</li>
+    </ul>
+    <p>No recabamos datos personales sensibles ni datos financieros. No pedimos ni procesamos pagos: las compras se acuerdan directamente entre cliente y negocio.</p>
+
+    <h2 class="pt-4 text-xl font-bold">3. Para qué usamos tus datos</h2>
+    <p><strong>Finalidades necesarias</strong> (sin ellas no podemos darte el servicio):</p>
+    <ul class="list-disc space-y-1 pl-6 text-muted">
+      <li>Crear y administrar tu cuenta y verificar tu identidad al ingresar.</li>
+      <li>Mostrar públicamente tu negocio y publicaciones para que los clientes te encuentren y te contacten por WhatsApp.</li>
+      <li>Calcular y mostrarte estadísticas de visitas y clics de tus publicaciones.</li>
+      <li>Atender tus mensajes, dudas, reportes y solicitudes de derechos ARCO.</li>
+      <li>Revisar reportes, moderar contenido y prevenir fraudes, abusos o incumplimientos de los Términos de uso.</li>
+      <li>Enviarte avisos importantes sobre tu cuenta (por ejemplo, restablecer tu contraseña).</li>
+      <li>Cumplir obligaciones legales.</li>
+    </ul>
+    <p><strong>Finalidades adicionales</strong> (solo si lo aceptas):</p>
+    <ul class="list-disc space-y-1 pl-6 text-muted">
+      <li>Medir el uso del sitio con una herramienta de analítica para mejorarlo.</li>
+      <li>Mostrar publicidad de terceros.</li>
+    </ul>
+    <p>Puedes aceptar o rechazar estas finalidades adicionales desde el aviso de cookies, sin que ello afecte el servicio principal. Si más adelante quieres dejar de permitirlas, usa «Preferencias de cookies» en el pie de página o escríbenos.</p>
+
+    <h2 class="pt-4 text-xl font-bold">4. Con quién compartimos tus datos</h2>
+    <p>No vendemos tus datos personales. Los compartimos únicamente en estos casos:</p>
+    <ul class="list-disc space-y-1 pl-6 text-muted">
+      <li><strong class="text-ink">Público en general:</strong> los datos del negocio que publicas (nombre, fotos, descripción, dirección y la opción de contacto por WhatsApp) los puede ver cualquier visitante.</li>
+      <li><strong class="text-ink">Proveedores de infraestructura</strong> que tratan datos por nuestra cuenta: Supabase (base de datos, autenticación y almacenamiento de archivos) y Netlify (alojamiento del sitio). Pueden operar en servidores fuera de México.</li>
+      <li><strong class="text-ink">Mapas y geocodificación:</strong> los mapas usan OpenStreetMap y la búsqueda de direcciones puede enviar el texto escrito a un servicio de geocodificación (OpenStreetMap, MapTiler o Geoapify). Las tipografías se cargan desde Google Fonts.</li>
+      <li><strong class="text-ink">Analítica y publicidad:</strong> Plausible (analítica) y Google AdSense (publicidad) solo se cargan si lo aceptas.</li>
+      <li><strong class="text-ink">Autoridades:</strong> cuando una ley o una orden de autoridad competente nos lo exija.</li>
+    </ul>
+    <p>Para estas transferencias a proveedores y a autoridades no se requiere tu consentimiento adicional conforme a la ley. Cualquier otra transferencia se te informará y, cuando corresponda, se pedirá tu consentimiento.</p>
+
+    <h2 class="pt-4 text-xl font-bold">5. Tus derechos ARCO y revocación del consentimiento</h2>
+    <p>Tienes derecho a <strong>Acceder</strong> a tus datos y conocer cómo los usamos, <strong>Rectificarlos</strong> si son inexactos, <strong>Cancelarlos</strong> cuando consideres que no se necesitan, y <strong>Oponerte</strong> a su uso para fines específicos. También puedes <strong>revocar tu consentimiento</strong> en cualquier momento y limitar el uso o divulgación de tus datos.</p>
+    <p>Muchos de estos derechos puedes ejercerlos tú mismo desde tu panel: editar los datos de tu negocio, despublicar contenido o eliminar tu cuenta.</p>
+    <p>Para ejercerlos por escrito, envía tu solicitud {medio}, con:</p>
+    <ul class="list-disc space-y-1 pl-6 text-muted">
+      <li>Tu nombre y el correo con el que te registraste, para poder responderte.</li>
+      <li>Un documento o dato que permita acreditar tu identidad (o la de tu representante).</li>
+      <li>La descripción clara de los datos y del derecho que quieres ejercer.</li>
+    </ul>
+    <p>Te responderemos en un plazo máximo de <strong>20 días hábiles</strong> contados desde que recibamos tu solicitud completa. Si procede, la haremos efectiva dentro de los <strong>15 días hábiles</strong> siguientes a esa respuesta. Estos plazos pueden ampliarse una vez por un periodo igual cuando el caso lo justifique, y te lo avisaremos. El ejercicio de tus derechos es gratuito, salvo gastos justificados de envío o reproducción.</p>
+    <p>Si consideras que tu derecho a la protección de datos fue vulnerado, puedes acudir a la autoridad mexicana competente en materia de protección de datos personales.</p>
+
+    <h2 class="pt-4 text-xl font-bold">6. Cookies y tecnologías de rastreo</h2>
     <p>Usamos almacenamiento local y cookies <strong>necesarias</strong> para mantener tu sesión y recordar tus preferencias; no requieren consentimiento.</p>
+    <p>Tus favoritos se guardan solo en tu navegador: no los enviamos a nuestros servidores ni requieren cuenta.</p>
     <p>Solo si lo aceptas, cargamos servicios de terceros por categoría: <strong>analítica</strong> (Plausible, estadísticas de visitas sin perfiles individuales) y <strong>publicidad</strong> (Google AdSense, que puede usar cookies para mostrar anuncios). Sin tu consentimiento estos scripts no se cargan.</p>
     <p>Si eliges ordenar los resultados por cercanía y permites tu ubicación, el navegador guarda una cookie funcional («ubi») con tu posición aproximada (unos 100 metros) durante 24 horas. Solo se envía a nuestro servidor para calcular distancias en esa búsqueda; no la almacenamos. Puedes borrarla con «Olvidar mi ubicación» en Explorar.</p>
-    <p>Los mapas usan OpenStreetMap y la búsqueda de direcciones puede consultar un servicio de geocodificación (OpenStreetMap, MapTiler o Geoapify), que recibe la dirección escrita. Las fuentes se cargan desde Google Fonts.</p>
-    <p>Puedes cambiar tu decisión en cualquier momento desde «Preferencias de cookies» en el pie de página (visible cuando hay servicios opcionales activos) o borrando los datos del sitio en tu navegador.</p>
+    <p>Puedes cambiar tu decisión en cualquier momento desde «Preferencias de cookies» en el pie de página (visible cuando hay servicios opcionales activos) o borrando los datos del sitio en tu navegador. También puedes configurar tu navegador para bloquear cookies, aunque algunas funciones, como mantener tu sesión, podrían dejar de funcionar.</p>
+
+    <h2 class="pt-4 text-xl font-bold">7. Cuánto tiempo conservamos tus datos</h2>
+    <p>Conservamos los datos de tu cuenta y de tu negocio mientras tu cuenta esté activa. Si la eliminas, borramos tus datos y contenido salvo lo que debamos guardar por obligación legal o para atender posibles reclamaciones. Los mensajes de contacto se conservan el tiempo necesario para atenderlos y después se eliminan. Las estadísticas agregadas no identifican a personas.</p>
+
+    <h2 class="pt-4 text-xl font-bold">8. Seguridad</h2>
+    <p>Aplicamos medidas técnicas y administrativas razonables para proteger tus datos, como conexión cifrada, contraseñas almacenadas de forma cifrada y control de acceso a la información. Ningún sistema es infalible; si ocurre una vulneración que afecte de forma significativa tus derechos, te lo informaremos.</p>
+
+    <h2 class="pt-4 text-xl font-bold">9. Menores de edad</h2>
+    <p>El servicio no está dirigido a menores de 18 años para crear cuentas de negocio. Si crees que un menor nos proporcionó datos sin autorización de su madre, padre o tutor, escríbenos para eliminarlos.</p>
+
+    <h2 class="pt-4 text-xl font-bold">10. Cambios a este aviso</h2>
+    <p>Podemos modificar este aviso para reflejar cambios legales o del servicio. Publicaremos la versión vigente en esta página con su fecha de actualización y, si el cambio es importante, te avisaremos por el sitio o por correo.</p>
+
+    <p class="border-t border-line pt-4 text-sm text-muted">Última actualización: {BRAND.updatedAt}</p>
   </article>
 </Base>

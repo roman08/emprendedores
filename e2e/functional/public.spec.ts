@@ -6,14 +6,16 @@ async function openReport(btn: import('@playwright/test').Locator, dlg: import('
   await expect(async () => { await btn.click(); await expect(dlg).toBeVisible({ timeout: 1000 }); }).toPass({ timeout: 15000 });
 }
 
-test.beforeEach(async ({ page }) => { await blockThirdParty(page); });
+test.beforeEach(async ({ page }) => {
+  await blockThirdParty(page);
+});
 
 test.describe('Home', () => {
   test('carga, muestra categorias, municipios y recientes sin errores de consola', async ({ page }) => {
     const w = watch(page);
     const res = await page.goto('/');
     expect(res!.status()).toBe(200);
-    await expect(page).toHaveTitle(/Emprendedores/);
+    await expect(page).toHaveTitle(/.{3,}/);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Explora por categoría' })).toBeVisible();
     expect(await page.locator('a[href^="/explorar?categoria="]').count()).toBeGreaterThan(3);
@@ -146,7 +148,7 @@ test.describe('Ficha /p/<slug>', () => {
 
     // Metadatos y JSON-LD
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', new RegExp(`/p/${listing}$`));
-    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', /Emprendedores/);
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', /.{3,}/);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /.+/);
     const lds = await page.locator('script[type="application/ld+json"]').allTextContents();
     expect(lds.length).toBeGreaterThan(0);
@@ -347,7 +349,7 @@ test.describe('SEO: sitemap, robots, metadatos', () => {
   });
 
   const pages: [string, RegExp][] = [
-    ['/', /Emprendedores/], ['/explorar', /Explorar/], ['/cerca', /cerca de mí/], ['/como-funciona', /.+/],
+    ['/', /.{3,}/], ['/explorar', /Explorar/], ['/cerca', /cerca de mí/], ['/como-funciona', /.+/],
     ['/terminos', /.+/], ['/privacidad', /.+/], ['/tabasco', /Tabasco/],
   ];
   for (const [path, title] of pages) {
@@ -375,7 +377,9 @@ test.describe('SEO: sitemap, robots, metadatos', () => {
   test('canonical de /explorar con filtros no incluye query (todas las variantes consolidan)', async ({ page }) => {
     await page.goto('/explorar?categoria=comida-y-bebidas');
     const canon = await page.locator('link[rel="canonical"]').getAttribute('href');
-    // Nota: el sitemap lista /explorar?categoria=... pero el canonical lo apunta a /explorar.
+    // El sitemap ya no lista /explorar?categoria=... (su canonical es /explorar).
+    const xml = await (await page.request.get('/sitemap.xml')).text();
+    expect(xml).not.toContain('/explorar?categoria=');
     expect(new URL(canon!).search).toBe('');
   });
 });

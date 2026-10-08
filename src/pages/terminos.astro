@@ -1,13 +1,41 @@
 ---
 import Base from '../layouts/Base.astro';
+import { BRAND } from '../lib/brand';
+
+const titular = BRAND.legalName || `el titular del sitio ${BRAND.name}`;
+const medio = BRAND.contactEmail
+  ? `al correo ${BRAND.contactEmail} o mediante el formulario de la página de contacto`
+  : 'mediante el formulario de la página de contacto';
 ---
-<Base title="Términos de uso">
-  <article class="mx-auto max-w-3xl space-y-4 px-4 py-12">
+<Base title="Términos de uso" description={`Términos y condiciones de uso de ${BRAND.name}: qué es el servicio, obligaciones de los negocios, contenido prohibido y límites de responsabilidad.`}>
+  <article class="mx-auto max-w-3xl space-y-4 px-4 py-12 leading-relaxed">
     <h1 class="text-3xl font-extrabold">Términos de uso</h1>
-    <p class="text-muted">Borrador: reemplazar por el texto legal definitivo antes del lanzamiento.</p>
-    <p>Emprendedores es un directorio gratuito. No intervenimos en la compra-venta: el trato, el pago y la entrega se acuerdan directamente entre cliente y negocio por WhatsApp.</p>
-    <p>Cada negocio es responsable de la veracidad de su información y de sus productos o servicios. Podemos retirar contenido que infrinja estas reglas.</p>
-    <h2 class="pt-4 text-xl font-bold">Contenido prohibido</h2>
+    <p class="text-muted">Al usar {BRAND.name}, ya sea para buscar negocios o para publicar el tuyo, aceptas estos términos. Léelos con calma; están escritos en lenguaje sencillo.</p>
+
+    <h2 class="pt-4 text-xl font-bold">1. Qué es {BRAND.name}</h2>
+    <p>{BRAND.name} es un directorio gratuito donde emprendedores y negocios locales publican sus productos o servicios y los clientes los encuentran y los contactan directamente por WhatsApp. El sitio es operado por <strong>{titular}</strong>.</p>
+    <p><strong>No intervenimos en la compra-venta.</strong> No cobramos comisiones, no procesamos pagos, no hacemos entregas ni somos parte de los acuerdos entre cliente y negocio. El trato, el precio, el pago, la entrega y las garantías se acuerdan directamente entre ellos.</p>
+
+    <h2 class="pt-4 text-xl font-bold">2. Cuentas</h2>
+    <ul class="list-disc space-y-1 pl-6 text-muted">
+      <li>Para publicar necesitas una cuenta. Debes ser mayor de 18 años y capaz de obligarte legalmente.</li>
+      <li>Los datos de registro deben ser verdaderos y actualizados.</li>
+      <li>Eres responsable de la confidencialidad de tu contraseña y de lo que ocurra en tu cuenta. Avísanos si sospechas un uso no autorizado.</li>
+      <li>Puedes dejar de usar el servicio y eliminar tu cuenta cuando quieras.</li>
+    </ul>
+
+    <h2 class="pt-4 text-xl font-bold">3. Obligaciones de los negocios</h2>
+    <p>Si publicas en {BRAND.name}, te comprometes a que:</p>
+    <ul class="list-disc space-y-1 pl-6 text-muted">
+      <li>La información de tu negocio, tus productos o servicios, precios, fotos y datos de contacto sea <strong class="text-ink">veraz</strong> y esté actualizada.</li>
+      <li>Lo que ofreces sea <strong class="text-ink">lícito</strong> y cuentes con los permisos, licencias o autorizaciones que la ley exija para ofrecerlo.</li>
+      <li>Tengas los <strong class="text-ink">derechos sobre las fotos y textos</strong> que subes, o la autorización de quien los creó, y que no infrinjan derechos de terceros.</li>
+      <li>Atiendas por tu cuenta a tus clientes y cumplas lo que prometes, incluidas tus obligaciones fiscales y de protección al consumidor.</li>
+      <li>Tengas el consentimiento de las personas que aparezcan en tus fotos o cuyos datos publiques.</li>
+    </ul>
+    <p>Eres el único responsable del contenido que publicas y de los tratos que hagas con tus clientes.</p>
+
+    <h2 class="pt-4 text-xl font-bold">4. Contenido prohibido</h2>
     <p>No se permite publicar ni ofrecer:</p>
     <ul class="list-disc space-y-1 pl-6 text-muted">
       <li>Armas, municiones, explosivos o sustancias controladas o ilegales.</li>
@@ -18,7 +46,48 @@ import Base from '../layouts/Base.astro';
       <li>Esquemas piramidales, inversiones con ganancias garantizadas, estafas o engaños.</li>
       <li>Datos personales de terceros, o fotos de personas sin su consentimiento.</li>
       <li>Fotos o descripciones que no correspondan al producto o servicio real.</li>
+      <li>Servicios o productos que requieran licencia o título profesional (por ejemplo, servicios médicos o legales) por parte de quien no los tiene.</li>
+      <li>Software malicioso, enlaces engañosos, suplantación de identidad o cualquier intento de dañar el sitio o a otros usuarios.</li>
+      <li>Publicaciones repetidas, spam o contenido ajeno al giro del negocio.</li>
     </ul>
-    <p>Las publicaciones que incumplan estas reglas se retirarán y las cuentas reincidentes podrán suspenderse. Si ves algo indebido, repórtalo desde la publicación.</p>
+
+    <h2 class="pt-4 text-xl font-bold">5. Moderación, reportes y suspensión</h2>
+    <p>Cualquier persona puede reportar una publicación o negocio desde la opción de reporte, o escribirnos {medio}. Revisamos los reportes y podemos, a nuestro criterio y sin previo aviso cuando haya riesgo para otras personas:</p>
+    <ul class="list-disc space-y-1 pl-6 text-muted">
+      <li>retirar o despublicar contenido que incumpla estos términos o la ley;</li>
+      <li>suspender o eliminar negocios y cuentas, en especial a las reincidentes;</li>
+      <li>conservar la información necesaria y colaborar con autoridades cuando la ley lo requiera.</li>
+    </ul>
+    <p>Si crees que retiramos algo por error, escríbenos y lo revisaremos.</p>
+    <p><strong>Reseñas.</strong> Las personas con cuenta pueden calificar un negocio (de 1 a 5 estrellas) y dejar un comentario, una sola vez por negocio, a partir de su experiencia real. No se permiten reseñas sobre tu propio negocio, falsas, ofensivas, con datos personales de terceros ni con fines de publicidad. Las reseñas son públicas y se muestran con tu primer nombre y la inicial de tu apellido. El negocio puede responder una vez, y podemos ocultar o eliminar las reseñas que incumplan estos términos.</p>
+
+    <h2 class="pt-4 text-xl font-bold">6. Limitación de responsabilidad</h2>
+    <p>{BRAND.name} se ofrece «tal cual», de forma gratuita y sin garantías de disponibilidad continua. En la medida que la ley lo permita:</p>
+    <ul class="list-disc space-y-1 pl-6 text-muted">
+      <li>No somos responsables de la calidad, legalidad, veracidad o entrega de lo que ofrecen los negocios, ni de los acuerdos o pagos entre clientes y negocios.</li>
+      <li>La insignia de «verificado» indica una revisión básica de datos y no es una garantía sobre el negocio ni sus productos.</li>
+      <li>No respondemos por daños indirectos, pérdida de ventas o de información derivados del uso del sitio o de su interrupción.</li>
+    </ul>
+    <p>Te recomendamos tomar precauciones al comprar: pedir fotos reales, evitar adelantos grandes con desconocidos y preferir entregas y pagos en lugares públicos o con comprobante. Nada de esto limita los derechos que la ley te reconozca como consumidor frente al negocio.</p>
+
+    <h2 class="pt-4 text-xl font-bold">7. Propiedad intelectual</h2>
+    <p>El nombre, el logotipo, el diseño y el código de {BRAND.name} pertenecen a su titular y no pueden usarse sin autorización. Tú conservas los derechos sobre el contenido que publicas, pero nos otorgas una licencia gratuita, no exclusiva y limitada para mostrarlo, almacenarlo, adaptarlo a distintos formatos y promoverlo dentro del sitio y sus canales mientras esté publicado.</p>
+
+    <h2 class="pt-4 text-xl font-bold">8. Publicidad y servicios futuros</h2>
+    <p>El servicio es hoy gratuito. En el futuro podríamos mostrar publicidad de terceros (siempre sujeta a tu consentimiento de cookies, como explica el Aviso de privacidad) u ofrecer servicios opcionales de pago, como destacar publicaciones. Si algo tuviera costo, lo indicaremos con claridad antes de que lo contrates, y lo gratuito seguirá siendo gratuito salvo aviso previo.</p>
+
+    <h2 class="pt-4 text-xl font-bold">9. Privacidad</h2>
+    <p>El tratamiento de tus datos personales se rige por el <a class="font-semibold text-brand-700" href="/privacidad">Aviso de privacidad</a>.</p>
+
+    <h2 class="pt-4 text-xl font-bold">10. Modificaciones</h2>
+    <p>Podemos actualizar estos términos. La versión vigente estará siempre en esta página con su fecha de actualización. Si el cambio es importante, te avisaremos por el sitio o por correo. Si sigues usando el servicio después del cambio, entendemos que lo aceptas; si no estás de acuerdo, puedes dejar de usarlo y eliminar tu cuenta.</p>
+
+    <h2 class="pt-4 text-xl font-bold">11. Legislación y jurisdicción</h2>
+    <p>Estos términos se rigen por las leyes de los Estados Unidos Mexicanos. Para su interpretación y cumplimiento, las partes se someten a los tribunales competentes de {BRAND.jurisdiction || 'México'}, renunciando a cualquier otro fuero que pudiera corresponderles por su domicilio presente o futuro, sin perjuicio de los derechos que la ley otorga a los consumidores.</p>
+
+    <h2 class="pt-4 text-xl font-bold">12. Contacto</h2>
+    <p>Para dudas sobre estos términos, reportes o cualquier solicitud, escríbenos {medio}: <a class="font-semibold text-brand-700" href="/contacto">ir a Contacto</a>.</p>
+
+    <p class="border-t border-line pt-4 text-sm text-muted">Última actualización: {BRAND.updatedAt}</p>
   </article>
 </Base>

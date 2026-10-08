@@ -16,9 +16,14 @@ export default function MapView({ lat, lng, label, height = 240 }: Props) {
         attribution: '&copy; OpenStreetMap',
         maxZoom: 19,
       }).addTo(map);
+      // El nombre lo escribe el dueño del negocio: se pasa como nodo DOM con textContent (un string se interpretaría como HTML)
+      const popup = document.createElement('strong');
+      popup.textContent = label ?? 'Ubicación';
       L.circleMarker([lat, lng], { radius: 10, color: '#0e8571', fillColor: '#14a38b', fillOpacity: 0.9 })
         .addTo(map)
-        .bindPopup(label ?? 'Ubicación');
+        .bindPopup(popup);
+      // Si el contenedor cambió de tamaño al hidratar, Leaflet debe recalcular o el mapa queda en blanco
+      requestAnimationFrame(() => map?.invalidateSize());
     })();
     return () => { map?.remove(); };
   }, [lat, lng, label]);

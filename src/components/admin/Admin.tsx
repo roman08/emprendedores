@@ -4,13 +4,27 @@ import SummaryTab from './SummaryTab';
 import BusinessesTab from './BusinessesTab';
 import ListingsTab from './ListingsTab';
 import ReportsTab from './ReportsTab';
+import MessagesTab from './MessagesTab';
+import ReviewsTab from './ReviewsTab';
 
-type Tab = 'summary' | 'businesses' | 'listings' | 'reports';
+type Tab = 'summary' | 'businesses' | 'listings' | 'reports' | 'messages' | 'reviews';
 type Access = 'loading' | 'ok' | 'denied';
 
 export default function Admin() {
   const [access, setAccess] = useState<Access>('loading');
   const [tab, setTab] = useState<Tab>('summary');
+  const [focusReview, setFocusReview] = useState<string | null>(null);
+
+  // Un reporte de reseña enlaza a /admin#reviews/<id>: abre la pestaña con esa reseña
+  useEffect(() => {
+    const fromHash = () => {
+      const m = location.hash.match(/^#reviews(?:\/([0-9a-f-]{36}))?$/i);
+      if (m) { setTab('reviews'); setFocusReview(m[1] ?? null); }
+    };
+    fromHash();
+    window.addEventListener('hashchange', fromHash);
+    return () => window.removeEventListener('hashchange', fromHash);
+  }, []);
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data }) => {
@@ -30,7 +44,7 @@ export default function Admin() {
       </div>
     );
 
-  const tabs: [Tab, string][] = [['summary', 'Resumen'], ['businesses', 'Negocios'], ['listings', 'Publicaciones'], ['reports', 'Reportes']];
+  const tabs: [Tab, string][] = [['summary', 'Resumen'], ['businesses', 'Negocios'], ['listings', 'Publicaciones'], ['reports', 'Reportes'], ['reviews', 'Reseñas'], ['messages', 'Mensajes']];
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
@@ -41,13 +55,15 @@ export default function Admin() {
       <div role="tablist" className="mb-6 flex gap-1 overflow-x-auto border-b border-line">
         {tabs.map(([k, label]) => (
           <button key={k} role="tab" aria-selected={tab === k} onClick={() => setTab(k)}
-            className={`-mb-px whitespace-nowrap border-b-2 px-4 py-2.5 text-sm font-semibold ${tab === k ? 'border-brand-600 text-brand-700' : 'border-transparent text-muted hover:text-ink'}`}>{label}</button>
+            className={`-mb-px min-h-11 whitespace-nowrap border-b-2 px-4 py-2.5 text-sm font-semibold ${tab === k ? 'border-brand-600 text-brand-700' : 'border-transparent text-muted hover:text-ink'}`}>{label}</button>
         ))}
       </div>
       {tab === 'summary' && <SummaryTab />}
       {tab === 'businesses' && <BusinessesTab />}
       {tab === 'listings' && <ListingsTab />}
       {tab === 'reports' && <ReportsTab />}
+      {tab === 'reviews' && <ReviewsTab focusId={focusReview} onClearFocus={() => { setFocusReview(null); history.replaceState(null, '', '/admin#reviews'); }} />}
+      {tab === 'messages' && <MessagesTab />}
     </div>
   );
 }

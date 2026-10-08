@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import FavoritesList from '../components/FavoritesList';
+---
+<Base title="Guardados" description="Tus productos, servicios y negocios guardados." noindex>
+  <div class="mx-auto max-w-6xl px-4 py-10">
+    <h1 class="text-3xl font-extrabold">Guardados</h1>
+    <p class="mt-1 mb-8 text-muted">Tus favoritos viven solo en este navegador: no necesitas cuenta.</p>
+    <FavoritesList client:load />
+  </div>
+</Base>

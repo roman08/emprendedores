@@ -4,6 +4,8 @@ import { AUTH_STORAGE_KEY, SUPABASE_URL, buildSession, fixtures } from '../helpe
 export { AUTH_STORAGE_KEY, SUPABASE_URL, fixtures };
 
 /** Hosts externos cuyas fallas de red no son culpa de la app (fuentes, tiles, imagenes de relleno). */
+/** RPC de migraciones nuevas (0011+/0014) que el agente de desarrollo aun no aplica en la base real: su 404 se reporta como hallazgo aparte. */
+const PENDING_MIGRATION_NOISE = /rpc\/(business_rating_summary|list_business_reviews|search_listings_near)/;
 const EXTERNAL_NOISE = /fonts\.(googleapis|gstatic)\.com|tile\.openstreetmap\.org|picsum\.photos|challenges\.cloudflare\.com|plausible\.io|googlesyndication|nominatim/i;
 
 export interface Watch {
@@ -19,7 +21,7 @@ export interface Watch {
 export function watch(page: Page, opts: { ignore?: RegExp[] } = {}): Watch {
   const w: Watch = { errors: [], failed: [], badResponses: [] };
   const ignore = opts.ignore ?? [];
-  const skip = (s: string) => EXTERNAL_NOISE.test(s) || ignore.some((r) => r.test(s));
+  const skip = (s: string) => EXTERNAL_NOISE.test(s) || PENDING_MIGRATION_NOISE.test(s) || ignore.some((r) => r.test(s));
   page.on('console', (m) => {
     if (m.type() !== 'error') return;
     const t = m.text();

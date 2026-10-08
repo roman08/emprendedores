@@ -1,4 +1,4 @@
-# Emprendedores
+# Por la Esquina
 
 Portal gratuito donde emprendedores publican productos y servicios; los clientes los contactan por WhatsApp. Astro (SSR) + React islands + Supabase, desplegado en Netlify.
 
@@ -12,7 +12,7 @@ Portal gratuito donde emprendedores publican productos y servicios; los clientes
 
 ## Migraciones (ejecutar en este orden)
 
-Todas están en `supabase/migrations`. Son idempotentes salvo `0001`, que solo se ejecuta una vez en una base vacía.
+Todas están en `supabase/migrations`. Son idempotentes salvo `0001`, que solo se ejecuta una vez en una base vacía. En una base nueva ejecuta todas, de la `0001` a la `0014`, una por una y en ese orden. En la base actual ya están `0001`-`0009` y `0012`; **`0010` no se pudo verificar con la clave pública: trátala como pendiente y ejecútala ya** (es idempotente). Faltan `0011` (correcciones de QA), `0013` y `0014`.
 
 | # | Archivo | Qué hace |
 |---|---------|----------|
@@ -25,6 +25,11 @@ Todas están en `supabase/migrations`. Son idempotentes salvo `0001`, que solo s
 | 7 | `0007_account.sql` | `delete_my_account()` para que cada usuario elimine su cuenta desde el panel. |
 | 8 | `0008_nearby.sql` | "Negocios cerca de mí": índice `businesses_geo_idx` y RPC `nearby_businesses` (caja envolvente + haversine, sin PostGIS; valida rangos y nunca devuelve el WhatsApp). Hasta ejecutarla, `/cerca` muestra "aún no está disponible". |
 | 9 | `0009_admin_storage.sql` | Políticas de Storage para que el admin liste y borre archivos (limpieza al borrar publicaciones o negocios) y RPC `admin_orphan_objects()` (huérfanos con tamaño, solo admin). Depende de `0006`. |
+| 10 | `0010_profiles_role_guard.sql` | **URGENTE.** Seguridad: trigger que impide que un usuario se cambie a sí mismo el `role` de su perfil (evita volverse admin desde el navegador). Desde el SQL Editor sigue funcionando. |
+| 11 | `0011_qa_fixes.sql` | Correcciones de seguridad de la revisión de QA: repite el guard de `role` y deja a los usuarios actualizar solo `profiles.full_name`; `featured_until`, `slug` y `created_at` los fija el servidor al crear publicaciones y negocios (nadie se auto-destaca); lista blanca de enlaces de mapa y tamaños máximos de campos; máximo de fotos y de publicaciones por negocio; `reports.created_at/resolved` fijados por el servidor (el límite de reportes ya no se evade) y tope diario de eventos por publicación; buckets con límite de 2 MB y solo WebP/JPEG/PNG, y listado de Storage solo para el dueño y el admin; `search_path` con `pg_temp` en las funciones `SECURITY DEFINER`. Ejecútala después de `0010`; si ya corriste `0014`, funciona igual. |
+| 12 | `0012_search_near.sql` | `haversine_km` y la RPC `search_listings_near`: `/explorar` ordena del más cercano al más lejano (ubicación exacta si el negocio tiene pin; centro del municipio si no). Hasta ejecutarla, `/explorar` ordena por relevancia. |
+| 13 | `0013_contact.sql` | Formulario `/contacto`: tabla `contact_messages` (anon y usuarios solo insertan los 4 campos del formulario; solo el admin lee, cambia el estado y borra), límite anti-spam (5 por hora por correo y 100 por hora en total) y fecha/estado/usuario fijados por el servidor. Alimenta la pestaña "Mensajes" de `/admin`. |
+| 14 | `0014_reviews.sql` | Reseñas con moderación: tabla `reviews` (sin lectura pública, así no se expone `user_id`), triggers que limitan qué puede editar cada rol, RPC `business_rating_summary`, `list_business_reviews` y `reply_to_review` (respuesta única del dueño), y `reports.review_id` para reportar reseñas. Necesita `0003`. Alimenta la pestaña "Reseñas" de `/admin`. |
 
 Despliega el frontend junto con las migraciones: un frontend antiguo llamaría a `track_event` con 3 argumentos y los clics dejarían de contarse; el nuevo envía `p_visitor`.
 
@@ -34,13 +39,13 @@ Despliega el frontend junto con las migraciones: un frontend antiguo llamaría a
 |----------|-------|-------------|
 | `PUBLIC_SUPABASE_URL` | `.env` y Netlify | URL del proyecto Supabase. Obligatoria. |
 | `PUBLIC_SUPABASE_ANON_KEY` | `.env` y Netlify | Clave anon. Obligatoria. |
-| `SUPABASE_SERVICE_ROLE_KEY` | Solo Netlify (scope Functions/Runtime) | Secreto. Permite contar clics de WhatsApp y mapa en `/ir/*`. Sin ella la redirección funciona pero no se cuentan. Nunca con prefijo `PUBLIC_`. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Solo Netlify (scope Functions/Runtime; se declara como secreto de servidor en `astro.config.mjs` y no se incrusta en el build) | Secreto. Permite contar clics de WhatsApp y mapa en `/ir/*`. Sin ella la redirección funciona pero no se cuentan. Nunca con prefijo `PUBLIC_`. |
 | `VISITOR_SALT` | Solo Netlify | Opcional. Cadena aleatoria larga para el hash anónimo de visitante en `/ir/*`. |
-| `PUBLIC_TURNSTILE_SITE_KEY` | `.env` y Netlify | Opcional. Activa el captcha Cloudflare Turnstile en ingreso, registro y recuperación. |
+| `PUBLIC_TURNSTILE_SITE_KEY` | `.env` y Netlify | Opcional. Activa el captcha Cloudflare Turnstile en ingreso, registro, recuperación y `/contacto` (en `/contacto` solo se valida en el navegador; la defensa real es el honeypot y el límite por hora de `0013`). |
 | `PUBLIC_ADS` | `.env` y Netlify | Opcional. `1` activa los espacios publicitarios. |
 | `PUBLIC_ADSENSE_CLIENT` / `PUBLIC_ADSENSE_SLOT` | `.env` y Netlify | Opcional. Datos de Google AdSense; requieren `PUBLIC_ADS=1` y solo cargan tras el consentimiento de publicidad. |
 | `PUBLIC_PLAUSIBLE_DOMAIN` | `.env` y Netlify | Opcional. Dominio (sin `https://`) para la analítica Plausible; solo carga tras el consentimiento de analítica. |
-| `SITE_URL` | `.env` y Netlify | Opcional. Dominio público con `https://`: lo usan `astro.config.mjs`, `robots.txt`, `sitemap.xml`, canonicals y `og:image`. |
+| `SITE_URL` | `.env` y Netlify | Opcional pero recomendada. Dominio público con `https://`: lo usan `astro.config.mjs`, `robots.txt`, `sitemap.xml`, canonicals, `og:image`, el QR de `/flyer` y los enlaces de invitación. `src/lib/brand.ts` también acepta `PUBLIC_SITE_URL` para `BRAND.domain` y `BRAND.site` (solo en el servidor). |
 | `PUBLIC_GEOCODER` | `.env` y Netlify | Opcional. `nominatim` (defecto, gratuito), `maptiler` o `geoapify`. |
 | `PUBLIC_MAPTILER_KEY` / `PUBLIC_GEOAPIFY_KEY` | `.env` y Netlify | Opcional. Clave del geocodificador elegido (visible en el navegador: restríngela por dominio). Sin clave se usa Nominatim. |
 
@@ -48,7 +53,7 @@ El banner de cookies solo aparece si hay Plausible o AdSense configurados. Al ac
 
 ## Administrador
 
-El panel `/admin` (resumen, negocios, publicaciones y reportes) solo abre para usuarios con rol `admin`. Para volver admin a un usuario, ejecuta en el SQL Editor:
+El panel `/admin` (resumen, negocios, publicaciones, reportes, reseñas y mensajes de contacto) solo abre para usuarios con rol `admin`. Para volver admin a un usuario, ejecuta en el SQL Editor:
 
 ```sql
 update profiles set role = 'admin'
@@ -73,14 +78,18 @@ Guía completa paso a paso (GitHub, Netlify, Supabase, dominio, correo, analíti
 ## Estructura
 
 - `supabase/migrations`: esquema, RLS, triggers y funciones.
-- `src/pages`: páginas públicas SSR (`/`, `/explorar`, `/cerca`, `/p/[slug]`, `/n/[slug]`, `/como-funciona`, términos y privacidad), páginas SEO por ubicación (`/[estado]`, `/[estado]/[municipio]` y `/[estado]/[municipio]/[categoria]`, con ayudas en `_lib.ts` y `_Location.astro`), auth (`/ingresar`, `/registro`, `/recuperar`, `/restablecer`), `/panel`, `/admin`, rutas `/ir/*` (redirección a WhatsApp y mapa con conteo en servidor), `robots.txt` y `sitemap.xml`. Las rutas estáticas tienen prioridad sobre las dinámicas, por eso `/p`, `/n`, `/ir`, `/panel`, etc. no las captura `[estado]`.
+- `src/pages`: páginas públicas SSR (`/`, `/explorar`, `/cerca`, `/favoritos`, `/guia`, `/flyer`, `/contacto`, `/p/[slug]`, `/n/[slug]`, `/como-funciona`, `/terminos` y `/privacidad`), páginas SEO por ubicación (`/[estado]`, `/[estado]/[municipio]` y `/[estado]/[municipio]/[categoria]`, con ayudas en `_lib.ts` y `_Location.astro`), auth (`/ingresar`, `/registro`, `/recuperar`, `/restablecer`), `/panel`, `/admin`, rutas `/ir/*` (redirección a WhatsApp y mapa con conteo en servidor), `robots.txt` y `sitemap.xml`. Las rutas estáticas tienen prioridad sobre las dinámicas, por eso `/p`, `/n`, `/ir`, `/panel`, etc. no las captura `[estado]`.
 - `src/components/panel`: panel del emprendedor (islas React `client:only`), habla directo con Supabase bajo RLS.
 - `src/components/admin`: panel de administración (listas paginadas en servidor, borrado con limpieza de Storage y herramienta de archivos huérfanos).
 - `src/components/NearbyFinder.tsx`: isla de `/cerca` (GPS o municipio, radio, categoría, lista y mapa).
-- `src/components/CookieConsent.astro` y `AdSlot.astro`: consentimiento de cookies y espacios publicitarios.
-- `src/lib`: `hours.ts` (horarios con hasta dos turnos por día; pruebas en `hours.test.ts`), `geocode.ts` (geocodificador intercambiable), `format.ts`, `upload.ts`, `supabase.ts`.
-- `scripts/make-og.mjs`: regenera `public/og-default.png` desde `public/og-default.svg`.
+- `src/components/ReviewsSection.tsx`: reseñas de la tienda (`/n/[slug]`); `ContactForm.tsx`: formulario de `/contacto`.
+- `src/components/FavoriteButton.tsx`, `FavoritesList.tsx` y `src/lib/favorites*.ts`: Guardados (favoritos en el navegador, sin cuenta, con lista compartible).
+- `src/components/Logo.astro`, `GrowingBanner.astro` ("Estamos creciendo" cuando hay pocos resultados), `CookieConsent.astro` y `AdSlot.astro`.
+- `src/lib`: `brand.ts` (nombre, eslogan y datos legales de la marca), `hours.ts` (horarios con hasta dos turnos por día), `favorites.ts`, `geocode.ts` (geocodificador intercambiable), `format.ts`, `upload.ts`, `supabase.ts`.
+- `scripts/make-icons.mjs` y `scripts/make-og.mjs`: regeneran los iconos, el manifiesto y `public/og-default.png` desde `brand.ts`.
+- `docs/PILOTO.md`: plan del piloto (a quién invitar, mensajes, seguimiento). La guía de despliegue es [DEPLOY.md](DEPLOY.md).
+- `e2e`: pruebas de navegador con Playwright (`npm run test:e2e`); `qa-output` guarda capturas y resultados de QA (no se sube al repositorio).
 
 ## Pruebas
 
-`npm test` ejecuta las pruebas unitarias (Vitest) de los horarios. `npx astro check` revisa tipos y `npm run build` compila el sitio.
+`npm test` ejecuta las pruebas unitarias (Vitest, solo `src/**/*.test.ts`: horarios, favoritos, JSON-LD y enlaces de mapa; `vitest.config.ts` excluye `e2e/`). `npm run test:e2e` corre las pruebas de navegador (Playwright; levanta `astro dev` en `E2E_PORT`, por defecto 4399; usa respuestas simuladas para todo lo autenticado y solo lecturas contra Supabase). `npx astro check` revisa tipos y `npm run build` compila el sitio.

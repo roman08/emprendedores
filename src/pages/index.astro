@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import ListingCard from '../components/ListingCard.astro';
 import AdSlot from '../components/AdSlot.astro';
+import GrowingBanner from '../components/GrowingBanner.astro';
 import { supabase } from '../lib/supabase';
 
 const [{ data: categories }, { data: latest }] = await Promise.all([
@@ -38,7 +39,7 @@ const { data: towns } = await supabase.from('municipalities').select('name,slug,
       <h2 class="text-xl font-bold">Explora por categoría</h2>
       <div class="mt-4 flex flex-wrap gap-2">
         {(categories ?? []).map((c) => (
-          <a href={`/explorar?categoria=${c.slug}`} class="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand-500 hover:text-brand-700">{c.name}</a>
+          <a href={`/explorar?categoria=${c.slug}`} class="inline-flex min-h-11 items-center rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand-500 hover:text-brand-700">{c.name}</a>
         ))}
       </div>
     </section>
@@ -56,7 +57,7 @@ const { data: towns } = await supabase.from('municipalities').select('name,slug,
         <h2 class="text-xl font-bold">Explora por municipio</h2>
         <div class="mt-4 flex flex-wrap gap-2">
           {(towns ?? []).map((m: any) => m.states?.slug && (
-            <a href={`/${m.states.slug}/${m.slug}`} class="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand-500 hover:text-brand-700">{m.name}</a>
+            <a href={`/${m.states.slug}/${m.slug}`} class="inline-flex min-h-11 items-center rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand-500 hover:text-brand-700">{m.name}</a>
           ))}
         </div>
       </section>
@@ -76,6 +77,7 @@ const { data: towns } = await supabase.from('municipalities').select('name,slug,
           {(latest ?? []).map((l) => <ListingCard l={l} />)}
         </div>
       )}
+      {(latest ?? []).length < 8 && <GrowingBanner />}
     </section>
 
     <section class="my-16 card flex flex-col items-start gap-4 bg-brand-900 p-8 text-white sm:flex-row sm:items-center sm:justify-between">

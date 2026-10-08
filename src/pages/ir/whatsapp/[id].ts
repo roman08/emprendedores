@@ -3,6 +3,7 @@
 import type { APIRoute } from 'astro';
 import { supabase } from '../../../lib/supabase';
 import { waLink } from '../../../lib/format';
+import { BRAND } from '../../../lib/brand';
 import { isUuid, notFound, redirect, trackClick } from '../_shared';
 
 export const GET: APIRoute = async (ctx) => {
@@ -15,7 +16,7 @@ export const GET: APIRoute = async (ctx) => {
       .from('businesses').select('id,name,whatsapp').eq('id', negocio).eq('status', 'active').maybeSingle();
     if (!b) return notFound();
     await trackClick(ctx, 'whatsapp_click', { business: b.id });
-    return redirect(waLink(b.whatsapp, `Hola ${b.name}, los encontré en Emprendedores.`));
+    return redirect(waLink(b.whatsapp, `Hola ${b.name}, los encontré en ${BRAND.name}.`));
   }
 
   if (!isUuid(id)) return notFound();
@@ -28,6 +29,6 @@ export const GET: APIRoute = async (ctx) => {
   await trackClick(ctx, 'whatsapp_click', { listing: l.id, business: l.business_id });
   const soldOut = (l as any).availability === 'sold_out';
   return redirect(waLink(b.whatsapp, soldOut
-    ? `Hola ${b.name}, vi "${l.title}" en Emprendedores. ¿Cuándo volverá a estar disponible?`
-    : `Hola ${b.name}, vi "${l.title}" en Emprendedores y me interesa. ¿Está disponible?`));
+    ? `Hola ${b.name}, vi "${l.title}" en ${BRAND.name}. ¿Cuándo volverá a estar disponible?`
+    : `Hola ${b.name}, vi "${l.title}" en ${BRAND.name} y me interesa. ¿Está disponible?`));
 };

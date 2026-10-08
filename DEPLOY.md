@@ -66,20 +66,21 @@ Resumen: **código en GitHub -> sitio en Netlify -> base de datos en Supabase ->
 
 1. **URL de autenticación:** Authentication -> URL Configuration.
    - *Site URL:* `https://tudominio.com`
-   - *Redirect URLs:* `https://tudominio.com/**` (agrega también la URL `*.netlify.app` mientras pruebas y `http://localhost:4321/**` para desarrollo).
+   - *Redirect URLs:* `https://tudominio.com/**`. Para pruebas agrega la URL **exacta** de tu sitio de Netlify (`https://TU-SITIO.netlify.app/panel` y `https://TU-SITIO.netlify.app/restablecer`), **nunca** un comodín como `https://*.netlify.app/**` (cualquiera podría desplegar un sitio en ese dominio y recibir los enlaces de recuperación de contraseña de tus usuarios). `http://localhost:4321/**` solo en el proyecto de desarrollo, no en producción.
 2. **Correo propio (SMTP).** El correo de Supabase por defecto está muy limitado (pocos correos por hora) y no sirve para producción. Con Resend:
    1. Crea cuenta en <https://resend.com>, "Domains" -> "Add domain" y agrega tu dominio.
    2. Resend te dará registros DNS (SPF, DKIM). Créalos en el panel DNS de tu dominio y espera a que diga "Verified".
    3. "API Keys" -> crea una clave con permiso de envío.
    4. En Supabase: Authentication -> Emails -> SMTP Settings -> activa "Enable custom SMTP":
-      host `smtp.resend.com`, puerto `465`, usuario `resend`, contraseña = tu API key, remitente `no-reply@tudominio.com`, nombre "Emprendedores".
+      host `smtp.resend.com`, puerto `465`, usuario `resend`, contraseña = tu API key, remitente `no-reply@tudominio.com`, nombre "Por la Esquina".
 
    Con Brevo es igual: <https://www.brevo.com> -> SMTP & API -> host `smtp-relay.brevo.com`, puerto `587`, usuario y clave SMTP que te muestre Brevo, y verifica tu dominio/remitente.
 3. **Plantillas de correo:** Authentication -> Emails -> Templates. Traduce a español "Confirm signup", "Reset password" y "Magic link" (conserva las variables `{{ .ConfirmationURL }}`).
-4. **Reactivar la confirmación de correo:** Authentication -> Sign In / Providers -> Email -> activa "Confirm email". Si la desactivaste para pruebas, vuelve a activarla antes de abrir al público.
+4. **Reactivar la confirmación de correo (obligatorio antes de abrir al público):** Authentication -> Sign In / Providers -> Email -> activa "Confirm email". Si la desactivaste para pruebas, vuelve a activarla; con ella apagada cualquiera crea cuentas ilimitadas sin verificar su correo. En la misma pantalla sube la longitud mínima de contraseña a 8 o más y activa "Secure password change" (pide reautenticación reciente para cambiar la contraseña).
 5. **Captcha (opcional):** si usas Turnstile, activa también "Enable CAPTCHA protection" en Authentication -> Attack Protection con la *secret key*.
 6. **Plan y respaldos:** el plan gratuito pausa el proyecto tras una semana sin actividad y **no incluye respaldos descargables**. Para operar con negocios reales pasa a **Pro** (Organization -> Billing), que incluye respaldos diarios (Database -> Backups). Aun así, haz un respaldo propio periódico (ver sección G).
-7. Confirma que las migraciones `supabase/migrations/*.sql` están ejecutadas en orden y que el bucket de Storage existe con sus políticas.
+7. Confirma que las migraciones `supabase/migrations/*.sql` están ejecutadas en orden (`0001` a `0014`; la `0011` solo si existe) y que el bucket de Storage existe con sus políticas. Si ya tenías la base de pruebas, faltan por ejecutar `0013_contact.sql` (formulario de contacto) y `0014_reviews.sql` (reseñas), en ese orden. Mientras no estén, `/contacto` no puede enviar y las reseñas muestran un error.
+8. **Administrador:** deja un solo admin (ver la sección "Administrador" del [README](README.md)) y vuelve a entrar con esa cuenta.
 
 ## D. Dominio propio y HTTPS
 
@@ -94,14 +95,14 @@ Resumen: **código en GitHub -> sitio en Netlify -> base de datos en Supabase ->
 ### Google Search Console
 1. <https://search.google.com/search-console> -> agrega tu dominio y verifícalo con un registro DNS TXT.
 2. "Sitemaps" -> envía `https://tudominio.com/sitemap.xml`.
-3. Revisa en "Páginas" qué se indexa; `/panel`, `/admin`, `/ir/` y `/api/` están bloqueados en `robots.txt`.
+3. Revisa en "Páginas" qué se indexa; `/panel`, `/admin`, `/favoritos`, `/flyer`, `/ir/` y `/api/` están bloqueados en `robots.txt`.
 
 ### Plausible (analítica)
 1. Crea cuenta en <https://plausible.io> y agrega tu dominio como sitio.
 2. Define `PUBLIC_PLAUSIBLE_DOMAIN=tudominio.com` en Netlify y redespliega. El script **solo se carga si el visitante acepta la analítica** en el banner de cookies.
 
 ### Google AdSense (requisitos realistas)
-- Necesitas dominio propio, contenido original y útil (decenas de negocios con fichas completas, no páginas vacías), páginas de privacidad, términos y contacto **definitivas** (hoy son borradores: reemplázalas antes de solicitar), y navegación clara.
+- Necesitas dominio propio, contenido original y útil (decenas de negocios con fichas completas, no páginas vacías), páginas de privacidad, términos y contacto **definitivas** (ya están redactadas, pero completa tus datos en `src/lib/brand.ts` y pide que las revise un abogado antes de solicitar), y navegación clara.
 - Google revisa el sitio manualmente; suele tardar de días a semanas y puede rechazar por "contenido insuficiente". No hay un mínimo oficial de visitas, pero sin tráfico real los ingresos serán casi nulos y la aprobación, más difícil. Conviene tener el piloto andando y algo de tráfico orgánico.
 - Pasos: solicita la cuenta en <https://adsense.google.com>, agrega el sitio, y cuando lo aprueben crea un bloque de anuncios. Define `PUBLIC_ADS=1`, `PUBLIC_ADSENSE_CLIENT=ca-pub-...` y `PUBLIC_ADSENSE_SLOT=<id del bloque>`.
 - Los anuncios solo se cargan si el visitante acepta la categoría "Publicidad". Publica un archivo `ads.txt` en `public/` cuando AdSense te lo indique.
@@ -133,6 +134,10 @@ La política actual en `netlify.toml` es `Content-Security-Policy-Report-Only`: 
 - [ ] El banner de cookies aparece (si hay Plausible/AdSense), "Solo necesarias" no carga terceros (pestaña Network) y "Preferencias de cookies" en el pie lo reabre.
 - [ ] La clave `SUPABASE_SERVICE_ROLE_KEY` no aparece en el código fuente del navegador (Ver código fuente -> buscar "service_role").
 - [ ] Lighthouse (F12 -> Lighthouse) en móvil: revisa accesibilidad y rendimiento.
+- [ ] `/contacto`: envía un mensaje y aparece en Admin -> Mensajes. `/favoritos`, `/guia` y `/flyer` abren (el volante muestra el QR con tu dominio).
+- [ ] Reseñas: con una cuenta de cliente (con más de 10 minutos de antigüedad) deja una reseña en la tienda de otro negocio; el dueño la responde y el admin puede ocultarla.
+- [ ] En un celular angosto (360 px) el encabezado no se desborda.
+- [ ] Plan del piloto: [docs/PILOTO.md](docs/PILOTO.md).
 
 ### Respaldos
 - Plan Pro de Supabase: respaldos diarios automáticos (Database -> Backups).
@@ -144,3 +149,9 @@ La política actual en `netlify.toml` es `Content-Security-Policy-Report-Only`: 
 - **Variables:** si un cambio de variable rompe el sitio, vuelve al valor anterior y redespliega.
 - **Base de datos:** las migraciones no se deshacen solas. Antes de ejecutar una nueva en producción haz un respaldo; si falla, restaura desde Backups (Pro) o desde tu `respaldo.sql`.
 - **Emergencia:** para sacar el sitio del aire, en Netlify -> "Site configuration" -> "Danger zone" -> "Stop auto publishing" y/o publica una página de mantenimiento.
+
+## H. Identidad de marca
+- **Nombre, eslogan y datos legales:** edita solo `src/lib/brand.ts` (`BRAND`). Ahí también van `legalName`, `contactEmail`, `address` y `updatedAt`, que usan términos y privacidad. El dominio sale de `PUBLIC_SITE_URL` o `SITE_URL`.
+- **Colores:** tokens `--color-brand-*` en `src/styles/global.css` (con las razones de contraste documentadas). Si cambias `brand-600`, actualiza también `themeColor` en `brand.ts`.
+- **Iconos e imagen para compartir:** tras cambiar nombre o colores ejecuta `node scripts/make-icons.mjs` (favicon.ico, apple-touch-icon, icon-192/512 y site.webmanifest) y `node scripts/make-og.mjs` (og-default.png). El dibujo del logo está en `src/components/Logo.astro`, `public/favicon.svg` y `public/og-default.svg`; si lo rediseñas, cámbialo en los tres y en `make-icons.mjs`.
+- Después de desplegar, Facebook y WhatsApp guardan en caché la imagen anterior: límpiala con el depurador de Facebook.

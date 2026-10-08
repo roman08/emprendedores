@@ -16,8 +16,28 @@ export function waLink(number: string, text: string): string {
   return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 }
 
+/**
+ * Devuelve la URL solo si es https y de un servicio de mapas conocido (Google Maps, OpenStreetMap, Waze, Apple Maps).
+ * El enlace lo escribe el dueño del negocio y /ir/mapa redirige a él: sin lista blanca serviría para phishing con nuestro dominio.
+ * Debe coincidir con la restricción de businesses_antispam() en supabase/migrations/0011_qa_fixes.sql.
+ */
+export function safeMapsUrl(u: string | null | undefined): string | null {
+  if (!u) return null;
+  let url: URL;
+  try { url = new URL(u.trim()); } catch { return null; }
+  if (url.protocol !== 'https:' || url.username || url.password) return null;
+  const host = url.hostname.toLowerCase();
+  const path = url.pathname;
+  const google = /^(www[.])?google[.][a-z]{2,3}([.][a-z]{2})?$/.test(host) && path.startsWith('/maps');
+  const googleMapsHost = /^maps[.]google[.][a-z]{2,3}([.][a-z]{2})?$/.test(host);
+  const short = host === 'maps.app.goo.gl' || (host === 'goo.gl' && path.startsWith('/maps'));
+  const other = /^(www[.])?(openstreetmap[.]org|waze[.]com)$/.test(host) || host === 'maps.apple.com';
+  return google || googleMapsHost || short || other ? url.href : null;
+}
+
 export function mapsLink(b: { lat: number | null; lng: number | null; google_maps_url: string | null }) {
-  if (b.google_maps_url) return b.google_maps_url;
+  const safe = safeMapsUrl(b.google_maps_url);
+  if (safe) return safe;
   if (b.lat !== null && b.lng !== null) return `https://www.google.com/maps?q=${b.lat},${b.lng}`;
   return null;
 }
@@ -37,7 +57,12 @@ export function initials(name: string): string {
 
 /** JSON para <script type="application/ld+json">: escapa "<" para que un texto de usuario no pueda cerrar la etiqueta. */
 export function ldJson(data: unknown): string {
-  return JSON.stringify(data).replace(/</g, '\u003c');
+  return JSON.stringify(data)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
 }
 
 /** Valor seguro para un url() de CSS en línea: solo http(s) y con los caracteres especiales codificados. */

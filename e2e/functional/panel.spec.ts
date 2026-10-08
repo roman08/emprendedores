@@ -39,7 +39,7 @@ const storageHandler = ({ url, method }: { url: URL; method: string }) =>
 
 test.beforeEach(async ({ page }) => { await blockThirdParty(page); await seedSession(page); });
 
-async function openPanel(page: Page, handlers: Record<string, any> = {}, allowWrites: string[] = [], afterMock?: () => Promise<void>) {
+async function openPanel(page: Page, handlers: Record<string, any> = {}, allowWrites: string[] = [], afterMock?: () => Promise<unknown>) {
   const h: Record<string, any> = { 'rpc/my_stats': STATS, storage: storageHandler, ...handlers };
   if (h['GET listings'] !== undefined && h['HEAD listings'] === undefined) h['HEAD listings'] = h['GET listings'];
   const log = await mockRest(page, { handlers: h, allowWrites });
@@ -52,6 +52,12 @@ async function openPanel(page: Page, handlers: Record<string, any> = {}, allowWr
 
 test.describe('Panel: crear negocio', () => {
   const noBusiness = { 'GET businesses': [] as unknown[] };
+
+  test('a11y: los campos del formulario de negocio tienen etiqueta asociada', async ({ page }) => {
+    await openPanel(page, noBusiness);
+    await expect(page.getByLabel('Nombre del negocio *')).toBeVisible({ timeout: 3000 });
+    await expect(page.getByLabel('Descripción')).toBeVisible({ timeout: 3000 });
+  });
 
   test('sin negocio: muestra formulario de alta y la zona de cuenta', async ({ page }) => {
     const w = watch(page);
@@ -322,8 +328,7 @@ test.describe('Panel: publicaciones', () => {
     await expect(page.getByRole('link', { name: 'Ver publicación' })).toHaveAttribute('href', '/p/pastel-de-prueba-x1');
   });
 
-  test('BUG: "Publicar" no valida titulo/precio (type=button se salta la validacion HTML)', async ({ page }) => {
-    test.fail(true, 'ListingsManager.tsx: el boton Publicar es type=button y llama save() sin respetar required/minLength/min');
+  test('"Publicar" valida titulo/precio (type=button se salta la validacion HTML)', async ({ page }) => {
     const log = await openPanel(page, {
       'GET listings': [], 'POST listings': () => ({ id: FAKE_LISTING_ID, slug: 'x' }), 'POST listing_images': () => ({ id: 'i1' }), 'PATCH listings': [],
     }, ['POST listings', 'POST listing_images', 'PATCH listings', 'POST storage']);
@@ -463,12 +468,13 @@ test.describe('Panel: cuenta', () => {
 });
 
 test.describe('Panel: movil', () => {
-  test('sin desbordamiento horizontal en 390px (panel con negocio)', async ({ page }) => {
+  test('la barra de pestanas del panel no desborda en 390px', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await openPanel(page, { 'GET listings': [] });
     await page.getByRole('tab', { name: 'Mi negocio' }).click();
-    // El header desborda por el bug de .btn/hidden (ver session-auth.spec.ts); aqui solo se revisa el contenido de <main>
-    const right = await page.evaluate(() => Math.max(...Array.from(document.querySelectorAll('main *')).map((e) => e.getBoundingClientRect().right)));
-    expect(right).toBeLessThanOrEqual(391);
+    // La barra de pestanas hace scroll interno (overflow-x-auto): ni ella ni la pagina deben desbordar la pantalla
+    const m = await page.evaluate(() => ({ tabs: document.querySelector('[role=tablist]')!.getBoundingClientRect().right, page: document.documentElement.scrollWidth }));
+    expect(m.tabs).toBeLessThanOrEqual(391);
+    expect(m.page).toBeLessThanOrEqual(390);
   });
 });

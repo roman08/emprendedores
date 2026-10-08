@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactForm from '../components/ContactForm.tsx';
+import { BRAND } from '../lib/brand';
+
+const kind = Astro.url.searchParams.get('tipo') ?? undefined;
+---
+<Base title="Contacto" description={`Escríbenos para resolver dudas, reportar un problema o ejercer tus derechos sobre tus datos personales en ${BRAND.name}.`}>
+  <div class="mx-auto max-w-2xl px-4 py-12">
+    <h1 class="text-3xl font-extrabold">Contacto</h1>
+    <p class="mt-3 text-muted">
+      ¿Tienes una duda, quieres reportar un problema, ejercer tus derechos sobre tus datos personales (ARCO) o hablar de publicidad?
+      Escríbenos con este formulario.{BRAND.contactEmail && <> También puedes escribir a <a class="font-semibold text-brand-700" href={`mailto:${BRAND.contactEmail}`}>{BRAND.contactEmail}</a>.</>}
+    </p>
+    <div class="mt-8">
+      <ContactForm client:load initialKind={kind} />
+    </div>
+    <p class="mt-6 text-sm text-muted">
+      Usamos tus datos solo para atender tu solicitud, como se explica en el <a class="font-semibold text-brand-700" href="/privacidad">Aviso de privacidad</a>.
+      Para reportar una publicación concreta, usa la opción de reporte dentro de la propia publicación.
+    </p>
+  </div>
+</Base>

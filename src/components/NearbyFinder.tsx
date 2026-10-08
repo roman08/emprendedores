@@ -3,6 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import { supabase } from '../lib/supabase';
 import { openStatus, parseHours } from '../lib/hours';
 import { initials, safeHttpUrl } from '../lib/format';
+import VerifiedBadge from './VerifiedBadge';
 
 interface Cat { id: number; name: string }
 interface Muni { id: number; name: string; lat: number | null; lng: number | null }
@@ -204,7 +205,7 @@ function ResultCard({ b }: { b: Business }) {
         <div className="min-w-0 flex-1">
           <p className="truncate font-semibold">
             {b.name}
-            {b.verified && <span className="ml-2 rounded-full bg-brand-50 px-2 py-0.5 text-xs text-brand-700">Verificado</span>}
+            {b.verified && <VerifiedBadge size={18} className="ml-1.5" />}
           </p>
           <p className="truncate text-xs text-muted">
             {b.municipality_name ?? 'Tabasco'} · {fmtDistance(b.distance_km)}
@@ -249,7 +250,7 @@ function ResultsMap({ origin, results }: { origin: Origin; results: Business[] }
       const points: [number, number][] = [[origin.lat, origin.lng]];
       L.circleMarker([origin.lat, origin.lng], { radius: 9, color: '#1d4ed8', fillColor: '#3b82f6', fillOpacity: 0.9 })
         .addTo(map)
-        .bindPopup(origin.label === 'tu ubicación' ? 'Tu ubicación' : `Centro de ${origin.label.replace('el centro de ', '')}`);
+        .bindPopup(Object.assign(document.createElement('strong'), { textContent: origin.label === 'tu ubicación' ? 'Tu ubicación' : `Centro de ${origin.label.replace('el centro de ', '')}` }));
 
       for (const b of results) {
         points.push([b.lat, b.lng]);

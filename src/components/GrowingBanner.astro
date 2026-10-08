@@ -1,0 +1,16 @@
+---
+// Bloque "Estamos creciendo": se muestra mientras haya pocas publicaciones para invitar a más negocios.
+import { BRAND } from '../lib/brand';
+const guia = new URL('/guia', Astro.site ?? Astro.url.origin).href;
+const wa = `https://wa.me/?text=${encodeURIComponent(`Hola, ya puedes publicar gratis tu negocio en ${BRAND.name} y recibir clientes por WhatsApp. Aquí te explico cómo: ${guia}`)}`;
+---
+<section class="card mt-8 flex flex-col items-start gap-4 border-brand-100 bg-brand-50 p-6 sm:flex-row sm:items-center sm:justify-between" aria-labelledby="growing-title">
+  <div class="max-w-xl">
+    <h2 id="growing-title" class="text-xl font-bold text-brand-900">Estamos creciendo</h2>
+    <p class="mt-1 text-muted">Invita a tu negocio favorito a publicar gratis. Mientras más negocios haya, más fácil es encontrar lo que buscas cerca de ti.</p>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <a href={wa} target="_blank" rel="noopener noreferrer" class="btn btn-wa">Invitar por WhatsApp</a>
+    <a href="/flyer" class="btn btn-outline">Ver volante</a>
+  </div>
+</section>

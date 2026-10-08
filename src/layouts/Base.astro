@@ -3,10 +3,12 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieConsent from '../components/CookieConsent.astro';
+import PwaInstall from '../components/PwaInstall.astro';
+import { BRAND, pageTitle } from '../lib/brand';
 
 interface Props { title?: string; description?: string; image?: string; noindex?: boolean; bare?: boolean }
-const { title, description = 'Descubre negocios, productos y servicios de emprendedores locales y contáctalos directo por WhatsApp.', image, noindex = false, bare = false } = Astro.props;
-const fullTitle = title ? `${title} · Emprendedores` : 'Emprendedores · Negocios locales a un mensaje';
+const { title, description = BRAND.description, image, noindex = false, bare = false } = Astro.props;
+const fullTitle = pageTitle(title);
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
 const ogDefault = new URL('/og-default.png',Astro.site ?? Astro.url.origin).href;
 ---
@@ -14,11 +16,23 @@ const ogDefault = new URL('/og-default.png',Astro.site ?? Astro.url.origin).href
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content={BRAND.themeColor} />
+    <!-- App instalable en iPhone/iPad (Safari ignora parte del manifiesto) -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content={BRAND.shortName} />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="application-name" content={BRAND.shortName} />
+    <meta property="og:site_name" content={BRAND.name} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -44,6 +58,7 @@ const ogDefault = new URL('/og-default.png',Astro.site ?? Astro.url.origin).href
     <main class="flex-1"><slot /></main>
     {!bare && <Footer />}
     <CookieConsent />
+    <PwaInstall />
     <script>import '../lib/authUi';</script>
   </body>
 </html>

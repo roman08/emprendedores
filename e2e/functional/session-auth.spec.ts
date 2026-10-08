@@ -1,7 +1,9 @@
 import { test, expect, type Page } from '@playwright/test';
 import { watch, blockThirdParty, seedSession, mockRestAll, hydrated } from './helpers';
 
-test.beforeEach(async ({ page }) => { await blockThirdParty(page); });
+test.beforeEach(async ({ page }) => {
+  await blockThirdParty(page);
+});
 
 /** Responde a /auth/v1/* con (status, body) y registra las llamadas. NUNCA llega a Supabase real. */
 async function mockAuth(page: Page, respond: (path: string, body: any) => { status: number; body: unknown }) {
@@ -60,9 +62,17 @@ test.describe('Header segun sesion', () => {
     await expect(page.locator('header nav').getByRole('link', { name: 'Ingresar' })).toBeVisible();
   });
 
-  test('BUG: en movil (360px) el header no desborda horizontalmente', async ({ page }) => {
-    // Bug confirmado: .btn (global.css, sin @layer) pisa la utilidad 'hidden' => Explorar y Cerca de mi se ven siempre.
-    test.fail(true, 'global.css: .btn fuera de @layer anula hidden sm:inline-flex');
+  test('con sesion, Mi panel y Salir caben en la pantalla de 390px', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await seedSession(page);
+    await mockRestAll(page);
+    await page.goto('/como-funciona');
+    const box = await page.locator('header').getByRole('button', { name: 'Salir' }).boundingBox();
+    expect(box!.x + box!.width).toBeLessThanOrEqual(390);
+  });
+
+  test('en movil (360px) el header no desborda horizontalmente', async ({ page }) => {
+    // Regresion corregida: .btn (global.css) estaba fuera de @layer y pisaba la utilidad 'hidden' => Explorar y Cerca de mi se veian siempre.
     await page.setViewportSize({ width: 360, height: 740 });
     await page.goto('/');
     const sw = await page.evaluate(() => document.documentElement.scrollWidth);

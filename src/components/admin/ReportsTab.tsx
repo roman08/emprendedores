@@ -12,7 +12,7 @@ export default function ReportsTab() {
   const term = likeTerm(useDebounced(q));
   const { items, total, page, setPage, loading, reload } = usePaged<any>((from, to) => {
     let query = supabase.from('reports')
-      .select('id,reason,details,resolved,created_at,listing_id,business_id,listings(id,title,slug,status,business_id,businesses(id,name,slug,status)),businesses(id,name,slug,status)', { count: 'exact' })
+      .select('id,reason,details,resolved,created_at,listing_id,business_id,review_id,reviews(id,rating,body,status),listings(id,title,slug,status,business_id,businesses(id,name,slug,status)),businesses(id,name,slug,status)', { count: 'exact' })
       .eq('resolved', showResolved);
     if (term) query = query.or(`reason.ilike.%${term}%,details.ilike.%${term}%`);
     return query.order('created_at', { ascending: false }).range(from, to);
@@ -89,8 +89,12 @@ export default function ReportsTab() {
                 </div>
                 {r.details && <p className="mt-2 whitespace-pre-line rounded-xl bg-surface p-3 text-sm">{r.details}</p>}
                 <p className="mt-3 text-sm">
-                  <span className="text-muted">{l ? 'Publicación: ' : 'Negocio: '}</span>
-                  {l ? (
+                  <span className="text-muted">{r.review_id ? 'Reseña: ' : l ? 'Publicación: ' : 'Negocio: '}</span>
+                  {r.review_id ? (
+                    r.reviews
+                      ? <a href={`/admin#reviews/${r.review_id}`} className="font-medium text-brand-700 hover:underline">Ver reseña de {r.reviews.rating} {r.reviews.rating === 1 ? 'estrella' : 'estrellas'}{r.reviews.status === 'hidden' ? ' (oculta)' : ''} para moderar</a>
+                      : <span className="text-muted">contenido eliminado</span>
+                  ) : l ? (
                     l.status === 'published'
                       ? <a href={`/p/${l.slug}`} target="_blank" rel="noopener" className="font-medium text-brand-700 hover:underline">{l.title}</a>
                       : <span className="font-medium">{l.title} <span className="text-xs text-muted">({l.status === 'paused' ? 'pausada' : 'no publicada'})</span></span>

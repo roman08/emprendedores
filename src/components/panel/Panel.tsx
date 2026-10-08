@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
+import { BRAND } from '../../lib/brand';
 import BusinessForm from './BusinessForm';
 import ListingsManager from './ListingsManager';
 import Checklist, { readShared, markShared } from './Checklist';
@@ -85,13 +86,22 @@ export default function Panel() {
       ) : (
         <>
           <Checklist business={business} shared={shared} refreshKey={tab} onGo={setTab} />
-          <div role="tablist" className="mb-6 flex gap-1 border-b border-line">
+          <div role="tablist" className="mb-6 flex gap-1 overflow-x-auto border-b border-line">
             {tabs.map(([k, label]) => (
               <button key={k} role="tab" aria-selected={tab === k} onClick={() => setTab(k)}
-                className={`-mb-px border-b-2 px-4 py-2.5 text-sm font-semibold ${tab === k ? 'border-brand-600 text-brand-700' : 'border-transparent text-muted hover:text-ink'}`}>{label}</button>
+                className={`-mb-px min-h-11 whitespace-nowrap border-b-2 px-4 py-2.5 text-sm font-semibold ${tab === k ? 'border-brand-600 text-brand-700' : 'border-transparent text-muted hover:text-ink'}`}>{label}</button>
             ))}
           </div>
           {tab === 'listings' && <ShareCard business={business} onShared={() => { markShared(business.id); setShared(true); }} />}
+          {tab === 'listings' && (
+            <p className="mb-6 text-sm text-muted">
+              ¿Conoces a otro emprendedor?{' '}
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(`Hola, publiqué mi negocio gratis en ${BRAND.name} y me está funcionando. Aquí te explico cómo hacerlo: ${location.origin}/guia`)}`}
+                target="_blank" rel="noopener noreferrer"
+                className="font-semibold text-brand-700 underline">Invitarlo por WhatsApp</a>
+            </p>
+          )}
           {tab === 'listings' && <ListingsManager userId={userId} businessId={business.id} categories={categories} />}
           {tab === 'business' && <BusinessForm userId={userId} business={business} municipalities={municipalities} onSaved={setBusiness} />}
           {tab === 'stats' && <Stats businessId={business.id} />}

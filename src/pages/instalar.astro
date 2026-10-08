@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import { BRAND } from '../lib/brand';
+---
+<Base title="Instala la app" description={`Instala ${BRAND.name} en tu celular o computadora: ábrela desde tu pantalla de inicio, sin descargar nada de una tienda de apps.`}>
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-extrabold tracking-tight">Instala {BRAND.name} en tu celular</h1>
+    <p class="mt-3 text-lg text-muted">Es gratis, no ocupa casi espacio y no necesitas una tienda de apps. Se abre como cualquier app, desde tu pantalla de inicio.</p>
+
+    <div class="card mt-8 p-6" id="install-now" hidden>
+      <p class="font-semibold">Tu dispositivo permite instalarla ahora mismo.</p>
+      <button type="button" data-install hidden class="btn btn-primary mt-4">Instalar la app</button>
+    </div>
+    <p id="install-done" hidden class="mt-8 rounded-xl bg-brand-50 px-4 py-3 text-sm text-brand-800">Ya estás usando la app instalada. ¡Gracias!</p>
+
+    <section class="mt-10">
+      <h2 class="text-xl font-bold">Android (Chrome)</h2>
+      <ol class="mt-3 list-decimal space-y-2 pl-5">
+        <li>Abre {BRAND.name} en Chrome.</li>
+        <li>Toca el botón <strong>Instalar</strong> de esta página, o el menú <strong>⋮</strong> y luego <strong>Instalar aplicación</strong> (o «Agregar a la pantalla principal»).</li>
+        <li>Confirma. Verás el ícono junto a tus demás apps.</li>
+      </ol>
+    </section>
+
+    <section class="mt-8">
+      <h2 class="text-xl font-bold">iPhone y iPad (Safari)</h2>
+      <ol class="mt-3 list-decimal space-y-2 pl-5">
+        <li>Abre {BRAND.name} en <strong>Safari</strong> (no funciona desde otros navegadores en iOS antiguos).</li>
+        <li>Toca <strong>Compartir</strong> (el cuadro con una flecha hacia arriba).</li>
+        <li>Elige <strong>Agregar a inicio</strong> y luego <strong>Agregar</strong>.</li>
+      </ol>
+    </section>
+
+    <section class="mt-8">
+      <h2 class="text-xl font-bold">Computadora (Chrome o Edge)</h2>
+      <p class="mt-3">Busca el ícono de instalar <strong>⊕</strong> en la barra de direcciones, o abre el menú y elige <strong>Instalar {BRAND.name}</strong>.</p>
+    </section>
+
+    <section class="mt-10 rounded-2xl bg-surface p-6">
+      <h2 class="text-lg font-bold">¿Qué gano al instalarla?</h2>
+      <ul class="mt-3 list-disc space-y-1 pl-5 text-muted">
+        <li>Acceso en un toque, sin buscar la dirección.</li>
+        <li>Pantalla completa, sin la barra del navegador.</li>
+        <li>Las páginas que ya visitaste abren aunque no tengas internet.</li>
+        <li>Accesos directos: mantén pulsado el ícono para ir a «Cerca de mí», «Explorar» o tus guardados.</li>
+      </ul>
+    </section>
+  </div>
+</Base>
+
+<script>
+  // Esta página muestra el bloque de instalación solo si el navegador lo permite y la app aún no está instalada
+  import { isStandalone } from '../lib/pwa';
+  const now = document.getElementById('install-now');
+  const done = document.getElementById('install-done');
+  if (isStandalone()) {
+    done?.removeAttribute('hidden');
+  } else if (now) {
+    // pwa.ts (cargado desde el layout) muestra u oculta el botón [data-install]; el contenedor sigue su estado
+    const btn = now.querySelector<HTMLElement>('[data-install]');
+    if (btn) {
+      const sync = () => { now.hidden = btn.hidden; };
+      new MutationObserver(sync).observe(btn, { attributes: true, attributeFilter: ['hidden'] });
+      sync();
+    }
+  }
+</script>

@@ -1,16 +1,19 @@
 // Utilidades de las rutas /ir/* (redirecciones con registro de clics). El prefijo "_" evita que Astro lo trate como ruta.
 import { createClient } from '@supabase/supabase-js';
 import type { APIContext } from 'astro';
+import { getSecret } from 'astro:env/server';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const BOTS = /bot|crawler|spider|preview|facebookexternalhit|whatsapp|slurp|curl|wget|headless/i;
 
 export const isUuid = (v: string | null | undefined): v is string => !!v && UUID.test(v);
 
-/** Variables privadas: en Netlify llegan por process.env en tiempo de ejecución. */
-function privateEnv(name: string): string | undefined {
-  return (import.meta.env as Record<string, string | undefined>)[name]
-    ?? (globalThis as any).process?.env?.[name];
+/**
+ * Variables privadas (declaradas como secretos de servidor en astro.config.mjs): astro:env las lee en tiempo de
+ * ejecución (process.env en Netlify, .env en desarrollo) y no las incrusta en el bundle.
+ */
+function privateEnv(name: 'SUPABASE_SERVICE_ROLE_KEY' | 'VISITOR_SALT'): string | undefined {
+  return getSecret(name) || undefined;
 }
 
 /** 404 amigable (HTML simple, sin indexar). */

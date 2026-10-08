@@ -4,27 +4,50 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --color-brand-50: #eefbf8;
   --color-brand-100: #d3f5ee;
+  --color-brand-200: #a8eadc;
+  --color-brand-300: #6fd8c3;
+  --color-brand-400: #3bbfa5;
   --color-brand-500: #14a38b;
   --color-brand-600: #0e8571;
   --color-brand-700: #0f6b5c;
+  --color-brand-800: #0d5348;
   --color-brand-900: #0b3b34;
   --color-ink: #14212b;
   --color-muted: #5d6b76;
   --color-line: #e5eaee;
   --color-surface: #f6f8f9;
   --color-accent: #f59e0b;
+  /* Contraste WCAG (texto/fondo): blanco sobre brand-600 4.55:1 y sobre brand-700 6.41:1 (AA);
+     muted sobre blanco 5.48:1 y sobre surface 5.15:1; brand-900 sobre brand-50 11.7:1;
+     blanco sobre --color-wa 5.41:1 y sobre --color-wa-dark 6.71:1.
+     brand-100..400 son solo para fondos y bordes decorativos, no para texto. */
+  --color-wa: #0f7a40;
+  --color-wa-dark: #0b6a37;
 }
 
 html { scroll-behavior: smooth; }
+/* App instalada (sin barra del navegador): respeta la muesca y la barra inferior del celular */
+@media (display-mode: standalone) {
+  body { padding-bottom: env(safe-area-inset-bottom); }
+  body > header, body header.sticky { padding-top: env(safe-area-inset-top); }
+}
 html[data-auth="in"] [data-guest] { display: none !important; }
 html:not([data-auth="in"]) [data-user] { display: none !important; }
 body { @apply bg-surface text-ink antialiased; }
 
-.btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 disabled:opacity-50; }
-.btn-primary { @apply bg-brand-600 text-white hover:bg-brand-700; }
-.btn-ghost { @apply border border-line bg-white text-ink hover:bg-surface; }
-.btn-outline { @apply border-2 border-brand-600 bg-white text-brand-700 hover:bg-brand-600 hover:text-white; }
-.btn-wa { @apply bg-[#25D366] text-white hover:bg-[#1fb957]; }
-.input { @apply w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100; }
-.label { @apply mb-1.5 block text-sm font-medium; }
-.card { @apply rounded-2xl border border-line bg-white shadow-sm; }
+/* Componentes en @layer components: las utilidades de Tailwind (hidden, bg-brand-900, !py-1.5...) siempre les ganan.
+   Fuera de la capa, .btn/.card (sin capa) pisaban a "hidden sm:inline-flex" y a "bg-brand-900". */
+@layer components {
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 disabled:opacity-50; }
+  .btn-primary { @apply bg-brand-600 text-white hover:bg-brand-700; }
+  .btn-ghost { @apply border border-line bg-white text-ink hover:bg-surface; }
+  .btn-outline { @apply border-2 border-brand-600 bg-white text-brand-700 hover:bg-brand-600 hover:text-white; }
+  .btn-wa { @apply bg-wa text-white hover:bg-wa-dark; }
+  .input { @apply w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100; }
+  .label { @apply mb-1.5 block text-sm font-medium; }
+  .card { @apply rounded-2xl border border-line bg-white shadow-sm; }
+  /* Objetivos táctiles de 44 px en móvil (WCAG 2.5.8) */
+  @media (max-width: 639px) {
+    .btn { min-height: 2.75rem; }
+  }
+}

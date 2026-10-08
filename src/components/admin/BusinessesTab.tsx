@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../../lib/supabase';
+import VerifiedBadge from '../VerifiedBadge';
 import { Pagination, likeTerm, listingImagePaths, removePaths, storagePath, useConfirm, useDebounced, useNotice, usePaged } from './shared';
 
 type Filter = 'all' | 'active' | 'suspended' | 'verified';
@@ -14,7 +15,7 @@ export default function BusinessesTab() {
   const term = likeTerm(useDebounced(q));
   const { items, setItems, total, page, setPage, loading, reload } = usePaged<any>((from, to) => {
     let query = supabase.from('businesses')
-      .select('id,name,slug,status,verified,logo_url,banner_url,created_at,municipalities(name)', { count: 'exact' });
+      .select('id,owner_id,name,slug,status,verified,logo_url,banner_url,created_at,municipalities(name)', { count: 'exact' });
     if (term) query = query.or(`name.ilike.%${term}%,slug.ilike.%${term}%`);
     if (filter === 'verified') query = query.eq('verified', true);
     else if (filter !== 'all') query = query.eq('status', filter);
@@ -51,8 +52,8 @@ export default function BusinessesTab() {
       const { data: ls, error: e1 } = await supabase.from('listings').select('id,status').eq('business_id', b.id);
       if (e1) throw e1;
       const ids = (ls ?? []).map((l) => l.id as string);
-      const media = [b.logo_url, b.banner_url].map((u) => storagePath('business-media', u)).filter((p): p is string => !!p);
-      const photos = await listingImagePaths(ids);
+      const media = [b.logo_url, b.banner_url].map((u) => storagePath('business-media', u, b.owner_id ?? null)).filter((p): p is string => !!p);
+      const photos = await listingImagePaths(ids, b.owner_id ?? null);
       // Pausar primero para que el guard de "última foto" no bloquee el borrado en cascada
       if ((ls ?? []).some((l) => l.status === 'published')) {
         const { error } = await supabase.from('listings').update({ status: 'paused' }).eq('business_id', b.id);
@@ -96,7 +97,7 @@ export default function BusinessesTab() {
             <li key={b.id} className="card flex flex-wrap items-center justify-between gap-3 p-4">
               <div className="min-w-0">
                 <a href={`/n/${b.slug}`} target="_blank" rel="noopener" className="font-semibold hover:underline">{b.name}</a>
-                {b.verified && <span title="Verificado" className="ml-1 text-brand-600">✔<span className="sr-only"> Verificado</span></span>}
+                {b.verified && <VerifiedBadge size={16} className="ml-1" />}
                 <p className="text-xs text-muted">
                   {b.municipalities?.name ?? 'Tabasco'} · {new Date(b.created_at).toLocaleDateString('es-MX')}
                   <span className={`ml-2 rounded-full px-2 py-0.5 font-semibold ${b.status === 'active' ? 'bg-brand-50 text-brand-700' : 'bg-red-50 text-red-700'}`}>

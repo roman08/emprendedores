@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type SyntheticEvent } from 'react';
 import { supabase } from '../../lib/supabase';
 import { formatPrice } from '../../lib/format';
+import { BRAND } from '../../lib/brand';
 import { uploadImage, removeImage } from '../../lib/upload';
 import ShareMenu from './SocialShare';
 
@@ -86,21 +87,23 @@ export default function ListingsManager({ userId, businessId, categories }: {
               <li key={l.id} className="card flex flex-wrap items-center gap-3 p-3 sm:flex-nowrap sm:gap-4">
                 <div className="h-16 w-20 shrink-0 overflow-hidden rounded-xl bg-surface">{img && <img src={img} alt="" className={`h-full w-full object-cover ${l.availability === 'sold_out' ? 'opacity-50 grayscale' : ''}`} />}</div>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate font-semibold">{l.title}</p>
+                  <p className="line-clamp-2 font-semibold sm:truncate">{l.title}</p>
                   <p className="text-sm text-muted">{formatPrice(l.price)} · <span className={`rounded-full px-2 py-0.5 text-xs ${badge[l.status]}`}>{label[l.status]}</span>
                     {l.availability && l.availability !== 'available' && <span className="ml-1 rounded-full bg-surface px-2 py-0.5 text-xs">{AVAILABILITY[l.availability]}</span>}</p>
                 </div>
+                <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:flex-nowrap">
                 {l.status === 'published' && <a href={`/p/${l.slug}`} target="_blank" className="btn btn-ghost hidden sm:inline-flex">Ver</a>}
                 {l.status === 'published' && (
                   <ShareMenu data={{
                     url: `${location.origin}/p/${l.slug}`,
                     title: l.title,
-                    text: `${l.title} · ${formatPrice(l.price)}. Mira esta publicación en Emprendedores:`,
+                    text: `${l.title} · ${formatPrice(l.price)}. Mira esta publicación en ${BRAND.name}:`,
                   }} />
                 )}
                 <button className="btn btn-ghost" onClick={() => toggle(l)}>{l.status === 'published' ? 'Pausar' : 'Publicar'}</button>
                 <button className="btn btn-ghost" onClick={() => { setNotice(null); setEditing(l); }}>Editar</button>
                 <button className="btn btn-ghost !text-red-600" onClick={() => remove(l)}>Borrar</button>
+                </div>
               </li>
             );
           })}
@@ -189,11 +192,15 @@ function ListingForm({ userId, businessId, categories, listing, onDone }: {
   async function save(e: SyntheticEvent, publish: boolean) {
     e.preventDefault();
     setError('');
+    // "Publicar" es un botón type="button": no pasa por la validación nativa del formulario, se valida aquí
+    const title = f.title.trim();
+    if (title.length < 3 || title.length > 120) return setError('El título debe tener entre 3 y 120 caracteres.');
+    if (f.price !== '' && (!Number.isFinite(Number(f.price)) || Number(f.price) < 0)) return setError('El precio no puede ser negativo.');
     if (publish && total === 0) return setError('Agrega al menos una foto para publicar.');
     setBusy(true);
     try {
       const row = {
-        title: f.title.trim(),
+        title,
         description: f.description.trim() || null,
         type: f.type,
         price: f.price === '' ? null : Number(f.price),
