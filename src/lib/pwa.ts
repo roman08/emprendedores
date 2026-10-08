@@ -37,11 +37,11 @@ function isIOSSafari(): boolean {
 }
 
 export function initPwa() {
-  // 1) Service worker, solo en producción para no cachear mientras se desarrolla
+  // 1) Service worker, solo en producción para no cachear mientras se desarrolla.
+  // Se registra de inmediato (no al evento "load"): el navegador solo ofrece "Instalar app" cuando el SW ya está activo,
+  // y esperar a que terminen de cargar fotos y mapas retrasaba esa opción varios segundos en el celular.
   if ('serviceWorker' in navigator && import.meta.env.PROD) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js').catch(() => { /* sin SW la web funciona igual */ });
-    });
+    navigator.serviceWorker.register('/sw.js').catch(() => { /* sin SW la web funciona igual */ });
   }
 
   // 2) Visitas (para decidir cuándo mostrar el aviso)
