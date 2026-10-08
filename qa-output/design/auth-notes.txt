@@ -1,0 +1,21 @@
+m panel overflow 530,390
+m panel-negocio overflow 530,390
+m panel-stats overflow 530,390
+m panel-cuenta overflow 530,390
+m panel blocked writes: 0
+m admin overflow 530,390
+m admin-negocios overflow 530,390
+m admin-publicaciones overflow 530,390
+m admin-reportes overflow 530,390
+m admin blocked writes: 0
+d panel overflow 1280,1280
+d panel-negocio overflow 1280,1280
+d panel-stats overflow 1280,1280
+d panel-cuenta overflow 1280,1280
+d panel blocked writes: 0
+d admin overflow 1280,1280
+d admin-negocios overflow 1280,1280
+d admin-publicaciones overflow 1280,1280
+d admin-reportes overflow 1280,1280
+d admin blocked writes: 0
+FOCO: A:EEmprendedores outline=auto/1px shadow=false | INPUT:q outline=none/1px shadow=true | A:Explorar outline=solid/2px shadow=false | A:Cerca de mí outline=solid/2px shadow=false | A:Ingresar outline=solid/2px shadow=false | A:Publica gratis outline=solid/2px shadow=false | BUTTON:Continuar con Goog outline=solid/2px shadow=false | INPUT: outline=none/1px shadow=true | A:¿Olvidaste tu cont outline=auto/1px shadow=false

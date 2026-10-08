@@ -1,0 +1,2260 @@
+{
+ "report": [
+  {
+   "name": "home",
+   "vk": "m",
+   "status": 200,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "A:Comida y bebidas 154x38",
+    "A:Repostería y pasteles 178x38",
+    "A:Ropa y calzado 136x38",
+    "A:Belleza y cuidado persona 213x38",
+    "A:Hogar y decoración 166x38",
+    "A:Artesanías 105x38",
+    "A:Tecnología y reparaciones 211x38",
+    "A:Servicios profesionales 190x38",
+    "A:Educación y clases 163x38",
+    "A:Eventos y fiestas 148x38",
+    "A:Construcción y oficios 184x38",
+    "A:Mascotas 99x38",
+    "A:Salud y bienestar 150x38",
+    "A:Campo y agro 128x38",
+    "A:Otros 71x38",
+    "A:Ver negocios cerca de mí 203x40",
+    "A:Comalcalco 113x38",
+    "A:Cunduacán 111x38",
+    "A:Jalpa de Méndez 149x38",
+    "A:Nacajuca 97x38",
+    "A:Paraíso 84x38",
+    "A:Villahermosa 121x38",
+    "A:Ver todo → 73x20",
+    "A:Empezar ahora 134x40",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 38,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "lazy",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 169,
+     "rh": 127,
+     "fit": "cover"
+    }
+   ],
+   "title": "Emprendedores · Negocios locales a un mensaje",
+   "h1": 1
+  },
+  {
+   "name": "explorar",
+   "vk": "m",
+   "status": 200,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "INPUT:Buscar 324x42",
+    "SELECT:Todas las categoríasComid 324x41",
+    "SELECT:Todo TabascoComalcalcoCun 324x41",
+    "SELECT:TodoProductosServicios 244x41",
+    "BUTTON:Filtrar 72x41",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 19,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "lazy",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 169,
+     "rh": 127,
+     "fit": "cover"
+    }
+   ],
+   "title": "Explorar · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "explorar-sinres",
+   "vk": "m",
+   "status": 200,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "INPUT:Buscar 324x42",
+    "SELECT:Todas las categoríasComid 324x41",
+    "SELECT:Todo TabascoComalcalcoCun 324x41",
+    "SELECT:TodoProductosServicios 244x41",
+    "BUTTON:Filtrar 72x41",
+    "A:Comida y bebidas 155x42",
+    "A:Repostería y pasteles 179x42",
+    "A:Ropa y calzado 137x42",
+    "A:Belleza y cuidado persona 215x42",
+    "A:Hogar y decoración 167x42",
+    "A:Artesanías 107x42",
+    "A:Tecnología y reparaciones 212x42",
+    "A:Servicios profesionales 193x42",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 27,
+   "imgs": [],
+   "title": "Explorar · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "ficha",
+   "vk": "m",
+   "status": 200,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "A:Explorar 55x17",
+    "A:Comida y bebidas 119x17",
+    "A:Compartir por WhatsApp 201x36",
+    "BUTTON:Copiar enlace 129x40",
+    "A:Cómo llegar 324x42",
+    "BUTTON:Reportar esta publicación 165x16",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 20,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 356,
+     "rh": 267,
+     "fit": "cover"
+    }
+   ],
+   "title": "Tacos de canasta · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "tienda",
+   "vk": "m",
+   "status": 200,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary",
+    "IMG.leaflet-tile leaflet-tile-loaded",
+    "IMG.leaflet-tile leaflet-tile-loaded"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "A:Escribir por WhatsApp 358x40",
+    "A:Compartir por WhatsApp 201x36",
+    "BUTTON:Copiar enlace 129x40",
+    "A:+ 30x30",
+    "A:− 30x30",
+    "A:Leaflet 51x14",
+    "A:Cómo llegar 324x42",
+    "A:Instagram 324x20",
+    "BUTTON:Reportar este negocio 146x16",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 23,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "lazy",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 169,
+     "rh": 127,
+     "fit": "cover"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15806/29422.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15807/29422.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15806/29423.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15807/29423.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    }
+   ],
+   "title": "prueba · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "cerca",
+   "vk": "m",
+   "status": 200,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "BUTTON:Usar mi ubicación 316x40",
+    "SELECT:Elige tu municipioComalca 316x41",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 16,
+   "imgs": [],
+   "title": "Negocios cerca de mí · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "cunduacan",
+   "vk": "m",
+   "status": 200,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "A:Inicio 35x20",
+    "A:Tabasco 56x20",
+    "A:Comida y bebidas(1) 174x38",
+    "A:Comalcalco 113x38",
+    "A:Jalpa de Méndez 149x38",
+    "A:Nacajuca 97x38",
+    "A:Paraíso 84x38",
+    "A:Villahermosa 121x38",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 22,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "lazy",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 169,
+     "rh": 127,
+     "fit": "cover"
+    }
+   ],
+   "title": "Negocios y productos en Cunduacán, Tabasco · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "comofunciona",
+   "vk": "m",
+   "status": 200,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 14,
+   "imgs": [],
+   "title": "Cómo funciona · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "terminos",
+   "vk": "m",
+   "status": 200,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 14,
+   "imgs": [],
+   "title": "Términos de uso · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "privacidad",
+   "vk": "m",
+   "status": 200,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 14,
+   "imgs": [],
+   "title": "Aviso de privacidad · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "404",
+   "vk": "m",
+   "status": 404,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "A:Ir al inicio 98x42",
+    "A:Explorar todo 125x42",
+    "A:Cómo funciona 137x42",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 17,
+   "imgs": [],
+   "title": "Página no encontrada · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "ingresar",
+   "vk": "m",
+   "status": 200,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "BUTTON:Continuar con Google 292x42",
+    "INPUT: 292x42",
+    "A:¿Olvidaste tu contraseña? 151x16",
+    "INPUT: 292x42",
+    "BUTTON:Ingresar 292x40",
+    "A:Regístrate gratis 111x17",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 20,
+   "imgs": [],
+   "title": "Ingresar · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "registro",
+   "vk": "m",
+   "status": 200,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "BUTTON:Continuar con Google 292x42",
+    "INPUT: 292x42",
+    "INPUT: 292x42",
+    "INPUT: 292x42",
+    "INPUT: 13x13",
+    "A:Términos 63x17",
+    "A:Aviso de privacidad 227x37",
+    "BUTTON:Crear cuenta 292x40",
+    "A:Ingresa 50x17",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 23,
+   "imgs": [],
+   "title": "Crear cuenta · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "recuperar",
+   "vk": "m",
+   "status": 200,
+   "scrollW": 568,
+   "clientW": 390,
+   "over": [
+    "NAV.ml-auto flex items-center gap-2",
+    "A.btn btn-ghost",
+    "A.btn btn-primary"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "A:Explorar 90x42",
+    "A:Ingresar 90x42",
+    "INPUT: 292x42",
+    "BUTTON:Enviar enlace 292x40",
+    "A:Volver a ingresar 114x17",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 344x37",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 17,
+   "imgs": [],
+   "title": "Recuperar contraseña · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "home",
+   "vk": "t",
+   "status": 200,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Comida y bebidas 154x38",
+    "A:Repostería y pasteles 178x38",
+    "A:Ropa y calzado 136x38",
+    "A:Belleza y cuidado persona 213x38",
+    "A:Hogar y decoración 166x38",
+    "A:Artesanías 105x38",
+    "A:Tecnología y reparaciones 211x38",
+    "A:Servicios profesionales 190x38",
+    "A:Educación y clases 163x38",
+    "A:Eventos y fiestas 148x38",
+    "A:Construcción y oficios 184x38",
+    "A:Mascotas 99x38",
+    "A:Salud y bienestar 150x38",
+    "A:Campo y agro 128x38",
+    "A:Otros 71x38",
+    "A:Comalcalco 113x38",
+    "A:Cunduacán 111x38",
+    "A:Jalpa de Méndez 149x38",
+    "A:Nacajuca 97x38",
+    "A:Paraíso 84x38",
+    "A:Villahermosa 121x38",
+    "A:Ver todo → 73x20",
+    "A:Empezar ahora 134x40",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 40,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "lazy",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 233,
+     "rh": 174,
+     "fit": "cover"
+    }
+   ],
+   "title": "Emprendedores · Negocios locales a un mensaje",
+   "h1": 1
+  },
+  {
+   "name": "explorar",
+   "vk": "t",
+   "status": 200,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "INPUT:Buscar 345x42",
+    "SELECT:Todas las categoríasComid 345x42",
+    "SELECT:Todo TabascoComalcalcoCun 345x41",
+    "SELECT:TodoProductosServicios 265x41",
+    "BUTTON:Filtrar 72x41",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 22,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "lazy",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 233,
+     "rh": 174,
+     "fit": "cover"
+    }
+   ],
+   "title": "Explorar · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "explorar-sinres",
+   "vk": "t",
+   "status": 200,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "INPUT:Buscar 345x42",
+    "SELECT:Todas las categoríasComid 345x42",
+    "SELECT:Todo TabascoComalcalcoCun 345x41",
+    "SELECT:TodoProductosServicios 265x41",
+    "BUTTON:Filtrar 72x41",
+    "A:Comida y bebidas 155x42",
+    "A:Repostería y pasteles 179x42",
+    "A:Ropa y calzado 137x42",
+    "A:Belleza y cuidado persona 215x42",
+    "A:Hogar y decoración 167x42",
+    "A:Artesanías 107x42",
+    "A:Tecnología y reparaciones 212x42",
+    "A:Servicios profesionales 193x42",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 30,
+   "imgs": [],
+   "title": "Explorar · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "ficha",
+   "vk": "t",
+   "status": 200,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Explorar 55x17",
+    "A:Comida y bebidas 119x17",
+    "A:Compartir por WhatsApp 201x36",
+    "BUTTON:Copiar enlace 129x40",
+    "A:Cómo llegar 702x42",
+    "BUTTON:Reportar esta publicación 165x16",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 23,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 734,
+     "rh": 551,
+     "fit": "cover"
+    }
+   ],
+   "title": "Tacos de canasta · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "tienda",
+   "vk": "t",
+   "status": 200,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [
+    "IMG.leaflet-tile leaflet-tile-loaded",
+    "IMG.leaflet-tile leaflet-tile-loaded",
+    "svg.[object SVGAnimatedString]"
+   ],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Escribir por WhatsApp 185x40",
+    "A:Compartir por WhatsApp 201x36",
+    "BUTTON:Copiar enlace 129x40",
+    "A:+ 30x30",
+    "A:− 30x30",
+    "A:Leaflet 51x14",
+    "A:Cómo llegar 702x42",
+    "A:Instagram 702x20",
+    "BUTTON:Reportar este negocio 146x16",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 26,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "lazy",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 233,
+     "rh": 174,
+     "fit": "cover"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15806/29422.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15807/29422.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15806/29423.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15807/29423.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15805/29422.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15808/29422.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15805/29423.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15808/29423.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    }
+   ],
+   "title": "prueba · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "cerca",
+   "vk": "t",
+   "status": 200,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "BUTTON:Usar mi ubicación 153x40",
+    "SELECT:Elige tu municipioComalca 508x41",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 19,
+   "imgs": [],
+   "title": "Negocios cerca de mí · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "cunduacan",
+   "vk": "t",
+   "status": 200,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Inicio 35x20",
+    "A:Tabasco 56x20",
+    "A:Comida y bebidas(1) 174x38",
+    "A:Comalcalco 113x38",
+    "A:Jalpa de Méndez 149x38",
+    "A:Nacajuca 97x38",
+    "A:Paraíso 84x38",
+    "A:Villahermosa 121x38",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 25,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "lazy",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 233,
+     "rh": 174,
+     "fit": "cover"
+    }
+   ],
+   "title": "Negocios y productos en Cunduacán, Tabasco · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "comofunciona",
+   "vk": "t",
+   "status": 200,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 17,
+   "imgs": [],
+   "title": "Cómo funciona · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "terminos",
+   "vk": "t",
+   "status": 200,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 17,
+   "imgs": [],
+   "title": "Términos de uso · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "privacidad",
+   "vk": "t",
+   "status": 200,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 17,
+   "imgs": [],
+   "title": "Aviso de privacidad · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "404",
+   "vk": "t",
+   "status": 404,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Ir al inicio 98x42",
+    "A:Explorar todo 125x42",
+    "A:Cómo funciona 137x42",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 20,
+   "imgs": [],
+   "title": "Página no encontrada · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "ingresar",
+   "vk": "t",
+   "status": 200,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "BUTTON:Continuar con Google 382x42",
+    "INPUT: 382x42",
+    "A:¿Olvidaste tu contraseña? 151x16",
+    "INPUT: 382x42",
+    "BUTTON:Ingresar 382x40",
+    "A:Regístrate gratis 111x17",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 23,
+   "imgs": [],
+   "title": "Ingresar · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "registro",
+   "vk": "t",
+   "status": 200,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "BUTTON:Continuar con Google 382x42",
+    "INPUT: 382x42",
+    "INPUT: 382x42",
+    "INPUT: 382x42",
+    "INPUT: 13x13",
+    "A:Términos 63x17",
+    "A:Aviso de privacidad 133x17",
+    "BUTTON:Crear cuenta 382x40",
+    "A:Ingresa 50x17",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 26,
+   "imgs": [],
+   "title": "Crear cuenta · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "recuperar",
+   "vk": "t",
+   "status": 200,
+   "scrollW": 768,
+   "clientW": 768,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 69x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "INPUT: 382x42",
+    "BUTTON:Enviar enlace 382x40",
+    "A:Volver a ingresar 114x17",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 20,
+   "imgs": [],
+   "title": "Recuperar contraseña · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "home",
+   "vk": "d",
+   "status": 200,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Comida y bebidas 154x38",
+    "A:Repostería y pasteles 178x38",
+    "A:Ropa y calzado 136x38",
+    "A:Belleza y cuidado persona 213x38",
+    "A:Hogar y decoración 166x38",
+    "A:Artesanías 105x38",
+    "A:Tecnología y reparaciones 211x38",
+    "A:Servicios profesionales 190x38",
+    "A:Educación y clases 163x38",
+    "A:Eventos y fiestas 148x38",
+    "A:Construcción y oficios 184x38",
+    "A:Mascotas 99x38",
+    "A:Salud y bienestar 150x38",
+    "A:Campo y agro 128x38",
+    "A:Otros 71x38",
+    "A:Ver negocios cerca de mí 203x40",
+    "A:Comalcalco 113x38",
+    "A:Cunduacán 111x38",
+    "A:Jalpa de Méndez 149x38",
+    "A:Nacajuca 97x38",
+    "A:Paraíso 84x38",
+    "A:Villahermosa 121x38",
+    "A:Ver todo → 73x20",
+    "A:Empezar ahora 134x40",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17"
+   ],
+   "nsmall": 41,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "lazy",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 266,
+     "rh": 200,
+     "fit": "cover"
+    }
+   ],
+   "title": "Emprendedores · Negocios locales a un mensaje",
+   "h1": 1
+  },
+  {
+   "name": "explorar",
+   "vk": "d",
+   "status": 200,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "INPUT:Buscar 427x42",
+    "SELECT:Todas las categoríasComid 208x42",
+    "SELECT:Todo TabascoComalcalcoCun 208x42",
+    "SELECT:TodoProductosServicios 128x42",
+    "BUTTON:Filtrar 72x42",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 22,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "lazy",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 266,
+     "rh": 200,
+     "fit": "cover"
+    }
+   ],
+   "title": "Explorar · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "explorar-sinres",
+   "vk": "d",
+   "status": 200,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "INPUT:Buscar 427x42",
+    "SELECT:Todas las categoríasComid 208x42",
+    "SELECT:Todo TabascoComalcalcoCun 208x42",
+    "SELECT:TodoProductosServicios 128x42",
+    "BUTTON:Filtrar 72x42",
+    "A:Comida y bebidas 155x42",
+    "A:Repostería y pasteles 179x42",
+    "A:Ropa y calzado 137x42",
+    "A:Belleza y cuidado persona 215x42",
+    "A:Hogar y decoración 167x42",
+    "A:Artesanías 107x42",
+    "A:Tecnología y reparaciones 212x42",
+    "A:Servicios profesionales 193x42",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 30,
+   "imgs": [],
+   "title": "Explorar · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "ficha",
+   "vk": "d",
+   "status": 200,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Explorar 55x17",
+    "A:Comida y bebidas 119x17",
+    "A:Compartir por WhatsApp 201x36",
+    "BUTTON:Copiar enlace 129x40",
+    "A:Cómo llegar 461x42",
+    "BUTTON:Reportar esta publicación 165x16",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 23,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 591,
+     "rh": 444,
+     "fit": "cover"
+    }
+   ],
+   "title": "Tacos de canasta · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "tienda",
+   "vk": "d",
+   "status": 200,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Escribir por WhatsApp 185x40",
+    "A:Compartir por WhatsApp 201x36",
+    "BUTTON:Copiar enlace 129x40",
+    "A:+ 30x30",
+    "A:− 30x30",
+    "A:Leaflet 51x14",
+    "A:Cómo llegar 306x42",
+    "A:Instagram 306x20",
+    "BUTTON:Reportar este negocio 146x16",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 26,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "lazy",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 237,
+     "rh": 177,
+     "fit": "cover"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15806/29422.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15807/29422.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15806/29423.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    },
+    {
+     "src": "ile.openstreetmap.org/16/15807/29423.png",
+     "lazy": "auto",
+     "w": null,
+     "h": null,
+     "nw": 256,
+     "nh": 256,
+     "rw": 256,
+     "rh": 256,
+     "fit": "fill"
+    }
+   ],
+   "title": "prueba · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "cerca",
+   "vk": "d",
+   "status": 200,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "BUTTON:Usar mi ubicación 153x40",
+    "SELECT:Elige tu municipioComalca 892x41",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 19,
+   "imgs": [],
+   "title": "Negocios cerca de mí · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "cunduacan",
+   "vk": "d",
+   "status": 200,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Inicio 35x20",
+    "A:Tabasco 56x20",
+    "A:Comida y bebidas(1) 174x38",
+    "A:Comalcalco 113x38",
+    "A:Jalpa de Méndez 149x38",
+    "A:Nacajuca 97x38",
+    "A:Paraíso 84x38",
+    "A:Villahermosa 121x38",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 25,
+   "imgs": [
+    {
+     "src": "91ed2cb-8e1a-48c2-a642-849899862505.webp",
+     "lazy": "lazy",
+     "w": null,
+     "h": null,
+     "nw": 976,
+     "nh": 976,
+     "rw": 266,
+     "rh": 200,
+     "fit": "cover"
+    }
+   ],
+   "title": "Negocios y productos en Cunduacán, Tabasco · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "comofunciona",
+   "vk": "d",
+   "status": 200,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 17,
+   "imgs": [],
+   "title": "Cómo funciona · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "terminos",
+   "vk": "d",
+   "status": 200,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 17,
+   "imgs": [],
+   "title": "Términos de uso · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "privacidad",
+   "vk": "d",
+   "status": 200,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 17,
+   "imgs": [],
+   "title": "Aviso de privacidad · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "404",
+   "vk": "d",
+   "status": 404,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "A:Ir al inicio 98x42",
+    "A:Explorar todo 125x42",
+    "A:Cómo funciona 137x42",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 20,
+   "imgs": [],
+   "title": "Página no encontrada · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "ingresar",
+   "vk": "d",
+   "status": 200,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "BUTTON:Continuar con Google 382x42",
+    "INPUT: 382x42",
+    "A:¿Olvidaste tu contraseña? 151x16",
+    "INPUT: 382x42",
+    "BUTTON:Ingresar 382x40",
+    "A:Regístrate gratis 111x17",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 23,
+   "imgs": [],
+   "title": "Ingresar · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "registro",
+   "vk": "d",
+   "status": 200,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "BUTTON:Continuar con Google 382x42",
+    "INPUT: 382x42",
+    "INPUT: 382x42",
+    "INPUT: 382x42",
+    "INPUT: 13x13",
+    "A:Términos 63x17",
+    "A:Aviso de privacidad 133x17",
+    "BUTTON:Crear cuenta 382x40",
+    "A:Ingresa 50x17",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 26,
+   "imgs": [],
+   "title": "Crear cuenta · Emprendedores",
+   "h1": 1
+  },
+  {
+   "name": "recuperar",
+   "vk": "d",
+   "status": 200,
+   "scrollW": 1280,
+   "clientW": 1280,
+   "over": [],
+   "small": [
+    "A:EEmprendedores 176x32",
+    "INPUT:Buscar 448x42",
+    "A:Explorar 90x42",
+    "A:Cerca de mí 115x42",
+    "A:Ingresar 90x42",
+    "A:Publica gratis 124x40",
+    "INPUT: 382x42",
+    "BUTTON:Enviar enlace 382x40",
+    "A:Volver a ingresar 114x17",
+    "A:Cerca de mí 80x20",
+    "A:Cómo funciona 101x20",
+    "A:Términos 61x20",
+    "A:Privacidad 70x20",
+    "A:Publica tu negocio 123x20",
+    "A:Cunduacán 76x17",
+    "A:Villahermosa 86x17",
+    "A:Comalcalco 78x17",
+    "A:Jalpa de Méndez 114x17",
+    "A:Nacajuca 62x17",
+    "A:Paraíso 49x17"
+   ],
+   "nsmall": 20,
+   "imgs": [],
+   "title": "Recuperar contraseña · Emprendedores",
+   "h1": 1
+  }
+ ],
+ "axeRes": {
+  "home": {
+   "perf": {
+    "lcp": 696,
+    "cls": 0.032
+   },
+   "kb": 4959,
+   "top": [
+    [
+     "http://localhost:4391/node_modules/.vite/deps/@supabase_supabase-js.js?v=7fbfdbb7",
+     2370080
+    ],
+    [
+     "https://cdn.jsdelivr.net/npm/axe-core/axe.min.js",
+     652140
+    ],
+    [
+     "http://localhost:4391/node_modules/.vite/deps/astro_n_aria-query.js?v=a6a5b626",
+     525951
+    ],
+    [
+     "http://localhost:4391/@vite/client",
+     338042
+    ]
+   ],
+   "v": [
+    {
+     "id": "color-contrast",
+     "impact": "serious",
+     "n": 1,
+     "ex": [
+      ".text-brand-100 ::   Element has insufficient color contrast of 1.16 (foreground color: #d3f5ee, background color: #ffffff, font size: 12.0pt (16px), font weig"
+     ]
+    },
+    {
+     "id": "landmark-unique",
+     "impact": "moderate",
+     "n": 1,
+     "ex": [
+      ".ml-auto ::   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+     ]
+    }
+   ]
+  },
+  "explorar": {
+   "perf": {
+    "lcp": 672,
+    "cls": 0.007
+   },
+   "kb": 4954,
+   "top": [
+    [
+     "http://localhost:4391/node_modules/.vite/deps/@supabase_supabase-js.js?v=7fbfdbb7",
+     2370080
+    ],
+    [
+     "https://cdn.jsdelivr.net/npm/axe-core/axe.min.js",
+     652140
+    ],
+    [
+     "http://localhost:4391/node_modules/.vite/deps/astro_n_aria-query.js?v=a6a5b626",
+     525951
+    ],
+    [
+     "http://localhost:4391/@vite/client",
+     338042
+    ]
+   ],
+   "v": [
+    {
+     "id": "landmark-unique",
+     "impact": "moderate",
+     "n": 1,
+     "ex": [
+      ".ml-auto ::   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+     ]
+    }
+   ]
+  },
+  "ficha": {
+   "perf": {
+    "lcp": 484,
+    "cls": 0.002
+   },
+   "kb": 8434,
+   "top": [
+    [
+     "http://localhost:4391/node_modules/.vite/deps/client-BQx9bLZI.js?v=6c6a6654",
+     3132233
+    ],
+    [
+     "http://localhost:4391/node_modules/.vite/deps/@supabase_supabase-js.js?v=7fbfdbb7",
+     2370080
+    ],
+    [
+     "https://cdn.jsdelivr.net/npm/axe-core/axe.min.js",
+     652140
+    ],
+    [
+     "http://localhost:4391/node_modules/.vite/deps/astro_n_aria-query.js?v=a6a5b626",
+     525951
+    ]
+   ],
+   "v": [
+    {
+     "id": "color-contrast",
+     "impact": "serious",
+     "n": 2,
+     "ex": [
+      "#wa ::   Element has insufficient color contrast of 1.98 (foreground color: #ffffff, background color: #25d366, font size: 10.5pt (14px), font weig",
+      "a[href=\"#\"] ::   Element has insufficient color contrast of 1.98 (foreground color: #ffffff, background color: #25d366, font size: 10.5pt (14px), font weig"
+     ]
+    },
+    {
+     "id": "landmark-unique",
+     "impact": "moderate",
+     "n": 1,
+     "ex": [
+      ".ml-auto ::   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+     ]
+    }
+   ]
+  },
+  "tienda": {
+   "perf": {
+    "lcp": 628,
+    "cls": 0.001
+   },
+   "kb": 8427,
+   "top": [
+    [
+     "http://localhost:4391/node_modules/.vite/deps/client-BQx9bLZI.js?v=6c6a6654",
+     3132233
+    ],
+    [
+     "http://localhost:4391/node_modules/.vite/deps/@supabase_supabase-js.js?v=7fbfdbb7",
+     2370080
+    ],
+    [
+     "https://cdn.jsdelivr.net/npm/axe-core/axe.min.js",
+     652140
+    ],
+    [
+     "http://localhost:4391/node_modules/.vite/deps/astro_n_aria-query.js?v=a6a5b626",
+     525951
+    ]
+   ],
+   "v": [
+    {
+     "id": "color-contrast",
+     "impact": "serious",
+     "n": 2,
+     "ex": [
+      ".btn-wa[rel=\"noopener\"][target=\"_blank\"] ::   Element has insufficient color contrast of 1.98 (foreground color: #ffffff, background color: #25d366, font size: 10.5pt (14px), font weig",
+      "a[href=\"#\"] ::   Element has insufficient color contrast of 1.98 (foreground color: #ffffff, background color: #25d366, font size: 10.5pt (14px), font weig"
+     ]
+    },
+    {
+     "id": "landmark-unique",
+     "impact": "moderate",
+     "n": 1,
+     "ex": [
+      ".ml-auto ::   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+     ]
+    }
+   ]
+  },
+  "ingresar": {
+   "perf": {
+    "lcp": 148,
+    "cls": 0.028
+   },
+   "kb": 8307,
+   "top": [
+    [
+     "http://localhost:4391/node_modules/.vite/deps/client-BQx9bLZI.js?v=6c6a6654",
+     3132233
+    ],
+    [
+     "http://localhost:4391/node_modules/.vite/deps/@supabase_supabase-js.js?v=7fbfdbb7",
+     2370080
+    ],
+    [
+     "https://cdn.jsdelivr.net/npm/axe-core/axe.min.js",
+     652140
+    ],
+    [
+     "http://localhost:4391/node_modules/.vite/deps/astro_n_aria-query.js?v=a6a5b626",
+     525951
+    ]
+   ],
+   "v": [
+    {
+     "id": "landmark-unique",
+     "impact": "moderate",
+     "n": 1,
+     "ex": [
+      ".ml-auto ::   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+     ]
+    }
+   ]
+  },
+  "registro": {
+   "perf": {
+    "lcp": 148,
+    "cls": 0.001
+   },
+   "kb": 8308,
+   "top": [
+    [
+     "http://localhost:4391/node_modules/.vite/deps/client-BQx9bLZI.js?v=6c6a6654",
+     3132233
+    ],
+    [
+     "http://localhost:4391/node_modules/.vite/deps/@supabase_supabase-js.js?v=7fbfdbb7",
+     2370080
+    ],
+    [
+     "https://cdn.jsdelivr.net/npm/axe-core/axe.min.js",
+     652140
+    ],
+    [
+     "http://localhost:4391/node_modules/.vite/deps/astro_n_aria-query.js?v=a6a5b626",
+     525951
+    ]
+   ],
+   "v": [
+    {
+     "id": "landmark-unique",
+     "impact": "moderate",
+     "n": 1,
+     "ex": [
+      ".ml-auto ::   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+     ]
+    }
+   ]
+  },
+  "cerca": {
+   "perf": {
+    "lcp": 672,
+    "cls": 0.052
+   },
+   "kb": 8367,
+   "top": [
+    [
+     "http://localhost:4391/node_modules/.vite/deps/client-BQx9bLZI.js?v=6c6a6654",
+     3132233
+    ],
+    [
+     "http://localhost:4391/node_modules/.vite/deps/@supabase_supabase-js.js?v=7fbfdbb7",
+     2370080
+    ],
+    [
+     "https://cdn.jsdelivr.net/npm/axe-core/axe.min.js",
+     652140
+    ],
+    [
+     "http://localhost:4391/node_modules/.vite/deps/astro_n_aria-query.js?v=a6a5b626",
+     525951
+    ]
+   ],
+   "v": [
+    {
+     "id": "landmark-unique",
+     "impact": "moderate",
+     "n": 1,
+     "ex": [
+      ".ml-auto ::   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+     ]
+    }
+   ]
+  },
+  "comofunciona": {
+   "perf": {
+    "lcp": 148,
+    "cls": 0.013
+   },
+   "kb": 4857,
+   "top": [
+    [
+     "http://localhost:4391/node_modules/.vite/deps/@supabase_supabase-js.js?v=7fbfdbb7",
+     2370080
+    ],
+    [
+     "https://cdn.jsdelivr.net/npm/axe-core/axe.min.js",
+     652140
+    ],
+    [
+     "http://localhost:4391/node_modules/.vite/deps/astro_n_aria-query.js?v=a6a5b626",
+     525951
+    ],
+    [
+     "http://localhost:4391/@vite/client",
+     338042
+    ]
+   ],
+   "v": [
+    {
+     "id": "color-contrast",
+     "impact": "serious",
+     "n": 1,
+     "ex": [
+      ".mt-1 ::   Element has insufficient color contrast of 1.16 (foreground color: #d3f5ee, background color: #ffffff, font size: 12.0pt (16px), font weig"
+     ]
+    },
+    {
+     "id": "landmark-unique",
+     "impact": "moderate",
+     "n": 1,
+     "ex": [
+      ".ml-auto ::   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+     ]
+    }
+   ]
+  }
+ }
+}

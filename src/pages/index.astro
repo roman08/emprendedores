@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro';
+import ListingCard from '../components/ListingCard.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { supabase } from '../lib/supabase';
+
+const [{ data: categories }, { data: latest }] = await Promise.all([
+  supabase.from('categories').select('id,name,slug').order('sort'),
+  supabase
+    .from('listings')
+    .select('id,slug,title,price,type,availability,listing_images(url,position),businesses(name,municipalities(name))')
+    .eq('status', 'published')
+    .order('created_at', { ascending: false })
+    .limit(12),
+]);
+const { data: towns } = await supabase.from('municipalities').select('name,slug,states(slug)').order('name');
+---
+<Base>
+  <section class="bg-gradient-to-b from-brand-50 to-surface">
+    <div class="mx-auto max-w-6xl px-4 py-14 sm:py-20">
+      <h1 class="max-w-2xl text-4xl font-extrabold tracking-tight text-brand-900 sm:text-5xl">
+        Lo que necesitas, hecho por emprendedores de tu comunidad.
+      </h1>
+      <p class="mt-4 max-w-xl text-lg text-muted">
+        Encuentra productos y servicios cerca de ti y escríbeles directo por WhatsApp. Sin intermediarios.
+      </p>
+      <form action="/explorar" class="mt-8 flex max-w-xl gap-2">
+        <input name="q" class="input !py-3.5 shadow-sm" placeholder="¿Qué estás buscando? Ej. pasteles, plomero…" aria-label="Buscar" />
+        <button class="btn btn-primary !px-6">Buscar</button>
+      </form>
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-6xl px-4">
+    <AdSlot slot="top" class="mt-6" />
+
+    <section class="mt-10">
+      <h2 class="text-xl font-bold">Explora por categoría</h2>
+      <div class="mt-4 flex flex-wrap gap-2">
+        {(categories ?? []).map((c) => (
+          <a href={`/explorar?categoria=${c.slug}`} class="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand-500 hover:text-brand-700">{c.name}</a>
+        ))}
+      </div>
+    </section>
+
+    <section class="card mt-10 flex flex-col items-start gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h2 class="text-xl font-bold">Negocios cerca de ti</h2>
+        <p class="mt-1 text-muted">Mira qué emprendedores con local hay a tu alrededor, si están abiertos y cómo llegar.</p>
+      </div>
+      <a href="/cerca" class="btn btn-primary">Ver negocios cerca de mí</a>
+    </section>
+
+    {(towns ?? []).length > 0 && (
+      <section class="mt-10">
+        <h2 class="text-xl font-bold">Explora por municipio</h2>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {(towns ?? []).map((m: any) => m.states?.slug && (
+            <a href={`/${m.states.slug}/${m.slug}`} class="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand-500 hover:text-brand-700">{m.name}</a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section class="mt-12">
+      <div class="flex items-end justify-between">
+        <h2 class="text-xl font-bold">Publicado recientemente</h2>
+        <a href="/explorar" class="text-sm font-semibold text-brand-700 hover:underline">Ver todo →</a>
+      </div>
+      {(latest ?? []).length === 0 ? (
+        <div class="card mt-4 p-10 text-center text-muted">
+          Aún no hay publicaciones. <a data-cta href="/registro" class="font-semibold text-brand-700 underline">Sé el primero en publicar</a>.
+        </div>
+      ) : (
+        <div class="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {(latest ?? []).map((l) => <ListingCard l={l} />)}
+        </div>
+      )}
+    </section>
+
+    <section class="my-16 card flex flex-col items-start gap-4 bg-brand-900 p-8 text-white sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h2 class="text-2xl font-bold">¿Tienes un negocio o servicio?</h2>
+        <p class="mt-1 text-brand-100">Publícalo gratis y recibe clientes directo en tu WhatsApp.</p>
+      </div>
+      <a data-cta href="/registro" class="btn bg-white text-brand-900 hover:bg-brand-50">Empezar ahora</a>
+    </section>
+  </div>
+</Base>

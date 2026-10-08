@@ -1,0 +1,53 @@
+---
+import Location from '../_Location.astro';
+import { supabase } from '../../../lib/supabase';
+import { loadGeo, loadCounts, loadListings, parsePage, PAGE_SIZE } from '../_lib';
+
+const geo = await loadGeo(Astro.params.estado, Astro.params.municipio);
+const slug = Astro.params.categoria ?? '';
+const { data: categories } = await supabase.from('categories').select('id,name,slug').order('sort');
+const cat = /^[a-z0-9-]{1,80}$/.test(slug) ? (categories ?? []).find((c) => c.slug === slug) : undefined;
+if (!geo || !geo.mun || !cat) {
+  Astro.response.status = 404;
+  return Astro.rewrite('/404');
+}
+const { state, mun } = geo;
+const base = `/${state.slug}/${mun.slug}`;
+
+const page = parsePage(Astro.url.searchParams.get('pagina'));
+const [counts, { listings, count }] = await Promise.all([
+  loadCounts([mun.id]),
+  loadListings(mun.id, cat.id, page),
+]);
+const totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE));
+
+// Otras categorías del mismo municipio
+const otherCats = (categories ?? [])
+  .filter((c) => c.id !== cat.id)
+  .map((c) => ({ name: c.name, href: `${base}/${c.slug}`, count: counts.byCategory.get(c.id) ?? 0 }))
+  .filter((c) => c.count > 0);
+
+const intro = count > 0
+  ? `${count} ${count === 1 ? 'publicación' : 'publicaciones'} de ${cat.name.toLowerCase()} en ${mun.name}, ${state.name}. Contacta directo al negocio por WhatsApp.`
+  : `Aún no hay publicaciones de ${cat.name.toLowerCase()} en ${mun.name}. Si ofreces algo así, publícalo gratis.`;
+---
+<Location
+  title={`${cat.name} en ${mun.name}, ${state.name}`}
+  description={count > 0
+    ? `${count} publicaciones de ${cat.name.toLowerCase()} en ${mun.name}, ${state.name}. Contacta directo por WhatsApp.`
+    : `${cat.name} en ${mun.name}, ${state.name}. Publica tu negocio gratis.`}
+  h1={`${cat.name} en ${mun.name}, ${state.name}`}
+  intro={intro}
+  crumbs={[
+    { name: 'Inicio', href: '/' },
+    { name: state.name, href: `/${state.slug}` },
+    { name: mun.name, href: base },
+    { name: cat.name, href: `${base}/${cat.slug}` },
+  ]}
+  listings={listings}
+  count={count}
+  page={page}
+  totalPages={totalPages}
+  moreTitle={`Más categorías en ${mun.name}`}
+  more={otherCats}
+/>

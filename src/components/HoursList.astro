@@ -1,0 +1,25 @@
+---
+import { DAYS, shiftsOf, fmtTime, type Hours, type DayKey } from '../lib/hours';
+
+interface Props { hours: Hours; todayKey?: DayKey }
+const { hours, todayKey } = Astro.props;
+---
+<ul class="space-y-1.5 text-sm">
+  {DAYS.map(({ key, label }) => {
+    const shifts = shiftsOf(hours[key]);
+    return (
+      <li class={`flex justify-between gap-3 rounded-lg px-2 py-1 ${todayKey === key ? 'bg-brand-50 font-semibold text-brand-900' : 'text-muted'}`}
+          aria-current={todayKey === key ? 'date' : undefined}>
+        <span>{label}</span>
+        <span class="text-right">
+          {shifts.length === 0 ? 'Cerrado' : shifts.map((s, i) => (
+            <span class="block sm:inline">
+              {i > 0 && <span class="hidden sm:inline" aria-hidden="true"> · </span>}
+              {fmtTime(s.open)} – {fmtTime(s.close)}
+            </span>
+          ))}
+        </span>
+      </li>
+    );
+  })}
+</ul>

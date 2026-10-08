@@ -1,0 +1,131 @@
+---
+// Banner de consentimiento. Los scripts de terceros (Plausible, AdSense) se cargan SOLO tras aceptar su categoría.
+// Si no hay ningún tercero configurado no se muestra nada: las cookies necesarias no requieren consentimiento.
+const plausible = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN ?? '';
+const adsClient = import.meta.env.PUBLIC_ADSENSE_CLIENT ?? '';
+const adsOn = import.meta.env.PUBLIC_ADS === '1' && /^ca-pub-\d+$/.test(adsClient);
+const analyticsOn = /^[a-z0-9.-]+$/i.test(plausible) && plausible !== '';
+const enabled = analyticsOn || adsOn;
+---
+{enabled && (
+  <div id="cookie-consent" data-version="1"
+    data-plausible={analyticsOn ? plausible : ''} data-adsense={adsOn ? adsClient : ''}>
+    <div data-banner hidden role="dialog" aria-modal="false" aria-labelledby="cc-title" aria-describedby="cc-desc"
+      class="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-2xl rounded-2xl border border-line bg-white p-5 shadow-xl">
+      <h2 id="cc-title" class="text-base font-bold text-ink">Tu privacidad</h2>
+      <p id="cc-desc" class="mt-1 text-sm text-muted">
+        Usamos cookies necesarias para que el sitio funcione y, si lo permites, de analítica y publicidad.
+        Puedes cambiar tu decisión cuando quieras. Más información en el <a href="/privacidad" class="font-medium text-brand-700 underline">aviso de privacidad</a>.
+      </p>
+      <form data-prefs hidden class="mt-4 space-y-3 text-sm">
+        <label class="flex items-start gap-3">
+          <input type="checkbox" checked disabled class="mt-1 size-4 accent-brand-600" />
+          <span><strong class="text-ink">Necesarias.</strong> <span class="text-muted">Sesión y preferencias. Siempre activas.</span></span>
+        </label>
+        {analyticsOn && (
+          <label class="flex items-start gap-3">
+            <input type="checkbox" name="analytics" class="mt-1 size-4 accent-brand-600" />
+            <span><strong class="text-ink">Analítica.</strong> <span class="text-muted">Estadísticas de visitas sin identificarte (Plausible).</span></span>
+          </label>
+        )}
+        {adsOn && (
+          <label class="flex items-start gap-3">
+            <input type="checkbox" name="ads" class="mt-1 size-4 accent-brand-600" />
+            <span><strong class="text-ink">Publicidad.</strong> <span class="text-muted">Anuncios de Google AdSense, que pueden usar cookies.</span></span>
+          </label>
+        )}
+        <button type="submit" class="btn btn-primary">Guardar preferencias</button>
+      </form>
+      <div data-actions class="mt-4 flex flex-col gap-2 sm:flex-row">
+        <button type="button" data-accept class="btn btn-primary">Aceptar todo</button>
+        <button type="button" data-reject class="btn btn-outline">Solo necesarias</button>
+        <button type="button" data-open-prefs class="btn btn-ghost" aria-expanded="false">Preferencias</button>
+      </div>
+    </div>
+  </div>
+)}
+
+<script>
+  const KEY = 'cookie-consent';
+  type Consent = { v: number; analytics: boolean; ads: boolean };
+
+  const root = document.getElementById('cookie-consent');
+  const prefsLinks = document.querySelectorAll<HTMLElement>('[data-cookie-prefs]');
+
+  function read(version: number): Consent | null {
+    try {
+      const c = JSON.parse(localStorage.getItem(KEY) ?? 'null');
+      return c && c.v === version ? { v: version, analytics: !!c.analytics, ads: !!c.ads } : null;
+    } catch { return null; }
+  }
+  function write(c: Consent) {
+    try { localStorage.setItem(KEY, JSON.stringify(c)); } catch { /* sin almacenamiento: se aplica solo en esta página */ }
+  }
+
+  if (root) {
+    const version = Number(root.dataset.version) || 1;
+    const plausible = root.dataset.plausible ?? '';
+    const adsClient = root.dataset.adsense ?? '';
+    const banner = root.querySelector<HTMLElement>('[data-banner]')!;
+    const prefs = root.querySelector<HTMLFormElement>('[data-prefs]')!;
+    const actions = root.querySelector<HTMLElement>('[data-actions]')!;
+    const openPrefs = root.querySelector<HTMLButtonElement>('[data-open-prefs]')!;
+
+    const addScript = (src: string, attrs: Record<string, string>) => {
+      if (document.querySelector(`script[src="${src}"]`)) return;
+      const s = document.createElement('script');
+      s.src = src; s.async = true;
+      for (const [k, v] of Object.entries(attrs)) s.setAttribute(k, v);
+      document.head.appendChild(s);
+    };
+
+    function applyAds() {
+      // Muestra los <ins> de AdSense y los activa; el marcador queda oculto
+      document.querySelectorAll<HTMLElement>('[data-ad-ins]').forEach((ins) => {
+        if (ins.dataset.ready) return;
+        ins.dataset.ready = '1';
+        ins.hidden = false;
+        ins.parentElement?.querySelector<HTMLElement>('[data-ad-placeholder]')?.setAttribute('hidden', '');
+        try { ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({}); } catch { /* anuncio bloqueado */ }
+      });
+    }
+
+    function apply(c: Consent) {
+      if (c.analytics && plausible) addScript('https://plausible.io/js/script.js', { defer: '', 'data-domain': plausible });
+      if (c.ads && adsClient) {
+        addScript(`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(adsClient)}`, { crossorigin: 'anonymous' });
+        applyAds();
+      }
+    }
+
+    function close() { banner.hidden = true; }
+    function open() {
+      const c = read(version);
+      prefs.querySelectorAll<HTMLInputElement>('input[name]').forEach((i) => { i.checked = c ? !!c[i.name as 'analytics' | 'ads'] : false; });
+      prefs.hidden = true; actions.hidden = false; openPrefs.setAttribute('aria-expanded', 'false');
+      banner.hidden = false;
+      banner.querySelector<HTMLElement>('[data-accept]')?.focus();
+    }
+    function save(c: Consent) { write(c); apply(c); close(); }
+
+    root.querySelector('[data-accept]')?.addEventListener('click', () => save({ v: version, analytics: !!plausible, ads: !!adsClient }));
+    root.querySelector('[data-reject]')?.addEventListener('click', () => save({ v: version, analytics: false, ads: false }));
+    openPrefs.addEventListener('click', () => {
+      const show = prefs.hidden;
+      prefs.hidden = !show;
+      openPrefs.setAttribute('aria-expanded', String(show));
+      if (show) prefs.querySelector<HTMLInputElement>('input:not([disabled])')?.focus();
+    });
+    prefs.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = new FormData(prefs);
+      save({ v: version, analytics: !!plausible && f.has('analytics'), ads: !!adsClient && f.has('ads') });
+    });
+    banner.addEventListener('keydown', (e) => { if (e.key === 'Escape' && read(version)) close(); });
+
+    prefsLinks.forEach((l) => { l.hidden = false; l.addEventListener('click', open); });
+
+    const saved = read(version);
+    if (saved) apply(saved); else banner.hidden = false;
+  }
+</script>

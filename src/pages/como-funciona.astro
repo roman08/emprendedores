@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+
+const clientes = [
+  { q: '¿Tiene costo usar Emprendedores?', a: 'No. Buscar, ver publicaciones y contactar a los negocios es totalmente gratis.' },
+  { q: '¿Cómo compro algo?', a: 'En cada publicación pulsa "Contactar por WhatsApp". Hablas directo con el negocio y acuerdan precio, entrega y forma de pago. Aquí no hay ventas ni pagos en línea.' },
+  { q: '¿Qué significa la insignia de verificado?', a: 'Indica que revisamos la información básica del negocio. Ayuda, pero no sustituye tu propio cuidado al comprar.' },
+  { q: '¿Cómo compro con seguridad?', a: 'Pide fotos o videos reales del producto, evita adelantos grandes con desconocidos, prefiere entregar y pagar en un lugar público o con un método que te dé comprobante, y desconfía de precios demasiado bajos o de quien te presiona.' },
+  { q: '¿Cómo reporto una publicación o un negocio?', a: 'Si algo parece falso, engañoso o prohibido, repórtalo con la opción de reporte de la publicación o escríbenos. Revisamos los casos y retiramos el contenido que incumpla los términos.' },
+];
+
+const emprendedores = [
+  { q: '¿Cuánto cuesta publicar?', a: 'Nada. Crear tu negocio y publicar productos o servicios es gratis.' },
+  { q: '¿Cómo publico?', a: 'Crea tu cuenta, completa los datos de tu negocio (nombre, municipio, WhatsApp, horarios si quieres) y agrega tus publicaciones desde el panel.' },
+  { q: '¿Las fotos son obligatorias?', a: 'Sí. Cada publicación necesita al menos una foto real; las publicaciones con buenas fotos reciben más mensajes.' },
+  { q: '¿Cómo me contactan los clientes?', a: 'Por WhatsApp, con un mensaje que ya menciona tu publicación. Tu panel muestra las visitas y los clics a WhatsApp.' },
+  { q: '¿Cómo verifico mi negocio?', a: 'Una vez que tu negocio esté completo, el equipo puede revisarlo y marcarlo como verificado. Mantén tus datos reales y actualizados.' },
+  { q: '¿Qué no puedo publicar?', a: 'Consulta la lista de contenido prohibido en los Términos de uso. Las publicaciones que la incumplan se retiran.' },
+];
+
+const sections = [
+  { title: 'Para clientes', items: clientes },
+  { title: 'Para emprendedores', items: emprendedores },
+];
+---
+<Base title="Cómo funciona" description="Preguntas frecuentes para clientes y emprendedores: es gratis, el contacto es por WhatsApp y así publicas tu negocio.">
+  <div class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-extrabold">Cómo funciona</h1>
+    <p class="mt-3 text-muted">Emprendedores es un directorio gratuito de negocios locales. Tú encuentras, escribes por WhatsApp y acuerdas directo con el negocio.</p>
+
+    {sections.map((s) => (
+      <section class="mt-10">
+        <h2 class="text-xl font-bold">{s.title}</h2>
+        <div class="mt-4 space-y-3">
+          {s.items.map((i) => (
+            <details class="group card px-4 py-3">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-3 font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500">
+                {i.q}
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0 transition-transform group-open:rotate-180"><path d="M6 9l6 6 6-6" /></svg>
+              </summary>
+              <p class="mt-2 text-muted">{i.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <section class="my-12 card flex flex-col items-start gap-4 bg-brand-900 p-8 text-white sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h2 class="text-xl font-bold">¿Listo para empezar?</h2>
+        <p class="mt-1 text-brand-100">Explora negocios o publica el tuyo gratis.</p>
+      </div>
+      <div class="flex gap-2">
+        <a href="/explorar" class="btn bg-white text-brand-900 hover:bg-brand-50">Explorar</a>
+        <a data-cta href="/registro" class="btn btn-outline !border-white !text-white">Publicar mi negocio</a>
+      </div>
+    </section>
+  </div>
+</Base>

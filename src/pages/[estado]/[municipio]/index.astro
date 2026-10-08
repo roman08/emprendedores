@@ -1,0 +1,47 @@
+---
+import Location from '../_Location.astro';
+import { supabase } from '../../../lib/supabase';
+import { loadGeo, loadCounts, loadListings, parsePage, PAGE_SIZE } from '../_lib';
+
+const geo = await loadGeo(Astro.params.estado, Astro.params.municipio);
+if (!geo || !geo.mun) {
+  Astro.response.status = 404;
+  return Astro.rewrite('/404');
+}
+const { state, mun, municipalities } = geo;
+const base = `/${state.slug}/${mun.slug}`;
+
+const page = parsePage(Astro.url.searchParams.get('pagina'));
+const [counts, { listings, count }, { data: categories }] = await Promise.all([
+  loadCounts([mun.id]),
+  loadListings(mun.id, null, page),
+  supabase.from('categories').select('id,name,slug').order('sort'),
+]);
+const totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE));
+
+const catLinks = (categories ?? [])
+  .map((c) => ({ name: c.name, href: `${base}/${c.slug}`, count: counts.byCategory.get(c.id) ?? 0 }))
+  .filter((c) => c.count > 0);
+const siblings = municipalities.filter((m) => m.id !== mun.id).map((m) => ({ name: m.name, href: `/${state.slug}/${m.slug}` }));
+
+const intro = counts.listings > 0
+  ? `${counts.listings} ${counts.listings === 1 ? 'publicación' : 'publicaciones'} de ${counts.businesses} ${counts.businesses === 1 ? 'negocio' : 'negocios'} en ${mun.name}. Escríbeles directo por WhatsApp, sin intermediarios.`
+  : `Todavía no hay publicaciones en ${mun.name}. Si tienes un negocio aquí, publícalo gratis y recibe clientes por WhatsApp.`;
+---
+<Location
+  title={`Negocios y productos en ${mun.name}, ${state.name}`}
+  description={counts.listings > 0
+    ? `${counts.listings} publicaciones de ${counts.businesses} negocios en ${mun.name}, ${state.name}. Contáctalos directo por WhatsApp.`
+    : `Negocios y emprendedores de ${mun.name}, ${state.name}. Publica el tuyo gratis.`}
+  h1={`Negocios y productos en ${mun.name}, ${state.name}`}
+  intro={intro}
+  crumbs={[{ name: 'Inicio', href: '/' }, { name: state.name, href: `/${state.slug}` }, { name: mun.name, href: base }]}
+  listings={listings}
+  count={count}
+  page={page}
+  totalPages={totalPages}
+  linksTitle={`Categorías en ${mun.name}`}
+  links={catLinks}
+  moreTitle="Otros municipios"
+  more={siblings}
+/>

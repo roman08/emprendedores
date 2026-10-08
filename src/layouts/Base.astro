@@ -1,0 +1,49 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+
+interface Props { title?: string; description?: string; image?: string; noindex?: boolean; bare?: boolean }
+const { title, description = 'Descubre negocios, productos y servicios de emprendedores locales y contáctalos directo por WhatsApp.', image, noindex = false, bare = false } = Astro.props;
+const fullTitle = title ? `${title} · Emprendedores` : 'Emprendedores · Negocios locales a un mensaje';
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
+const ogDefault = new URL('/og-default.png',Astro.site ?? Astro.url.origin).href;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image ?? ogDefault} />
+    {!image && <meta property="og:image:width" content="1200" />}
+    {!image && <meta property="og:image:height" content="630" />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Detecta sesión antes del primer render para que el header no parpadee -->
+    <script is:inline>
+      try {
+        var k = Object.keys(localStorage).find(function (x) { return /^sb-.*-auth-token$/.test(x); });
+        document.documentElement.dataset.auth = k ? 'in' : 'out';
+      } catch (e) { document.documentElement.dataset.auth = 'out'; }
+    </script>
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    {!bare && <Header />}
+    <main class="flex-1"><slot /></main>
+    {!bare && <Footer />}
+    <CookieConsent />
+    <script>import '../lib/authUi';</script>
+  </body>
+</html>

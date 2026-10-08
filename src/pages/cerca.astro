@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import NearbyFinder from '../components/NearbyFinder';
+import { supabase } from '../lib/supabase';
+
+const [{ data: categories }, { data: municipalities }] = await Promise.all([
+  supabase.from('categories').select('id,name').order('sort'),
+  supabase.from('municipalities').select('id,name,lat,lng').order('name'),
+]);
+---
+<Base title="Negocios cerca de mí" description="Encuentra negocios y emprendedores con local cerca de ti en Tabasco: distancia, horarios y cómo llegar.">
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <h1 class="text-2xl font-bold">Negocios cerca de mí</h1>
+    <p class="mt-1 max-w-2xl text-muted">
+      Descubre emprendedores con local físico a tu alrededor, mira si están abiertos y llega directo.
+    </p>
+    <div class="mt-6">
+      <NearbyFinder client:load categories={categories ?? []} municipalities={municipalities ?? []} />
+    </div>
+  </div>
+</Base>

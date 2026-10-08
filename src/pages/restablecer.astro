@@ -1,0 +1,7 @@
+---
+import Base from '../layouts/Base.astro';
+import AuthForm from '../components/AuthForm';
+---
+<Base title="Nueva contraseña" noindex>
+  <div class="grid place-items-center px-4 py-14"><AuthForm client:load mode="reset" /></div>
+</Base>

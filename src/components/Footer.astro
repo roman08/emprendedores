@@ -1,0 +1,21 @@
+---
+---
+<footer class="mt-16 border-t border-line bg-white">
+  <div class="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+    <p>© {new Date().getFullYear()} Emprendedores · Hecho en Tabasco para todo México.</p>
+    <nav class="flex flex-wrap gap-x-5 gap-y-2">
+      <a href="/cerca" class="hover:text-ink">Cerca de mí</a>
+      <a href="/como-funciona" class="hover:text-ink">Cómo funciona</a>
+      <a href="/terminos" class="hover:text-ink">Términos</a>
+      <a href="/privacidad" class="hover:text-ink">Privacidad</a>
+      <button type="button" data-cookie-prefs hidden class="hover:text-ink">Preferencias de cookies</button>
+      <a data-cta href="/registro" class="hover:text-ink">Publica tu negocio</a>
+    </nav>
+  </div>
+  <nav aria-label="Municipios" class="mx-auto max-w-6xl border-t border-line px-4 py-4 text-sm text-muted">
+    <span class="font-medium text-ink">Negocios en:</span>
+    {[['Cunduacán', 'cunduacan'], ['Villahermosa', 'villahermosa'], ['Comalcalco', 'comalcalco'], ['Jalpa de Méndez', 'jalpa-de-mendez'], ['Nacajuca', 'nacajuca'], ['Paraíso', 'paraiso']].map(([n, s]) => (
+      <a href={`/tabasco/${s}`} class="ml-3 hover:text-ink">{n}</a>
+    ))}
+  </nav>
+</footer>

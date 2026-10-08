@@ -1,0 +1,45 @@
+---
+// Aviso previo al contacto por WhatsApp cuando el negocio está fuera de horario.
+// Los enlaces que lo activan llevan data-wa-closed="<estado actual>". Sin JavaScript el enlace funciona igual.
+---
+<dialog id="closed-dialog" class="m-auto w-[min(92vw,26rem)] rounded-2xl border border-line bg-white p-0 shadow-xl backdrop:bg-black/40" aria-labelledby="closed-title">
+  <div class="p-6">
+    <div class="flex items-center gap-3">
+      <span class="grid h-10 w-10 place-items-center rounded-full bg-amber-100 text-amber-700" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+      </span>
+      <h2 id="closed-title" class="text-lg font-bold">Este negocio está cerrado ahora</h2>
+    </div>
+    <p id="closed-status" class="mt-3 text-sm font-medium text-ink"></p>
+    <p class="mt-2 text-sm text-muted">Puedes enviar tu mensaje de todos modos, pero es posible que no te respondan hasta que vuelvan a abrir.</p>
+    <div class="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+      <button type="button" id="closed-cancel" class="btn btn-ghost">Cancelar</button>
+      <button type="button" id="closed-go" class="btn btn-wa">Enviar de todos modos</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('closed-dialog') as HTMLDialogElement | null;
+  const statusEl = document.getElementById('closed-status');
+  const goBtn = document.getElementById('closed-go');
+  let target = '';
+
+  if (dialog && typeof dialog.showModal === 'function') {
+    document.addEventListener('click', (e) => {
+      const a = (e.target as Element).closest<HTMLAnchorElement>('a[data-wa-closed]');
+      if (!a) return;
+      e.preventDefault();
+      target = a.href;
+      if (statusEl) statusEl.textContent = a.dataset.waClosed ?? '';
+      dialog.showModal();
+    });
+    goBtn?.addEventListener('click', () => {
+      window.open(target, '_blank', 'noopener');
+      dialog.close();
+    });
+    document.getElementById('closed-cancel')?.addEventListener('click', () => dialog.close());
+    // Clic fuera del cuadro lo cierra
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+  }
+</script>

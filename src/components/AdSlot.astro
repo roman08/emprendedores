@@ -1,0 +1,22 @@
+---
+// Espacio publicitario. Se activa con PUBLIC_ADS=1.
+// Con PUBLIC_ADSENSE_CLIENT (y opcional PUBLIC_ADSENSE_SLOT) incluye el <ins class="adsbygoogle"> real, que
+// permanece oculto hasta que CookieConsent obtiene consentimiento de publicidad; sin eso se ve el marcador.
+interface Props { slot: 'top' | 'inline' | 'side'; class?: string }
+const { slot, class: cls = '' } = Astro.props;
+const enabled = import.meta.env.PUBLIC_ADS === '1';
+const client = import.meta.env.PUBLIC_ADSENSE_CLIENT ?? '';
+const unit = import.meta.env.PUBLIC_ADSENSE_SLOT ?? '';
+const adsense = /^ca-pub-\d+$/.test(client);
+---
+{enabled && (
+  <aside data-ad-slot={slot} aria-label="Publicidad"
+    class={`grid place-items-center overflow-hidden rounded-2xl border border-dashed border-line bg-white text-xs text-muted ${slot === 'side' ? 'min-h-64' : 'min-h-24'} ${cls}`}>
+    <span data-ad-placeholder>Publicidad</span>
+    {adsense && (
+      <ins data-ad-ins hidden class="adsbygoogle w-full" style="display:block"
+        data-ad-client={client} data-ad-slot={/^\d+$/.test(unit) ? unit : undefined}
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+    )}
+  </aside>
+)}

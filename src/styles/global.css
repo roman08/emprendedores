@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-brand-50: #eefbf8;
+  --color-brand-100: #d3f5ee;
+  --color-brand-500: #14a38b;
+  --color-brand-600: #0e8571;
+  --color-brand-700: #0f6b5c;
+  --color-brand-900: #0b3b34;
+  --color-ink: #14212b;
+  --color-muted: #5d6b76;
+  --color-line: #e5eaee;
+  --color-surface: #f6f8f9;
+  --color-accent: #f59e0b;
+}
+
+html { scroll-behavior: smooth; }
+html[data-auth="in"] [data-guest] { display: none !important; }
+html:not([data-auth="in"]) [data-user] { display: none !important; }
+body { @apply bg-surface text-ink antialiased; }
+
+.btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 disabled:opacity-50; }
+.btn-primary { @apply bg-brand-600 text-white hover:bg-brand-700; }
+.btn-ghost { @apply border border-line bg-white text-ink hover:bg-surface; }
+.btn-outline { @apply border-2 border-brand-600 bg-white text-brand-700 hover:bg-brand-600 hover:text-white; }
+.btn-wa { @apply bg-[#25D366] text-white hover:bg-[#1fb957]; }
+.input { @apply w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100; }
+.label { @apply mb-1.5 block text-sm font-medium; }
+.card { @apply rounded-2xl border border-line bg-white shadow-sm; }

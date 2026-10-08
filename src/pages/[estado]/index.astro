@@ -1,0 +1,47 @@
+---
+import Location from './_Location.astro';
+import { supabase } from '../../lib/supabase';
+import { loadGeo, loadCounts, loadLatest } from './_lib';
+
+const geo = await loadGeo(Astro.params.estado);
+if (!geo) {
+  Astro.response.status = 404;
+  return Astro.rewrite('/404');
+}
+const { state, municipalities } = geo;
+const munIds = municipalities.map((m) => m.id);
+
+const [counts, listings, { data: categories }] = await Promise.all([
+  loadCounts(munIds),
+  loadLatest(munIds, 12),
+  supabase.from('categories').select('id,name,slug').order('sort'),
+]);
+
+const base = `/${state.slug}`;
+const munLinks = municipalities
+  .map((m) => ({ name: m.name, href: `${base}/${m.slug}`, count: counts.byMunicipality.get(m.id) ?? 0 }))
+  .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'es'));
+const catLinks = (categories ?? [])
+  .map((c) => ({ name: c.name, href: `/explorar?categoria=${c.slug}`, count: counts.byCategory.get(c.id) ?? 0 }))
+  .filter((c) => c.count > 0);
+
+const intro = counts.listings > 0
+  ? `${counts.listings} ${counts.listings === 1 ? 'publicación' : 'publicaciones'} de ${counts.businesses} ${counts.businesses === 1 ? 'negocio' : 'negocios'} en ${state.name}. Elige tu municipio y contacta directo por WhatsApp.`
+  : `Estamos reuniendo negocios y emprendedores de ${state.name}. Elige tu municipio para ver lo que hay o publica el tuyo gratis.`;
+---
+<Location
+  title={`Negocios y productos en ${state.name}`}
+  description={`Descubre negocios, productos y servicios de emprendedores en ${state.name} y contáctalos directo por WhatsApp.`}
+  h1={`Negocios y productos en ${state.name}`}
+  intro={intro}
+  crumbs={[{ name: 'Inicio', href: '/' }, { name: state.name, href: base }]}
+  listings={listings}
+  count={counts.listings}
+  page={1}
+  totalPages={1}
+  linksTitle="Municipios"
+  links={munLinks}
+  moreTitle="Categorías con publicaciones"
+  more={catLinks}
+  listingsTitle="Publicado recientemente"
+/>

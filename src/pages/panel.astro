@@ -1,0 +1,7 @@
+---
+import Base from '../layouts/Base.astro';
+import Panel from '../components/panel/Panel';
+---
+<Base title="Mi panel" noindex>
+  <Panel client:only="react" />
+</Base>

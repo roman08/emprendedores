@@ -1,0 +1,110 @@
+---
+// Plantilla común de las páginas de ubicación
+import Base from '../../layouts/Base.astro';
+import ListingCard from '../../components/ListingCard.astro';
+import AdSlot from '../../components/AdSlot.astro';
+
+interface Link { name: string; href: string; count?: number }
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  intro: string;
+  crumbs: { name: string; href: string }[];
+  listings: any[];
+  count: number;
+  page: number;
+  totalPages: number;
+  linksTitle?: string;
+  links?: Link[];
+  moreTitle?: string;
+  more?: Link[];
+  listingsTitle?: string;
+}
+const { title, description, h1, intro, crumbs, listings, count, page, totalPages, linksTitle, links = [], moreTitle, more = [], listingsTitle = 'Publicaciones' } = Astro.props;
+const origin = (Astro.site ?? Astro.url).origin;
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: origin + c.href })),
+}).replace(/</g, '\\u003c');
+
+function pageUrl(p: number) {
+  return p <= 1 ? Astro.url.pathname : `${Astro.url.pathname}?pagina=${p}`;
+}
+---
+<Base title={title} description={description} noindex={count === 0}>
+  <script type="application/ld+json" set:html={jsonLd} slot="head" />
+  <div class="mx-auto max-w-6xl px-4 py-8">
+    <nav aria-label="Migas de pan" class="text-sm text-muted">
+      <ol class="flex flex-wrap items-center gap-1.5">
+        {crumbs.map((c, i) => (
+          <li class="flex items-center gap-1.5">
+            {i > 0 && <span aria-hidden="true">/</span>}
+            {i === crumbs.length - 1
+              ? <span aria-current="page" class="font-medium text-ink">{c.name}</span>
+              : <a href={c.href} class="hover:text-ink hover:underline">{c.name}</a>}
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <h1 class="mt-4 text-2xl font-bold sm:text-3xl">{h1}</h1>
+    <p class="mt-2 max-w-2xl text-muted">{intro}</p>
+
+    {links.length > 0 && (
+      <section class="mt-6" aria-labelledby="loc-links">
+        <h2 id="loc-links" class="text-lg font-bold">{linksTitle}</h2>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {links.map((l) => (
+            <a href={l.href} class="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand-500 hover:text-brand-700">
+              {l.name}{l.count != null && <span class="ml-1 text-muted">({l.count})</span>}
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <AdSlot slot="top" class="mt-6" />
+
+    <section class="mt-8" aria-labelledby="loc-listings">
+      <h2 id="loc-listings" class="text-lg font-bold">{listingsTitle}</h2>
+      {listings.length === 0 ? (
+        <div class="card mt-3 p-8 text-center">
+          <p class="font-semibold">Aún no hay publicaciones aquí.</p>
+          <p class="mt-2 text-sm text-muted">¿Tienes un negocio en esta zona? Publícalo gratis.</p>
+          <a data-cta href="/registro" class="btn btn-primary mt-4">Publica tu negocio</a>
+        </div>
+      ) : (
+        <>
+          <p class="mt-1 text-sm text-muted" aria-live="polite">{count === 1 ? '1 publicación' : `${count} publicaciones`}</p>
+          <div class="mt-3 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            {listings.map((l) => <ListingCard l={l} />)}
+          </div>
+        </>
+      )}
+    </section>
+
+    {totalPages > 1 && (
+      <nav class="mt-8 flex items-center justify-center gap-3" aria-label="Paginación">
+        {page > 1 && <a class="btn btn-ghost" href={pageUrl(page - 1)}>← Anterior</a>}
+        <span class="text-sm text-muted">Página {page} de {totalPages}</span>
+        {page < totalPages && <a class="btn btn-ghost" href={pageUrl(page + 1)}>Siguiente →</a>}
+      </nav>
+    )}
+
+    {more.length > 0 && (
+      <section class="mt-12" aria-labelledby="loc-more">
+        <h2 id="loc-more" class="text-lg font-bold">{moreTitle}</h2>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {more.map((l) => (
+            <a href={l.href} class="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand-500 hover:text-brand-700">
+              {l.name}{l.count != null && <span class="ml-1 text-muted">({l.count})</span>}
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</Base>
