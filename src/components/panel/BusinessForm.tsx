@@ -35,7 +35,8 @@ export default function BusinessForm({ userId, business, municipalities, onSaved
     name: business?.name ?? '',
     description: business?.description ?? '',
     whatsapp: business?.whatsapp ? business.whatsapp.replace(/^52/, '') : '',
-    municipality_id: business?.municipality_id ?? municipalities[0]?.id ?? null,
+    // Sin negocio previo, la lista (ordenada por nombre) empezaría en Balancán: se propone Cunduacán, la ciudad del piloto
+    municipality_id: business?.municipality_id ?? (municipalities.find((m) => m.name === 'Cunduacán') ?? municipalities[0])?.id ?? null,
     instagram: business?.instagram ?? '',
     facebook: business?.facebook ?? '',
     website: business?.website ?? '',

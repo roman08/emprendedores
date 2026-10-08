@@ -30,6 +30,7 @@ Todas están en `supabase/migrations`. Son idempotentes salvo `0001`, que solo s
 | 12 | `0012_search_near.sql` | `haversine_km` y la RPC `search_listings_near`: `/explorar` ordena del más cercano al más lejano (ubicación exacta si el negocio tiene pin; centro del municipio si no). Hasta ejecutarla, `/explorar` ordena por relevancia. |
 | 13 | `0013_contact.sql` | Formulario `/contacto`: tabla `contact_messages` (anon y usuarios solo insertan los 4 campos del formulario; solo el admin lee, cambia el estado y borra), límite anti-spam (5 por hora por correo y 100 por hora en total) y fecha/estado/usuario fijados por el servidor. Alimenta la pestaña "Mensajes" de `/admin`. |
 | 14 | `0014_reviews.sql` | Reseñas con moderación: tabla `reviews` (sin lectura pública, así no se expone `user_id`), triggers que limitan qué puede editar cada rol, RPC `business_rating_summary`, `list_business_reviews` y `reply_to_review` (respuesta única del dueño), y `reports.review_id` para reportar reseñas. Necesita `0003`. Alimenta la pestaña "Reseñas" de `/admin`. |
+| 15 | `0015_municipios_tabasco.sql` | Completa los 17 municipios de Tabasco (0001 solo sembró 6) con coordenadas de su cabecera, y renombra "Villahermosa" a "Villahermosa (Centro)". Idempotente. |
 
 Despliega el frontend junto con las migraciones: un frontend antiguo llamaría a `track_event` con 3 argumentos y los clics dejarían de contarse; el nuevo envía `p_visitor`.
 

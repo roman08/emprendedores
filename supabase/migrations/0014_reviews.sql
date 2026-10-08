@@ -260,7 +260,7 @@ create policy "reporte crear" on reports for insert
 
 -- Anti-abuso: máximo 5 reportes por hora sobre el mismo contenido (ahora incluye reseñas)
 create or replace function reports_rate_limit() returns trigger
-language plpgsql security definer set search_path = public, pg_temp as $
+language plpgsql security definer set search_path = public, pg_temp as $$
 declare
   v_count int;
 begin
