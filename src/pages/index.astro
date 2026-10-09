@@ -2,12 +2,13 @@
 import Base from '../layouts/Base.astro';
 import ListingCard from '../components/ListingCard.astro';
 import BusinessCard from '../components/BusinessCard.astro';
+import Carousel from '../components/Carousel.astro';
 import { latestBusinesses } from '../lib/businesses';
 import AdSlot from '../components/AdSlot.astro';
 import GrowingBanner from '../components/GrowingBanner.astro';
 import { supabase } from '../lib/supabase';
 
-const [{ data: categories }, { data: latest }] = await Promise.all([
+const [{ data: categories }, { data: latest }, { data: towns }, newBiz] = await Promise.all([
   supabase.from('categories').select('id,name,slug').order('sort'),
   supabase
     .from('listings')
@@ -15,41 +16,60 @@ const [{ data: categories }, { data: latest }] = await Promise.all([
     .eq('status', 'published')
     .order('created_at', { ascending: false })
     .limit(12),
-]);
-const [{ data: towns }, newBiz] = await Promise.all([
   supabase.from('municipalities').select('name,slug,states(slug)').order('name'),
   latestBusinesses(8),
 ]);
 ---
 <Base>
+  {/* Portada pensada para el celular: búsqueda y categorías compactas arriba y, de inmediato,
+      publicaciones y negocios en filas deslizables; lo informativo (cerca de mí, municipios) va después. */}
   <section class="bg-gradient-to-b from-brand-50 to-surface">
-    <div class="mx-auto max-w-6xl px-4 py-14 sm:py-20">
-      <h1 class="max-w-2xl text-4xl font-extrabold tracking-tight text-brand-900 sm:text-5xl">
+    <div class="mx-auto max-w-6xl px-4 pb-4 pt-6 sm:pb-10 sm:pt-16">
+      <h1 class="max-w-2xl text-2xl font-extrabold tracking-tight text-brand-900 sm:text-5xl">
         Lo que necesitas, hecho por emprendedores de tu comunidad.
       </h1>
-      <p class="mt-4 max-w-xl text-lg text-muted">
+      <p class="mt-2 max-w-xl text-sm text-muted sm:mt-4 sm:text-lg">
         Encuentra productos y servicios cerca de ti y escríbeles directo por WhatsApp. Sin intermediarios.
       </p>
-      <form action="/explorar" class="mt-8 flex max-w-xl gap-2">
-        <input name="q" class="input !py-3.5 shadow-sm" placeholder="¿Qué estás buscando? Ej. pasteles, plomero…" aria-label="Buscar" />
-        <button class="btn btn-primary !px-6">Buscar</button>
+      <form action="/explorar" class="mt-4 flex max-w-xl gap-2 sm:mt-8">
+        <input name="q" class="input !py-3 shadow-sm sm:!py-3.5" placeholder="¿Qué buscas? Ej. pasteles, plomero…" aria-label="Buscar" />
+        <button class="btn btn-primary !px-5 sm:!px-6">Buscar</button>
       </form>
+
+      <section class="mt-5 sm:mt-8" aria-labelledby="home-cats">
+        <h2 id="home-cats" class="text-sm font-semibold text-muted">Explora por categoría</h2>
+        <div class="chip-row mt-2">
+          {(categories ?? []).map((c) => <a href={`/explorar?categoria=${c.slug}`} class="chip">{c.name}</a>)}
+        </div>
+      </section>
     </div>
   </section>
 
   <div class="mx-auto max-w-6xl px-4">
-    <AdSlot slot="top" class="mt-6" />
+    {(latest ?? []).length === 0 ? (
+      <section class="mt-6">
+        <h2 class="text-lg font-bold sm:text-xl">Publicado recientemente</h2>
+        <div class="card mt-3 p-8 text-center text-muted">
+          Aún no hay publicaciones. <a data-cta href="/registro" class="font-semibold text-brand-700 underline">Sé el primero en publicar</a>.
+        </div>
+      </section>
+    ) : (
+      <Carousel id="home-recientes" title="Publicado recientemente" href="/explorar?orden=relevancia" linkText="Ver todo →" class="!mt-4 sm:!mt-6">
+        {(latest ?? []).map((l) => <div class="carousel-item"><ListingCard l={l} /></div>)}
+      </Carousel>
+    )}
 
-    <section class="mt-10">
-      <h2 class="text-xl font-bold">Explora por categoría</h2>
-      <div class="mt-4 flex flex-wrap gap-2">
-        {(categories ?? []).map((c) => (
-          <a href={`/explorar?categoria=${c.slug}`} class="inline-flex min-h-11 items-center rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand-500 hover:text-brand-700">{c.name}</a>
-        ))}
-      </div>
-    </section>
+    {newBiz.length > 0 && (
+      <Carousel id="home-negocios" title="Negocios recién llegados" href="/explorar?tipo=negocio&orden=relevancia" linkText="Ver todos →">
+        {newBiz.map((b) => <div class="carousel-item"><BusinessCard b={b} /></div>)}
+      </Carousel>
+    )}
 
-    <section class="card mt-10 flex flex-col items-start gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
+    {(latest ?? []).length < 8 && <GrowingBanner />}
+
+    <AdSlot slot="top" class="mt-8" />
+
+    <section class="card mt-8 flex flex-col items-start gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h2 class="text-xl font-bold">Negocios cerca de ti</h2>
         <p class="mt-1 text-muted">Mira qué emprendedores con local hay a tu alrededor, si están abiertos y cómo llegar.</p>
@@ -58,46 +78,15 @@ const [{ data: towns }, newBiz] = await Promise.all([
     </section>
 
     {(towns ?? []).length > 0 && (
-      <section class="mt-10">
-        <h2 class="text-xl font-bold">Explora por municipio</h2>
-        <div class="mt-4 flex flex-wrap gap-2">
-          {(towns ?? []).map((m: any) => m.states?.slug && (
-            <a href={`/${m.states.slug}/${m.slug}`} class="inline-flex min-h-11 items-center rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand-500 hover:text-brand-700">{m.name}</a>
-          ))}
+      <section class="mt-8" aria-labelledby="home-towns">
+        <h2 id="home-towns" class="text-lg font-bold sm:text-xl">Explora por municipio</h2>
+        <div class="chip-row mt-3">
+          {(towns ?? []).map((m: any) => m.states?.slug && <a href={`/${m.states.slug}/${m.slug}`} class="chip">{m.name}</a>)}
         </div>
       </section>
     )}
 
-    <section class="mt-12">
-      <div class="flex items-end justify-between">
-        <h2 class="text-xl font-bold">Publicado recientemente</h2>
-        <a href="/explorar" class="text-sm font-semibold text-brand-700 hover:underline">Ver todo →</a>
-      </div>
-      {(latest ?? []).length === 0 ? (
-        <div class="card mt-4 p-10 text-center text-muted">
-          Aún no hay publicaciones. <a data-cta href="/registro" class="font-semibold text-brand-700 underline">Sé el primero en publicar</a>.
-        </div>
-      ) : (
-        <div class="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {(latest ?? []).map((l) => <ListingCard l={l} />)}
-        </div>
-      )}
-      {(latest ?? []).length < 8 && <GrowingBanner />}
-    </section>
-
-    {newBiz.length > 0 && (
-      <section class="mt-12">
-        <div class="flex items-end justify-between">
-          <h2 class="text-xl font-bold">Negocios recién llegados</h2>
-          <a href="/explorar?tipo=negocio" class="text-sm font-semibold text-brand-700 hover:underline">Ver todos los negocios →</a>
-        </div>
-        <div class="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {newBiz.map((b) => <BusinessCard b={b} />)}
-        </div>
-      </section>
-    )}
-
-    <section class="my-16 card flex flex-col items-start gap-4 bg-brand-900 p-8 text-white sm:flex-row sm:items-center sm:justify-between">
+    <section class="my-12 card flex flex-col items-start gap-4 bg-brand-900 p-8 text-white sm:my-16 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h2 class="text-2xl font-bold">¿Tienes un negocio o servicio?</h2>
         <p class="mt-1 text-brand-100">Publícalo gratis y recibe clientes directo en tu WhatsApp.</p>

@@ -46,6 +46,15 @@ body { @apply bg-surface text-ink antialiased; }
   .input { @apply w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100; }
   .label { @apply mb-1.5 block text-sm font-medium; }
   .card { @apply rounded-2xl border border-line bg-white shadow-sm; }
+  /* Carrusel (Carousel.astro): en el celular sangra hasta el borde para que la tarjeta cortada indique que hay más */
+  .carousel-track { @apply -mx-4 mt-3 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:scroll-px-0 md:px-0; scrollbar-width: none; }
+  .carousel-track::-webkit-scrollbar { display: none; }
+  .carousel-item { @apply w-[44%] shrink-0 snap-start sm:w-[31%] lg:w-[23.5%]; }
+  /* Fila de chips: deslizable en el celular (una sola línea), en varias líneas desde sm */
+  .chip-row { @apply -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0; scrollbar-width: none; }
+  .chip-row::-webkit-scrollbar { display: none; }
+  .chip { @apply inline-flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand-500 hover:text-brand-700; }
+  .chip[aria-current] { @apply border-brand-600 bg-brand-600 text-white hover:text-white; }
   /* Objetivos táctiles de 44 px en móvil (WCAG 2.5.8) */
   @media (max-width: 639px) {
     .btn { min-height: 2.75rem; }

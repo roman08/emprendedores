@@ -107,6 +107,9 @@ test.describe('Busqueda y /explorar', () => {
 
   test('filtros: elegir categoria y municipio reflejado en URL y en el h1', async ({ page }) => {
     await page.goto('/explorar');
+    // En móvil y tableta los filtros están plegados tras «Filtros»
+    const toggle = page.locator('[data-filters-toggle]');
+    if (await toggle.isVisible()) await toggle.click();
     await page.getByLabel('Categoría', { exact: true }).selectOption({ index: 1 });
     await page.getByLabel('Municipio', { exact: true }).selectOption({ index: 1 });
     await page.getByRole('button', { name: 'Filtrar' }).click();

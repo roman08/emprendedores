@@ -1,0 +1,46 @@
+---
+// Fila horizontal deslizable (negocios en portada, explorar y municipios): ocupa una sola fila de alto
+// para no empujar las publicaciones hacia abajo en el celular. Cada hijo debe llevar la clase .carousel-item.
+// En escritorio muestra flechas; en el celular se desliza con el dedo y la tarjeta cortada al borde indica que hay más.
+interface Props { id: string; title: string; count?: number; href?: string; linkText?: string; class?: string }
+const { id, title, count, href, linkText = 'Ver todos →', class: cls = '' } = Astro.props;
+---
+<section class:list={['mt-8', cls]} aria-labelledby={id} data-carousel>
+  <div class="flex items-center justify-between gap-3">
+    <h2 id={id} class="text-lg font-bold sm:text-xl">{title}{count != null && <span class="ml-1 text-sm font-normal text-muted">({count})</span>}</h2>
+    <div class="flex shrink-0 items-center gap-2">
+      {href && <a href={href} class="text-sm font-semibold text-brand-700 hover:underline">{linkText}</a>}
+      <button type="button" data-prev aria-label="Ver anteriores" aria-controls={`${id}-track`}
+        class="hidden h-9 w-9 place-items-center rounded-full border border-line bg-white text-ink transition hover:border-brand-500 disabled:opacity-40 md:grid">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+      </button>
+      <button type="button" data-next aria-label="Ver siguientes" aria-controls={`${id}-track`}
+        class="hidden h-9 w-9 place-items-center rounded-full border border-line bg-white text-ink transition hover:border-brand-500 disabled:opacity-40 md:grid">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+      </button>
+    </div>
+  </div>
+  <div id={`${id}-track`} data-track class="carousel-track">
+    <slot />
+  </div>
+</section>
+
+<script>
+  // Flechas de escritorio: avanzan una "página" del carrusel y se desactivan en los extremos
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-track]');
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-next]');
+    if (!track || !prev || !next) return;
+    const update = () => {
+      prev.disabled = track.scrollLeft <= 4;
+      next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+    };
+    const go = (dir: number) => track.scrollBy({ left: dir * track.clientWidth * 0.9, behavior: 'smooth' });
+    prev.addEventListener('click', () => go(-1));
+    next.addEventListener('click', () => go(1));
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  });
+</script>
