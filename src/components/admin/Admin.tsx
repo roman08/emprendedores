@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { LoadingState } from '../Loading';
 import { supabase } from '../../lib/supabase';
 import SummaryTab from './SummaryTab';
 import BusinessesTab from './BusinessesTab';
@@ -34,7 +35,7 @@ export default function Admin() {
     });
   }, []);
 
-  if (access === 'loading') return <p className="p-10 text-center text-muted">Cargando…</p>;
+  if (access === 'loading') return <LoadingState className="p-10" />;
   if (access === 'denied')
     return (
       <div className="mx-auto max-w-md px-4 py-16 text-center">

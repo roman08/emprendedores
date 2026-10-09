@@ -45,14 +45,15 @@ export default function ShareButtons({ title, label = 'Compartir' }: Props) {
 
   const wa = () => `https://wa.me/?text=${encodeURIComponent(`${title} ${url()}`)}`;
 
+  // Móvil: WhatsApp a todo el ancho y debajo las otras dos opciones mitad y mitad; desde sm, en una fila
   return (
-    <div className="flex flex-wrap items-center gap-2" aria-label={label}>
-      <a href="#" onClick={(e) => { e.preventDefault(); window.open(wa(), '_blank', 'noopener'); }} className="btn btn-wa flex-1 !py-2 text-sm sm:flex-none">
+    <div className="grid grid-cols-2 items-center gap-2 sm:flex sm:flex-wrap" aria-label={label}>
+      <a href="#" onClick={(e) => { e.preventDefault(); window.open(wa(), '_blank', 'noopener'); }} className="btn btn-wa col-span-2 whitespace-nowrap !py-2 text-sm">
         Compartir por WhatsApp
       </a>
-      <button type="button" onClick={copy} className="btn btn-outline flex-1 !py-2 text-sm sm:flex-none">Copiar enlace</button>
-      {canShare && <button type="button" onClick={nativeShare} className="btn btn-ghost flex-1 !py-2 text-sm sm:flex-none">Más opciones</button>}
-      <span role="status" aria-live="polite" className="text-sm font-medium text-brand-700">
+      <button type="button" onClick={copy} className={`btn btn-outline whitespace-nowrap !py-2 text-sm ${canShare ? '' : 'col-span-2'}`}>Copiar enlace</button>
+      {canShare && <button type="button" onClick={nativeShare} className="btn btn-ghost whitespace-nowrap !py-2 text-sm">Más opciones</button>}
+      <span role="status" aria-live="polite" className="col-span-2 text-sm font-medium text-brand-700 empty:hidden">
         {copied === 'ok' && '¡Enlace copiado!'}
         {copied === 'fail' && 'No se pudo copiar. Copia la dirección del navegador.'}
       </span>

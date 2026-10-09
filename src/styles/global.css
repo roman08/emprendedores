@@ -55,6 +55,41 @@ body { @apply bg-surface text-ink antialiased; }
   .chip-row::-webkit-scrollbar { display: none; }
   .chip { @apply inline-flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand-500 hover:text-brand-700; }
   .chip[aria-current] { @apply border-brand-600 bg-brand-600 text-white hover:text-white; }
+  /* ── Carga (componentes en Loading.tsx) ── */
+  .spinner { @apply inline-block h-4 w-4 shrink-0 animate-spin rounded-full border-2 border-current border-r-transparent align-[-0.15em]; }
+  /* Botones ocupados (aria-busy): spinner antes del texto */
+  .btn[aria-busy='true']::before { content: ''; @apply inline-block h-4 w-4 shrink-0 animate-spin rounded-full border-2 border-current border-r-transparent; }
+  .skeleton { @apply animate-pulse rounded-lg bg-line/70; }
+  /* Barra de progreso de navegación (lib/navProgress.ts) */
+  #nav-progress { @apply pointer-events-none fixed inset-x-0 top-0 z-70 h-0.75 origin-left scale-x-0 bg-brand-500 opacity-0; }
+  html[data-navigating] #nav-progress { @apply opacity-100; animation: nav-progress 8s cubic-bezier(0.1, 0.7, 0.3, 1) forwards; }
+  /* Mientras carga la siguiente página, los resultados se atenúan */
+  html[data-navigating] [data-busy-dim] { @apply pointer-events-none opacity-50 transition-opacity duration-200; }
+
+  /* ── Filtros de /explorar: hoja inferior en móvil y tableta, tarjeta en línea en escritorio ── */
+  .filters-sheet { @apply mt-3 hidden rounded-2xl border border-line bg-white shadow-sm gap-3 p-4 lg:grid lg:grid-cols-[1fr_1fr_auto_1fr_auto] lg:items-end; }
+  .sheet-backdrop { @apply pointer-events-none fixed inset-0 z-55 bg-ink/40 opacity-0 transition-opacity duration-200 lg:hidden; }
+  .sheet-backdrop[data-open] { @apply pointer-events-auto opacity-100; }
+  @media (max-width: 1023px) {
+    .filters-sheet {
+      @apply fixed inset-x-0 bottom-0 z-60 mt-0 flex max-h-[85dvh] flex-col gap-0 overflow-hidden rounded-b-none rounded-t-3xl p-0 shadow-2xl;
+      transform: translateY(100%); visibility: hidden;
+      transition: transform 0.25s ease, visibility 0s linear 0.25s;
+    }
+    .filters-sheet[data-open] { transform: none; visibility: visible; transition: transform 0.25s ease; }
+  }
+  @media (max-width: 1023px) and (prefers-reduced-motion: reduce) {
+    .filters-sheet, .filters-sheet[data-open] { transition: none; }
+  }
+  /* Filtro aplicado que se quita con un toque */
+  .filter-pill { @apply inline-flex min-h-9 items-center gap-1.5 rounded-full bg-brand-50 py-1 pl-3 pr-2.5 font-medium text-brand-800 transition hover:bg-brand-100; }
+  /* Selector segmentado (radios): Ordenar */
+  .segmented { @apply grid grid-cols-2 gap-1 rounded-xl border border-line bg-surface p-1; }
+  .segmented label { @apply cursor-pointer; }
+  .segmented span { @apply flex min-h-10 items-center justify-center rounded-lg px-3 text-center text-sm font-medium text-muted transition; }
+  .segmented input:checked + span { @apply bg-white text-ink shadow-sm; }
+  .segmented input:focus-visible + span { @apply outline-2 outline-offset-1 outline-brand-600; }
+
   /* Pistas de deslizamiento de ScrollRow.astro (solo móvil): desvanecido en el borde con contenido y flechita */
   .scroll-row { @apply relative; }
   .scroll-row-more { @apply pointer-events-none absolute right-0 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-white text-muted opacity-0 shadow-sm transition-opacity sm:hidden; }
@@ -68,4 +103,9 @@ body { @apply bg-surface text-ink antialiased; }
   @media (max-width: 639px) {
     .btn { min-height: 2.75rem; }
   }
+}
+
+@keyframes nav-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(0.9); }
 }

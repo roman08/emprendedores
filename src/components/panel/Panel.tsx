@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { LoadingState } from '../Loading';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
 import { BRAND } from '../../lib/brand';
@@ -39,7 +40,7 @@ export default function Panel() {
     });
   }, []);
 
-  if (!ready || !session) return <p className="p-10 text-center text-muted">Cargando tu panel…</p>;
+  if (!ready || !session) return <LoadingState label="Cargando tu panel…" className="p-10" />;
   const userId = session.user.id;
 
   async function logout() {

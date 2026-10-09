@@ -107,16 +107,18 @@ test.describe('Busqueda y /explorar', () => {
 
   test('filtros: elegir categoria y municipio reflejado en URL y en el h1', async ({ page }) => {
     await page.goto('/explorar');
-    // En móvil y tableta los filtros están plegados tras «Filtros»
-    const toggle = page.locator('[data-filters-toggle]');
+    // En móvil y tableta los filtros están en una hoja inferior que se abre con «Filtros»
+    // La barra de herramientas de `astro dev` flota abajo y tapa el botón de la hoja (no existe en producción)
+    await page.addStyleTag({ content: 'astro-dev-toolbar { display: none !important; }' });
+    const toggle = page.locator('[data-filters-open]');
     if (await toggle.isVisible()) await toggle.click();
     await page.getByLabel('Categoría', { exact: true }).selectOption({ index: 1 });
     await page.getByLabel('Municipio', { exact: true }).selectOption({ index: 1 });
-    await page.getByRole('button', { name: 'Filtrar' }).click();
+    await page.getByRole('button', { name: /^(Filtrar|Ver resultados)$/ }).click();
     await expect(page).toHaveURL(/categoria=.+&municipio=.+/);
     await expect(page.getByLabel('Categoría', { exact: true })).not.toHaveValue('');
     await expect(page.getByLabel('Municipio', { exact: true })).not.toHaveValue('');
-    await expect(page.getByRole('link', { name: /^Ver .* →$/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /^Ver .* en .* →$/ })).toBeVisible();
   });
 
   test('filtro con categoria sin resultados ofrece "Quitar filtros"', async ({ page }) => {

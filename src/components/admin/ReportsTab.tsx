@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { RowsSkeleton } from '../Loading';
 import { supabase } from '../../lib/supabase';
 import { Pagination, likeTerm, useConfirm, useDebounced, useNotice, usePaged } from './shared';
 
@@ -69,7 +70,7 @@ export default function ReportsTab() {
         <label className="sr-only" htmlFor="adm-r-q">Buscar reporte</label>
         <input id="adm-r-q" type="search" className="input" placeholder="Buscar por motivo o detalle…" value={q} onChange={(e) => setQ(e.target.value)} />
       </div>
-      {loading ? <p className="text-muted" role="status">Cargando…</p> : items.length === 0 ? (
+      {loading ? <RowsSkeleton /> : items.length === 0 ? (
         <div className="card p-10 text-center text-muted">No hay reportes {showResolved ? 'resueltos' : 'pendientes'}{term ? ' con esa búsqueda' : ''}.</div>
       ) : (
         <ul className="space-y-3">

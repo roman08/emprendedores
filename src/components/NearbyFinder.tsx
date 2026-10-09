@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import { openStatus, parseHours } from '../lib/hours';
 import { initials, safeHttpUrl, thumbUrl } from '../lib/format';
 import VerifiedBadge from './VerifiedBadge';
+import { RowsSkeleton, Spinner } from './Loading';
 
 interface Cat { id: number; name: string }
 interface Muni { id: number; name: string; lat: number | null; lng: number | null }
@@ -106,7 +107,7 @@ export default function NearbyFinder({ categories, municipalities }: Props) {
     <div>
       <section className="card p-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <button type="button" className="btn btn-primary" onClick={useMyLocation} disabled={locating}>
+          <button type="button" className="btn btn-primary" onClick={useMyLocation} disabled={locating} aria-busy={locating}>
             {locating ? 'Buscando tu ubicación…' : 'Usar mi ubicación'}
           </button>
           <span className="text-sm text-muted">o</span>
@@ -153,7 +154,7 @@ export default function NearbyFinder({ categories, municipalities }: Props) {
 
           <p className="mt-5 text-sm text-muted" aria-live="polite">
             {loading
-              ? 'Buscando negocios…'
+              ? <span className="inline-flex items-center gap-2"><Spinner className="text-brand-600" />Buscando negocios…</span>
               : results
                 ? `${results.length === 1 ? '1 negocio' : `${results.length} negocios`} cerca de ${origin.label}`
                 : ''}
@@ -176,8 +177,11 @@ export default function NearbyFinder({ categories, municipalities }: Props) {
             </div>
           )}
 
+          {/* Primera búsqueda: tarjetas fantasma; al cambiar filtros se atenúan los resultados anteriores */}
+          {loading && !results && <div className="mt-3"><RowsSkeleton label="Buscando negocios…" /></div>}
+
           {!error && results && results.length > 0 && view === 'list' && (
-            <ul className="mt-3 grid gap-4 sm:grid-cols-2">{results.map((b) => <ResultCard key={b.id} b={b} />)}</ul>
+            <ul className={`mt-3 grid gap-4 transition-opacity sm:grid-cols-2 ${loading ? 'pointer-events-none opacity-50' : ''}`} aria-busy={loading}>{results.map((b) => <ResultCard key={b.id} b={b} />)}</ul>
           )}
           {/* El mapa se muestra aunque no haya resultados, para ver al menos tu punto de partida */}
           {!error && results && view === 'map' && <ResultsMap origin={origin} results={results} />}

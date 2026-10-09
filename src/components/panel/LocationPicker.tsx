@@ -95,7 +95,7 @@ export default function LocationPicker({ lat, lng, address, center, onChange, on
           <input id={addrId} maxLength={300} className="input" value={address} onChange={(e) => onAddress(e.target.value)}
             placeholder="Calle, número, colonia, Cunduacán, Tabasco"
             onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); search(); } }} />
-          <button type="button" className="btn btn-ghost shrink-0" onClick={search} disabled={busy}>{busy ? 'Buscando…' : 'Ubicar'}</button>
+          <button type="button" className="btn btn-ghost shrink-0" onClick={search} disabled={busy} aria-busy={busy}>{busy ? 'Buscando…' : 'Ubicar'}</button>
         </div>
         {msg && <p className="mt-1.5 text-xs text-muted">{msg}</p>}
       </div>

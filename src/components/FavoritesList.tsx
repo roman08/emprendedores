@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { CardsSkeleton } from './Loading';
 import { supabase } from '../lib/supabase';
 import { formatPrice, initials, thumbUrl } from '../lib/format';
 import { getFavorites, isFavorite, onChange, parseSharedIds, removeMany, toggle, type FavKind } from '../lib/favorites';
@@ -162,7 +163,7 @@ export default function FavoritesList() {
   }
 
   if (!ready || (loading && total === 0)) {
-    return <p role="status" className="py-16 text-center text-muted">Cargando tus guardados…</p>;
+    return <CardsSkeleton label="Cargando tus guardados…" className="py-6" />;
   }
 
   if (error) {

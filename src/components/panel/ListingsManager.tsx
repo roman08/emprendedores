@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type SyntheticEvent } from 'react';
+import { RowsSkeleton } from '../Loading';
 import { supabase } from '../../lib/supabase';
 import { formatPrice, thumbUrl } from '../../lib/format';
 import { BRAND } from '../../lib/brand';
@@ -88,7 +89,7 @@ export default function ListingsManager({ userId, businessId, categories }: {
           </span>
         </div>
       )}
-      {loading ? <p className="text-muted">Cargando…</p> : items.length === 0 ? (
+      {loading ? <RowsSkeleton label="Cargando tus publicaciones…" /> : items.length === 0 ? (
         <div className="card p-10 text-center text-muted">Aún no tienes publicaciones. ¡Crea la primera!</div>
       ) : (
         <ul className="space-y-3">
@@ -348,10 +349,10 @@ function ListingForm({ userId, businessId, categories, listing, onDone }: {
       {busy && progress && <p role="status" className="text-sm text-muted">{progress}</p>}
       <div className="flex flex-wrap gap-3">
         {listing?.status === 'published' ? (
-          <button className="btn btn-primary" disabled={busy}>{busy ? 'Guardando…' : 'Guardar cambios'}</button>
+          <button className="btn btn-primary" disabled={busy} aria-busy={busy}>{busy ? 'Guardando…' : 'Guardar cambios'}</button>
         ) : (
           <>
-            <button type="button" className="btn btn-primary" disabled={busy} onClick={(e) => save(e, true)}>{busy ? 'Guardando…' : 'Publicar'}</button>
+            <button type="button" className="btn btn-primary" disabled={busy} aria-busy={busy} onClick={(e) => save(e, true)}>{busy ? 'Guardando…' : 'Publicar'}</button>
             <button className="btn btn-ghost" disabled={busy}>Guardar borrador</button>
           </>
         )}

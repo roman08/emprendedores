@@ -201,7 +201,7 @@ export default function AuthForm({ mode }: { mode: Mode }) {
       {captcha.enabled && mode !== 'reset' && <div ref={captcha.box} />}
       {error && <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
       {info && <p role="status" className="rounded-lg bg-brand-50 px-3 py-2 text-sm text-brand-700">{info}</p>}
-      <button className="btn btn-primary w-full" disabled={busy}>{busy ? 'Un momento…' : submitLabel}</button>
+      <button className="btn btn-primary w-full" disabled={busy} aria-busy={busy}>{busy ? 'Un momento…' : submitLabel}</button>
       <p className="text-center text-sm text-muted">
         {register ? <>¿Ya tienes cuenta? <a className="font-semibold text-brand-700" href="/ingresar">Ingresa</a></>
           : login ? <>¿Eres nuevo? <a className="font-semibold text-brand-700" href="/registro">Regístrate gratis</a></>

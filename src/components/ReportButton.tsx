@@ -90,7 +90,7 @@ export default function ReportButton({ listingId, businessId, label = 'Reportar'
                 {error && <p role="alert" className="mt-3 text-sm text-red-600">{error}</p>}
                 <div className="mt-5 flex justify-end gap-2">
                   <button type="button" className="btn btn-ghost" onClick={close}>Cancelar</button>
-                  <button type="submit" className="btn btn-primary" disabled={sending}>{sending ? 'Enviando…' : 'Enviar reporte'}</button>
+                  <button type="submit" className="btn btn-primary" disabled={sending} aria-busy={sending}>{sending ? 'Enviando…' : 'Enviar reporte'}</button>
                 </div>
               </form>
             )}

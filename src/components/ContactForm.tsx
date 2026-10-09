@@ -148,7 +148,7 @@ export default function ContactForm({ initialKind = 'duda' }: { initialKind?: st
       </label>
       {captcha.enabled && <div ref={captcha.box} />}
       {error && <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
-      <button className="btn btn-primary w-full sm:w-auto" disabled={busy}>{busy ? 'Enviando…' : 'Enviar mensaje'}</button>
+      <button className="btn btn-primary w-full sm:w-auto" disabled={busy} aria-busy={busy}>{busy ? 'Enviando…' : 'Enviar mensaje'}</button>
     </form>
   );
 }

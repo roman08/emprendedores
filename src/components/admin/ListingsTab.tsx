@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { RowsSkeleton } from '../Loading';
 import { supabase } from '../../lib/supabase';
 import { formatPrice } from '../../lib/format';
 import { Pagination, likeTerm, listingImagePaths, removePaths, useConfirm, useDebounced, useNotice, usePaged } from './shared';
@@ -85,7 +86,7 @@ export default function ListingsTab() {
           </select>
         </div>
       </div>
-      {loading ? <p className="text-muted" role="status">Cargando…</p> : items.length === 0 ? (
+      {loading ? <RowsSkeleton /> : items.length === 0 ? (
         <div className="card p-10 text-center text-muted">Sin resultados.</div>
       ) : (
         <ul className="space-y-3">

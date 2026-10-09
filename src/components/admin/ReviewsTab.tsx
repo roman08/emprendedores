@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { RowsSkeleton } from '../Loading';
 import { supabase } from '../../lib/supabase';
 import { Pagination, useConfirm, useNotice, usePaged } from './shared';
 
@@ -89,7 +90,7 @@ export default function ReviewsTab({ focusId = null, onClearFocus }: { focusId?:
           </div>
         </div>
       )}
-      {loading ? <p className="text-muted" role="status">Cargando…</p> : items.length === 0 ? (
+      {loading ? <RowsSkeleton /> : items.length === 0 ? (
         <div className="card p-10 text-center text-muted">No hay reseñas con esos filtros.</div>
       ) : (
         <ul className="space-y-3">

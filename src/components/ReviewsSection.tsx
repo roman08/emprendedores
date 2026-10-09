@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
+import { LoadingState } from './Loading';
 import { supabase } from '../lib/supabase';
 
 const PAGE = 10;
@@ -126,7 +127,7 @@ function ReportReview({ reviewId, onClose }: { reviewId: string; onClose: () => 
             {error && <p role="alert" className="mt-3 text-sm text-red-700">{error}</p>}
             <div className="mt-5 flex justify-end gap-2">
               <button type="button" className="btn btn-ghost" onClick={onClose}>Cancelar</button>
-              <button type="submit" className="btn btn-primary" disabled={sending}>{sending ? 'Enviando…' : 'Enviar reporte'}</button>
+              <button type="submit" className="btn btn-primary" disabled={sending} aria-busy={sending}>{sending ? 'Enviando…' : 'Enviar reporte'}</button>
             </div>
           </form>
         )}
@@ -314,7 +315,7 @@ export default function ReviewsSection({ businessId }: { businessId: string }) {
       {formError && <p role="alert" className="mt-2 text-sm text-red-700">{formError}</p>}
       <div className="mt-3 flex justify-end gap-2">
         {mine && <button type="button" className="btn btn-ghost" onClick={() => setEditing(false)}>Cancelar</button>}
-        <button type="submit" className="btn btn-primary" disabled={saving}>{saving ? 'Guardando…' : mine ? 'Guardar cambios' : 'Publicar reseña'}</button>
+        <button type="submit" className="btn btn-primary" disabled={saving} aria-busy={saving}>{saving ? 'Guardando…' : mine ? 'Guardar cambios' : 'Publicar reseña'}</button>
       </div>
     </form>
   );
@@ -328,7 +329,7 @@ export default function ReviewsSection({ businessId }: { businessId: string }) {
       </div>
 
       {loading ? (
-        <p className="mt-3 text-muted" role="status">Cargando reseñas…</p>
+        <LoadingState label="Cargando reseñas…" className="!justify-start !py-4" />
       ) : error && !summary ? (
         <div className="mt-3 card p-4" role="alert">
           <p className="text-sm text-red-700">{error}</p>
@@ -409,7 +410,7 @@ export default function ReviewsSection({ businessId }: { businessId: string }) {
           {error && <p role="alert" className="mt-3 text-sm text-red-700">{error}</p>}
           {hasMore && (
             <div className="mt-4 text-center">
-              <button type="button" className="btn btn-ghost" disabled={loadingMore} onClick={loadMore}>{loadingMore ? 'Cargando…' : 'Ver más reseñas'}</button>
+              <button type="button" className="btn btn-ghost" disabled={loadingMore} aria-busy={loadingMore} onClick={loadMore}>{loadingMore ? 'Cargando…' : 'Ver más reseñas'}</button>
             </div>
           )}
         </>

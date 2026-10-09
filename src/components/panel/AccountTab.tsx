@@ -94,7 +94,7 @@ export default function AccountTab({ user }: { user: User }) {
           <div><label className="label" htmlFor="acc-confirm">Confirma la contraseña</label>
             <input id="acc-confirm" className="input" type="password" required minLength={8} value={confirm} onChange={(e) => setConfirm(e.target.value)} autoComplete="new-password" /></div>
           {pwMsg && <p role={pwMsg.ok ? 'status' : 'alert'} className={`rounded-lg px-3 py-2 text-sm ${pwMsg.ok ? 'bg-brand-50 text-brand-700' : 'bg-red-50 text-red-700'}`}>{pwMsg.text}</p>}
-          <button className="btn btn-primary" disabled={pwBusy}>{pwBusy ? 'Guardando…' : 'Guardar contraseña'}</button>
+          <button className="btn btn-primary" disabled={pwBusy} aria-busy={pwBusy}>{pwBusy ? 'Guardando…' : 'Guardar contraseña'}</button>
         </form>
       )}
 

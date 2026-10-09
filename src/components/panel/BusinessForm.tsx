@@ -168,7 +168,7 @@ export default function BusinessForm({ userId, business, municipalities, onSaved
 
       {error && <p role="alert" className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
       {ok && <p className="rounded-lg bg-brand-50 px-3 py-2 text-sm text-brand-700">Guardado ✔</p>}
-      <button className="btn btn-primary" disabled={busy}>{busy ? 'Guardando…' : business ? 'Guardar cambios' : 'Crear mi negocio'}</button>
+      <button className="btn btn-primary" disabled={busy} aria-busy={busy}>{busy ? 'Guardando…' : business ? 'Guardar cambios' : 'Crear mi negocio'}</button>
     </form>
   );
 }
