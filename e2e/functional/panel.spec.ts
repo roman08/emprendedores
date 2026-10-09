@@ -255,7 +255,7 @@ test.describe('Panel: publicaciones', () => {
     await expect(menu).toHaveCount(0);
   });
 
-  test('nueva publicacion: publicar sin fotos -> error; maximo 5 fotos; reordenar y portada', async ({ page }) => {
+  test('nueva publicacion: publicar sin fotos -> error; maximo 4 fotos; reordenar y portada', async ({ page }) => {
     const log = await openPanel(page, { 'GET listings': [] });
     await page.getByRole('button', { name: '+ Nueva publicación' }).click();
     await page.getByLabel('Título *').fill('Pastel de prueba');
@@ -263,17 +263,17 @@ test.describe('Panel: publicaciones', () => {
     await expect(page.getByRole('alert')).toHaveText('Agrega al menos una foto para publicar.');
     expect(log.allowedWrites).toEqual([]);
 
-    // 6 fotos de golpe -> solo entran 5
+    // 5 fotos de golpe -> solo entran 4 (MAX_IMAGES, migración 0016)
     const input = page.locator('input[type=file]').first();
-    await input.setInputFiles([1, 2, 3, 4, 5, 6].map(file));
-    await expect(page.getByText('Solo se aceptan imágenes y hasta 5 fotos por publicación.')).toBeVisible();
-    await expect(page.getByText('(5/5)')).toBeVisible();
+    await input.setInputFiles([1, 2, 3, 4, 5].map(file));
+    await expect(page.getByText('Solo se aceptan imágenes y hasta 4 fotos por publicación.')).toBeVisible();
+    await expect(page.getByText('(4/4)')).toBeVisible();
     await expect(page.locator('input[type=file]')).toHaveCount(0); // ya no se puede agregar
     await expect(page.getByAltText('Foto 1 (portada)')).toBeVisible();
 
     const srcs = async () => page.locator('img[alt^="Foto "]').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).src));
     const before = await srcs();
-    expect(new Set(before).size).toBe(5);
+    expect(new Set(before).size).toBe(4);
     // mover foto 2 a la izquierda -> pasa a ser portada
     await page.getByRole('button', { name: 'Mover foto 2 a la izquierda' }).click();
     let after = await srcs();
@@ -285,10 +285,10 @@ test.describe('Panel: publicaciones', () => {
     expect(after[0]).toBe(before[3]);
     // los botones de mover estan deshabilitados en los extremos
     await expect(page.getByRole('button', { name: 'Mover foto 1 a la izquierda' })).toBeDisabled();
-    await expect(page.getByRole('button', { name: 'Mover foto 5 a la derecha' })).toBeDisabled();
+    await expect(page.getByRole('button', { name: 'Mover foto 4 a la derecha' })).toBeDisabled();
     // quitar una foto libera el cupo
-    await page.getByRole('button', { name: 'Quitar foto 5' }).click();
-    await expect(page.getByText('(4/5)')).toBeVisible();
+    await page.getByRole('button', { name: 'Quitar foto 4' }).click();
+    await expect(page.getByText('(3/4)')).toBeVisible();
     await expect(page.locator('input[type=file]').first()).toBeAttached();
   });
 
@@ -297,7 +297,7 @@ test.describe('Panel: publicaciones', () => {
     await page.getByRole('button', { name: '+ Nueva publicación' }).click();
     await page.locator('input[type=file]').first().setInputFiles({ name: 'virus.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4') });
     await expect(page.getByRole('alert')).toContainText('Solo se aceptan imágenes');
-    await expect(page.getByText('(0/5)')).toBeVisible();
+    await expect(page.getByText('(0/4)')).toBeVisible();
   });
 
   test('publicar: sube fotos en orden, guarda posiciones y publica (todo simulado)', async ({ page }) => {
@@ -358,7 +358,7 @@ test.describe('Panel: publicaciones', () => {
     await page.getByRole('button', { name: 'Quitar foto 1' }).click();
     await expect(page.getByRole('alert')).toHaveText('Una publicación activa necesita al menos una foto. Agrega otra antes de borrar esta.');
     // Sigue habiendo 1 foto
-    await expect(page.getByText('(1/5)')).toBeVisible();
+    await expect(page.getByText('(1/4)')).toBeVisible();
     // Vista previa abre y cierra con Escape
     await page.getByRole('button', { name: 'Vista previa' }).click();
     const dlg = page.getByRole('dialog', { name: 'Vista previa de la publicación' });
