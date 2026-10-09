@@ -1,0 +1,52 @@
+---
+// Fila de chips deslizable (categorías, municipios, tipos) con pistas de que hay más a los lados, solo en el celular:
+// - desvanecido en el borde hacia donde queda contenido
+// - flechita a la derecha (al tocarla avanza)
+// - un pequeño "asomo" la primera vez que la fila entra en pantalla (se omite con movimiento reducido)
+// Desde sm los chips se acomodan en varias líneas y nada de esto aplica.
+interface Props { class?: string; label?: string; as?: 'div' | 'nav' }
+const { class: cls = '', label, as: Tag = 'div' } = Astro.props;
+---
+<div class:list={['scroll-row', cls]} data-scroll-row>
+  <Tag class="chip-row" data-row aria-label={label}>
+    <slot />
+  </Tag>
+  <button type="button" data-more tabindex="-1" aria-hidden="true" class="scroll-row-more">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+  </button>
+</div>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let nudged = false; // un solo asomo por página
+
+  document.querySelectorAll<HTMLElement>('[data-scroll-row]').forEach((root) => {
+    const row = root.querySelector<HTMLElement>('[data-row]');
+    const more = root.querySelector<HTMLButtonElement>('[data-more]');
+    if (!row) return;
+
+    const update = () => {
+      const max = row.scrollWidth - row.clientWidth;
+      root.toggleAttribute('data-fade-left', row.scrollLeft > 4);
+      root.toggleAttribute('data-fade-right', max > 4 && row.scrollLeft < max - 4);
+    };
+    row.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+
+    more?.addEventListener('click', () => row.scrollBy({ left: row.clientWidth * 0.7, behavior: 'smooth' }));
+
+    if (reduce || !('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) return;
+      io.disconnect();
+      if (nudged || row.scrollWidth - row.clientWidth < 24 || row.scrollLeft > 0) return;
+      nudged = true;
+      setTimeout(() => {
+        row.scrollTo({ left: 56, behavior: 'smooth' });
+        setTimeout(() => row.scrollTo({ left: 0, behavior: 'smooth' }), 550);
+      }, 600);
+    }, { threshold: 0.9 });
+    io.observe(row);
+  });
+</script>

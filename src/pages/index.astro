@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import ListingCard from '../components/ListingCard.astro';
 import BusinessCard from '../components/BusinessCard.astro';
 import Carousel from '../components/Carousel.astro';
+import ScrollRow from '../components/ScrollRow.astro';
 import { latestBusinesses } from '../lib/businesses';
 import AdSlot from '../components/AdSlot.astro';
 import GrowingBanner from '../components/GrowingBanner.astro';
@@ -38,9 +39,9 @@ const [{ data: categories }, { data: latest }, { data: towns }, newBiz] = await 
 
       <section class="mt-5 sm:mt-8" aria-labelledby="home-cats">
         <h2 id="home-cats" class="text-sm font-semibold text-muted">Explora por categoría</h2>
-        <div class="chip-row mt-2">
+        <ScrollRow class="mt-2">
           {(categories ?? []).map((c) => <a href={`/explorar?categoria=${c.slug}`} class="chip">{c.name}</a>)}
-        </div>
+        </ScrollRow>
       </section>
     </div>
   </section>
@@ -80,9 +81,9 @@ const [{ data: categories }, { data: latest }, { data: towns }, newBiz] = await 
     {(towns ?? []).length > 0 && (
       <section class="mt-8" aria-labelledby="home-towns">
         <h2 id="home-towns" class="text-lg font-bold sm:text-xl">Explora por municipio</h2>
-        <div class="chip-row mt-3">
+        <ScrollRow class="mt-3">
           {(towns ?? []).map((m: any) => m.states?.slug && <a href={`/${m.states.slug}/${m.slug}`} class="chip">{m.name}</a>)}
-        </div>
+        </ScrollRow>
       </section>
     )}
 

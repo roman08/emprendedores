@@ -55,6 +55,15 @@ body { @apply bg-surface text-ink antialiased; }
   .chip-row::-webkit-scrollbar { display: none; }
   .chip { @apply inline-flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-full border border-line bg-white px-4 py-2 text-sm font-medium transition hover:border-brand-500 hover:text-brand-700; }
   .chip[aria-current] { @apply border-brand-600 bg-brand-600 text-white hover:text-white; }
+  /* Pistas de deslizamiento de ScrollRow.astro (solo móvil): desvanecido en el borde con contenido y flechita */
+  .scroll-row { @apply relative; }
+  .scroll-row-more { @apply pointer-events-none absolute right-0 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-white text-muted opacity-0 shadow-sm transition-opacity sm:hidden; }
+  .scroll-row[data-fade-right] .scroll-row-more { @apply pointer-events-auto opacity-100; }
+  @media (max-width: 639px) {
+    .scroll-row[data-fade-right] .chip-row { mask-image: linear-gradient(to right, #000 calc(100% - 72px), transparent calc(100% - 16px)); }
+    .scroll-row[data-fade-left] .chip-row { mask-image: linear-gradient(to right, transparent 0, #000 40px); }
+    .scroll-row[data-fade-left][data-fade-right] .chip-row { mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 72px), transparent calc(100% - 16px)); }
+  }
   /* Objetivos táctiles de 44 px en móvil (WCAG 2.5.8) */
   @media (max-width: 639px) {
     .btn { min-height: 2.75rem; }

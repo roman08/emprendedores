@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import ListingCard from '../components/ListingCard.astro';
 import BusinessCard from '../components/BusinessCard.astro';
 import Carousel from '../components/Carousel.astro';
+import ScrollRow from '../components/ScrollRow.astro';
 import { searchBusinesses } from '../lib/businesses';
 import AdSlot from '../components/AdSlot.astro';
 import GrowingBanner from '../components/GrowingBanner.astro';
@@ -224,12 +225,12 @@ function pageUrl(p: number) {
       </div>
     </form>
 
-    <nav aria-label="Qué mostrar" class="chip-row mt-3">
+    <ScrollRow as="nav" label="Qué mostrar" class="mt-3">
       {TYPE_TABS.map((t) => (
         <a href={searchUrl({ q, categoria, municipio, tipo: t.value, orden: sp.get('orden') ?? '', desde })}
           class="chip" aria-current={t.value === currentTab ? 'page' : undefined}>{t.label}</a>
       ))}
-    </nav>
+    </ScrollRow>
 
     {needsLocation && (
       <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl bg-amber-50 px-4 py-2.5 text-sm text-amber-900">
