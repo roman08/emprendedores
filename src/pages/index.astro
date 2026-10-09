@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import ListingCard from '../components/ListingCard.astro';
+import BusinessCard from '../components/BusinessCard.astro';
+import { latestBusinesses } from '../lib/businesses';
 import AdSlot from '../components/AdSlot.astro';
 import GrowingBanner from '../components/GrowingBanner.astro';
 import { supabase } from '../lib/supabase';
@@ -14,7 +16,10 @@ const [{ data: categories }, { data: latest }] = await Promise.all([
     .order('created_at', { ascending: false })
     .limit(12),
 ]);
-const { data: towns } = await supabase.from('municipalities').select('name,slug,states(slug)').order('name');
+const [{ data: towns }, newBiz] = await Promise.all([
+  supabase.from('municipalities').select('name,slug,states(slug)').order('name'),
+  latestBusinesses(8),
+]);
 ---
 <Base>
   <section class="bg-gradient-to-b from-brand-50 to-surface">
@@ -79,6 +84,18 @@ const { data: towns } = await supabase.from('municipalities').select('name,slug,
       )}
       {(latest ?? []).length < 8 && <GrowingBanner />}
     </section>
+
+    {newBiz.length > 0 && (
+      <section class="mt-12">
+        <div class="flex items-end justify-between">
+          <h2 class="text-xl font-bold">Negocios recién llegados</h2>
+          <a href="/explorar?tipo=negocio" class="text-sm font-semibold text-brand-700 hover:underline">Ver todos los negocios →</a>
+        </div>
+        <div class="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {newBiz.map((b) => <BusinessCard b={b} />)}
+        </div>
+      </section>
+    )}
 
     <section class="my-16 card flex flex-col items-start gap-4 bg-brand-900 p-8 text-white sm:flex-row sm:items-center sm:justify-between">
       <div>

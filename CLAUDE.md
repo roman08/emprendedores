@@ -13,10 +13,11 @@ npm run dev            # servidor local en :4321
 npm run build          # build de producción (Astro SSR + adaptador Netlify)
 npm run check          # astro check (tipos): debe dar 0 errores
 npm test               # vitest: pruebas unitarias en src/**/*.test.ts (hours, favorites, format)
-npm run test:e2e       # Playwright (e2e/); E2E_PORT=<puerto> para elegir puerto
+npm run test:e2e       # Playwright (e2e/): levanta su propio astro dev en :4399 (E2E_PORT=<puerto>) con --ignore-lock; proyectos desktop y mobile; resultados en qa-output/ (ignorado por git)
 npx vitest run src/lib/hours.test.ts            # un solo archivo de pruebas
 npx playwright test e2e/functional/layout.spec.ts --project=mobile   # un solo spec
 node scripts/make-icons.mjs && node scripts/make-og.mjs   # regenera iconos, manifiesto, offline.html e imagen OG desde src/lib/brand.ts
+node e2e/design/public.mjs   # capturas de diseño (móvil/tableta/escritorio) en qa-output/design; requiere un astro dev en :4391 (auth.mjs: pantallas con sesión)
 ```
 
 No hay linter. Verificación mínima antes de dar algo por terminado: `npm run check`, `npm run build` y `npm test`.
@@ -27,7 +28,7 @@ No hay linter. Verificación mínima antes de dar algo por terminado: `npm run c
 - **Páginas públicas = SSR** (`src/pages`): consultan Supabase desde el servidor con la clave anon (`src/lib/supabase.ts`). **Panel y admin = islas `client:only`** (`src/components/panel`, `src/components/admin`), con la sesión en `localStorage`; por eso el header decide qué mostrar con `html[data-auth]` (script inline en `Base.astro` + `src/lib/authUi.ts`) y no en el servidor.
 - **`/ir/whatsapp/[id]` y `/ir/mapa/[id]`** (`src/pages/ir/`): rutas de servidor que cuentan el clic (con la `SUPABASE_SERVICE_ROLE_KEY`, declarada como secreto de servidor con `envField` en `astro.config.mjs`, nunca en el bundle) y responden 302. El número de WhatsApp no se imprime en el HTML. Aun así es legible por la API REST de `businesses` (decisión aceptada para el MVP; el aviso de privacidad lo declara público).
 - **Marca y datos legales en un solo archivo:** `src/lib/brand.ts` (`BRAND`). Lo leen layout, logo, mensajes para compartir y los textos legales, que degradan con elegancia si un dato está vacío. `legalName` está vacío a propósito (la agencia "Moriah Studio" aún no existe como empresa).
-- **Búsqueda y cercanía por RPC de Postgres:** `search_listings` (0005, español sin acentos, tolerante a errores), `search_listings_near` (0012, ordena por distancia), `nearby_businesses` (0008). `/explorar` ordena por cercanía por defecto usando la cookie `ubi` (ubicación aproximada, 24 h) o el municipio elegido en «Desde»; si la RPC no existe, cae a un respaldo simple.
+- **Búsqueda y cercanía por RPC de Postgres:** `search_listings` (0005, español sin acentos, tolerante a errores), `search_listings_near` (0012, ordena por distancia), `nearby_businesses` (0008), `search_businesses` (0017: negocios aunque no tengan publicaciones; helper en `src/lib/businesses.ts`, tarjeta `BusinessCard.astro` con etiqueta «Negocio»; en `/explorar` salen arriba de las publicaciones y `tipo=negocio` muestra solo negocios). `/explorar` ordena por cercanía por defecto usando la cookie `ubi` (ubicación aproximada, 24 h) o el municipio elegido en «Desde»; si la RPC no existe, cae a un respaldo simple.
 - **Horarios:** `businesses.hours` (jsonb) hasta 2 turnos por día, zona `America/Mexico_City`; toda la lógica en `src/lib/hours.ts` (con 38 pruebas). Estado «abierto/cerrado» y aviso previo a WhatsApp fuera de horario (`ClosedDialog.astro`).
 - **Fotos obligatorias para publicar:** trigger en BD + validación en cliente; mín. 1 y **máx. 4 por publicación**, **12 publicaciones por negocio** y 10 nuevas por día (migración `0016`; las constantes `MAX_IMAGES`/`MAX_LISTINGS` de `ListingsManager.tsx` deben coincidir con la base, que es la que impone el límite). Se comprimen a WebP en el navegador (`src/lib/upload.ts`: 1200 px / 0.5 MB) y se sube una **miniatura** `<uuid>.t.webp` (480 px) junto a cada foto; las tarjetas usan `thumbUrl()` y caen a la foto completa con `data-full` (listener global en `authUi.ts`). Es lo que cuida la transferencia del plan gratuito de Supabase. Cualquier código que borre fotos de Storage debe borrar también la miniatura (`removeImage` y `listingImagePaths` ya lo hacen).
 - **Favoritos:** solo `localStorage` (`src/lib/favorites.ts`), sin cuenta. **Reseñas:** solo con cuenta, una por persona y negocio, con moderación; la tabla no es legible públicamente, se lee por RPC (`list_business_reviews`) sin exponer `user_id`.
@@ -36,7 +37,7 @@ No hay linter. Verificación mínima antes de dar algo por terminado: `npm run c
 
 ## Convenciones y trampas (aprendidas con errores reales)
 
-- **Migraciones ya ejecutadas no se editan.** Cambios de base = nueva migración con el siguiente número (`0016`...), idempotente (`create or replace`, `if not exists`, `drop policy/trigger if exists`), `SECURITY DEFINER` con `search_path` fijo y grants explícitos. Cuida los delimitadores `$$` (un `$` suelto ya rompió la 0014).
+- **Migraciones ya ejecutadas no se editan.** Cambios de base = nueva migración con el siguiente número libre (hoy `0018`), idempotente (`create or replace`, `if not exists`, `drop policy/trigger if exists`), `SECURITY DEFINER` con `search_path` fijo y grants explícitos. Cuida los delimitadores `$$` (un `$` suelto ya rompió la 0014).
 - **`profiles.role` es un blanco clásico de escalada de privilegios:** lo protegen 0010/0011. Un admin se asigna solo desde el SQL Editor (`update profiles set role='admin' ...`).
 - **Los `rpc()` de supabase-js son perezosos:** solo envían la petición si se consumen (`await` o `.then`). Olvidarlo hizo que las estadísticas no se registraran.
 - **Tailwind v4:** los componentes de `global.css` (`.btn`, `.card`, `.input`…) deben estar en `@layer components`; fuera de la capa pisan a `hidden`, `bg-*`, etc.
@@ -49,7 +50,7 @@ No hay linter. Verificación mínima antes de dar algo por terminado: `npm run c
 
 ## Estado actual (octubre 2026)
 
-- **En producción:** https://porlaesquina.netlify.app (Netlify desde `main` del repo `roman08/emprendedores`), Supabase gratuito, ingreso con Google funcionando, app instalable verificada en un celular. **Migraciones `0001`–`0015` ejecutadas** (según el usuario); base limpia: solo el usuario admin `rmcentinela@gmail.com`.
+- **En producción:** https://porlaesquina.netlify.app (Netlify desde `main` del repo `roman08/emprendedores`), Supabase gratuito, ingreso con Google funcionando, app instalable verificada en un celular. **Migraciones `0001`–`0015` ejecutadas** (según el usuario); las `0016` (límites y miniaturas) y `0017` (búsqueda de negocios) están en el repo y **hay que ejecutarlas en el SQL Editor** si aún no se hizo; base limpia: solo el usuario admin `rmcentinela@gmail.com`.
 - **Sin dominio propio** (sin presupuesto): al comprarlo, seguir la sección D de `DEPLOY.md` y actualizar además: Netlify (`SITE_URL`, dominio principal; la dirección `netlify.app` redirige sola), Supabase (Site URL y Redirect URLs), Google Cloud (orígenes autorizados), Turnstile, claves del geocodificador, Search Console y Plausible. Las sesiones, favoritos y la app instalada se reinician por cambio de origen.
 - **Sin SMTP propio** (requiere dominio): «Confirm email» está **desactivado**; mitigación del piloto = Turnstile + ingreso con Google + enlace solo a invitados. Antes de abrir al público: dominio, Resend, activar Confirm email.
 - **Pendiente (lo hace la persona, requiere sus cuentas):** crear el widget de Turnstile y poner `PUBLIC_TURNSTILE_SITE_KEY` en Netlify **antes** de activarlo en Supabase; subir el negocio de demostración «Moriah Studio» (`docs/moriah-demo/textos.md` + imágenes); `git push` de los últimos commits; revisión de un abogado de Términos y Aviso de privacidad.

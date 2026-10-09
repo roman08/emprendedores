@@ -2,6 +2,7 @@
 import Location from '../_Location.astro';
 import { supabase } from '../../../lib/supabase';
 import { loadGeo, loadCounts, loadListings, parsePage, PAGE_SIZE } from '../_lib';
+import { searchBusinesses } from '../../../lib/businesses';
 
 const geo = await loadGeo(Astro.params.estado, Astro.params.municipio);
 if (!geo || !geo.mun) {
@@ -12,10 +13,11 @@ const { state, mun, municipalities } = geo;
 const base = `/${state.slug}/${mun.slug}`;
 
 const page = parsePage(Astro.url.searchParams.get('pagina'));
-const [counts, { listings, count }, { data: categories }] = await Promise.all([
+const [counts, { listings, count }, { data: categories }, biz] = await Promise.all([
   loadCounts([mun.id]),
   loadListings(mun.id, null, page),
   supabase.from('categories').select('id,name,slug').order('sort'),
+  page === 1 ? searchBusinesses({ municipality: mun.id, limit: 8 }) : null,
 ]);
 const totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE));
 
@@ -38,6 +40,10 @@ const intro = counts.listings > 0
   crumbs={[{ name: 'Inicio', href: '/' }, { name: state.name, href: `/${state.slug}` }, { name: mun.name, href: base }]}
   listings={listings}
   count={count}
+  businesses={biz?.businesses ?? []}
+  businessCount={biz?.count ?? 0}
+  businessesHref={`/explorar?tipo=negocio&municipio=${mun.slug}&orden=relevancia`}
+  businessesTitle={`Negocios en ${mun.name}`}
   page={page}
   totalPages={totalPages}
   linksTitle={`Categorías en ${mun.name}`}

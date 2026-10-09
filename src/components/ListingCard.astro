@@ -16,13 +16,14 @@ const distance = km === null ? '' : `${l.distance_exact ? '' : '≈ '}${km < 1 ?
     {img && <img src={thumbUrl(img)} data-full={img} alt={l.title} width="480" height="360" loading="lazy" decoding="async" class:list={['h-full w-full object-cover transition duration-300 group-hover:scale-105', soldOut && 'opacity-50 grayscale']} />}
     {soldOut && <span class="absolute left-2 top-2 rounded-full bg-gray-900/80 px-2.5 py-1 text-xs font-semibold text-white">Agotado</span>}
     {onDemand && <span class="absolute left-2 top-2 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800">Sobre pedido</span>}
+    {/* Etiqueta de publicación, en el mismo lugar que «Negocio» de BusinessCard para distinguirlas */}
+    <span class="absolute bottom-2 left-2 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold text-ink shadow-sm">{l.type === 'service' ? 'Servicio' : 'Producto'}</span>
   </div>
   <div class="p-4">
     <p class="line-clamp-2 font-semibold leading-snug">{l.title}</p>
     <p class="mt-1 text-lg font-bold text-brand-700">{formatPrice(l.price)}</p>
     <p class="mt-2 truncate text-xs text-muted">
       {l.businesses?.name}{place ? ` · ${place}` : ''}
-      {l.type === 'service' && <span class="ml-1 rounded-full bg-brand-50 px-2 py-0.5 text-brand-700">Servicio</span>}
     </p>
     {distance && <p class="mt-1 text-xs font-semibold text-brand-700">A {distance} de ti</p>}
   </div>
