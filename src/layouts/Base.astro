@@ -10,6 +10,8 @@ import { BRAND, pageTitle } from '../lib/brand';
 interface Props { title?: string; description?: string; image?: string; noindex?: boolean; bare?: boolean; canonicalPath?: string }
 const { title, description = BRAND.description, image, noindex = false, bare = false, canonicalPath } = Astro.props;
 const fullTitle = pageTitle(title);
+// Analítica Cloudflare Web Analytics (gratuita, sin cookies ni datos personales): solo si hay token
+const cfToken = /^[a-f0-9]{32}$/i.test(import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN ?? '') ? import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN : '';
 const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
 const ogDefault = new URL('/og-default.png',Astro.site ?? Astro.url.origin).href;
 ---
@@ -61,6 +63,7 @@ const ogDefault = new URL('/og-default.png',Astro.site ?? Astro.url.origin).href
     {!bare && <Footer />}
     <CookieConsent />
     <PwaInstall />
+    {cfToken && <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: cfToken })}></script>}
     <script>import '../lib/authUi'; import '../lib/navProgress';</script>
   </body>
 </html>

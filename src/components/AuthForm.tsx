@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState, type SyntheticEvent } from 'react';
 import { supabase } from '../lib/supabase';
 import { authError } from '../lib/authErrors';
+import { detectInAppBrowser } from '../lib/inAppBrowser';
+import { copyText } from './ShareButtons';
 
 type Mode = 'login' | 'register' | 'recover' | 'reset';
 
@@ -75,6 +77,10 @@ export default function AuthForm({ mode }: { mode: Mode }) {
   // reset: null = comprobando, true = hay sesión de recuperación, false = enlace inválido o vencido
   const [recovery, setRecovery] = useState<boolean | null>(null);
   const captcha = useTurnstile();
+  // Navegador integrado de Facebook, Instagram, etc.: Google no permite iniciar sesión ahí
+  const [inApp, setInApp] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  useEffect(() => { setInApp(detectInAppBrowser()); }, []);
   const register = mode === 'register';
   const login = mode === 'login';
 
@@ -130,6 +136,11 @@ export default function AuthForm({ mode }: { mode: Mode }) {
     setBusy(false);
   }
 
+  async function copyLink() {
+    setCopied(await copyText(location.href));
+    setTimeout(() => setCopied(false), 2500);
+  }
+
   async function google() {
     if (register && !accepted) { setError('Debes aceptar los Términos y el Aviso de privacidad.'); return; }
     await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${location.origin}/panel` } });
@@ -164,7 +175,15 @@ export default function AuthForm({ mode }: { mode: Mode }) {
     <form onSubmit={submit} className="card w-full max-w-md space-y-4 p-8">
       <h1 className="text-2xl font-extrabold">{titles[mode][0]}</h1>
       <p className="text-sm text-muted">{titles[mode][1]}</p>
-      {social && <>
+      {social && inApp && (
+        <div role="note" className="space-y-3 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
+          <p className="font-semibold">Estás en el navegador de {inApp}</p>
+          <p>Google no permite iniciar sesión desde aquí. Para usar <strong>Continuar con Google</strong>, abre esta página en Chrome o Safari: toca el menú (<strong>⋮</strong> o <strong>···</strong>) y elige <strong>«Abrir en el navegador»</strong>.</p>
+          <p>O crea tu cuenta aquí mismo con correo y contraseña, ahí abajo.</p>
+          <button type="button" onClick={copyLink} className="btn btn-outline !py-2 w-full">{copied ? '¡Enlace copiado!' : 'Copiar enlace para abrirlo en mi navegador'}</button>
+        </div>
+      )}
+      {social && !inApp && <>
         <button type="button" onClick={google} className="btn btn-ghost w-full">Continuar con Google</button>
         <div className="flex items-center gap-3 text-xs text-muted"><hr className="flex-1 border-line" />o<hr className="flex-1 border-line" /></div>
       </>}

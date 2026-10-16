@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_ADSENSE_CLIENT?: string;
   readonly PUBLIC_ADSENSE_SLOT?: string;
   readonly PUBLIC_PLAUSIBLE_DOMAIN?: string;
+  readonly PUBLIC_CF_ANALYTICS_TOKEN?: string;
   readonly PUBLIC_GEOCODER?: string;
   readonly PUBLIC_MAPTILER_KEY?: string;
   readonly PUBLIC_GEOAPIFY_KEY?: string;

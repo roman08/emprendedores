@@ -46,6 +46,7 @@ Despliega el frontend junto con las migraciones: un frontend antiguo llamaría a
 | `PUBLIC_TURNSTILE_SITE_KEY` | `.env` y Netlify | Opcional. Activa el captcha Cloudflare Turnstile en ingreso, registro, recuperación y `/contacto` (en `/contacto` solo se valida en el navegador; la defensa real es el honeypot y el límite por hora de `0013`). |
 | `PUBLIC_ADS` | `.env` y Netlify | Opcional. `1` activa los espacios publicitarios. |
 | `PUBLIC_ADSENSE_CLIENT` / `PUBLIC_ADSENSE_SLOT` | `.env` y Netlify | Opcional. Datos de Google AdSense; requieren `PUBLIC_ADS=1` y solo cargan tras el consentimiento de publicidad. |
+| `PUBLIC_CF_ANALYTICS_TOKEN` | `.env` y Netlify | Opcional. Token (32 caracteres hexadecimales) de Cloudflare Web Analytics, gratuito, sin cookies ni datos personales, así que **no** espera al consentimiento del banner. Muestra visitas, páginas y de dónde llegan (p. ej. `/registro` frente a `/panel`). Ver `DEPLOY.md`. |
 | `PUBLIC_PLAUSIBLE_DOMAIN` | `.env` y Netlify | Opcional. Dominio (sin `https://`) para la analítica Plausible; solo carga tras el consentimiento de analítica. |
 | `SITE_URL` | `.env` y Netlify | Opcional pero recomendada. Dominio público con `https://`: lo usan `astro.config.mjs`, `robots.txt`, `sitemap.xml`, canonicals, `og:image`, el QR de `/flyer` y los enlaces de invitación. `src/lib/brand.ts` también acepta `PUBLIC_SITE_URL` para `BRAND.domain` y `BRAND.site` (solo en el servidor). |
 | `PUBLIC_GEOCODER` | `.env` y Netlify | Opcional. `nominatim` (defecto, gratuito), `maptiler` o `geoapify`. |

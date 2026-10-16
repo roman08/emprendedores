@@ -54,6 +54,7 @@ Resumen: **código en GitHub -> sitio en Netlify -> base de datos en Supabase ->
 | `PUBLIC_ADS` | Opcional | No | `1` muestra espacios publicitarios |
 | `PUBLIC_ADSENSE_CLIENT` | Opcional | No | `ca-pub-...` de AdSense |
 | `PUBLIC_ADSENSE_SLOT` | Opcional | No | ID numérico del bloque de anuncios |
+| `PUBLIC_CF_ANALYTICS_TOKEN` | Recomendada | No | Token de Cloudflare Web Analytics (gratis, sin cookies): para saber cuántas personas visitan el sitio y llegan a `/registro` |
 | `PUBLIC_PLAUSIBLE_DOMAIN` | Opcional | No | Tu dominio, sin `https://` |
 | `PUBLIC_GEOCODER` | Opcional | No | `nominatim` (defecto), `maptiler` o `geoapify` |
 | `PUBLIC_MAPTILER_KEY` / `PUBLIC_GEOAPIFY_KEY` | Si usas ese proveedor | No (pero **restríngela por dominio** en el panel del proveedor) | Clave del geocodificador |
